@@ -14,6 +14,7 @@ import Footer from './components/Footer';
 // import { Auth } from 'aws-amplify';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faEdit } from '@fortawesome/free-solid-svg-icons';
+import NewUser from './components/users/NewUser';
 library.add(faEdit);
 
 class App extends Component {
@@ -38,7 +39,7 @@ class App extends Component {
       this.setAuthStatus(false);
       // console.log(session);
       // const user = await Auth.currentAuthenticatedUser();
-      this.setUser({username: 'joba' , email : 'qgeigdiw'} );
+      this.setUser({username: 'Nirmal' , email : 'qgeigdiw'} );
     } catch(error) {
       if (error !== 'No current user') {
         console.log(error);
@@ -69,7 +70,8 @@ class App extends Component {
               <Route exact path="/forgotpasswordverification" render={(props) => <ForgotPasswordVerification {...props} auth={authProps} />} />
               <Route exact path="/changepassword" render={(props) => <ChangePassword {...props} auth={authProps} />} />
               <Route exact path="/changepasswordconfirmation" render={(props) => <ChangePasswordConfirm {...props} auth={authProps} />} />
-              <Route exact path="/home" render={(props) => <Welcome {...props} auth={authProps} />} />
+              <Route exact path="/welcome" render={(props) => <Welcome {...props} auth={authProps} />} />
+              <Route exact path="/newUser" render={(props) => <NewUser {...props} auth={authProps} />} />
             </Switch>
             <Footer />
           </div>

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom'
 // import { Auth } from 'aws-amplify';
 
 export default class Navbar extends Component {
@@ -11,40 +12,45 @@ export default class Navbar extends Component {
     // }catch(error) {
     //   console.log(error.message);
     // }
-    return ;
+    return;
   }
   render() {
     return (
       <nav className="navbar" role="navigation" aria-label="main navigation">
         <div id="navbarBasicExample" className="navbar-menu">
           <div className="navbar-start">
-            <a href="/" className="navbar-item">
+            <Link to="/" className="navbar-item ">
               Home
-            </a>
+            </Link>
           </div>
 
           <div className="navbar-end">
             <div className="navbar-item">
               {this.props.auth.isAuthenticated && this.props.auth.user && (
                 <p>
-                  Hello {this.props.auth.user.username}
+                  {this.props.auth.user.username}
                 </p>
               )}
               <div className="buttons">
                 {!this.props.auth.isAuthenticated && (
                   <div>
-                    <a href="/register" className="button is-primary">
+                    <Link to="/register" className="button is-primary">
                       <strong>Register</strong>
-                    </a>
-                    <a href="/login" className="button is-light">
+                    </Link>
+                    <Link to="/login" className="button is-light">
                       Log in
-                    </a>
+                    </Link>
                   </div>
                 )}
                 {this.props.auth.isAuthenticated && (
-                  <a href="/" onClick={this.handleLogOut} className="button is-light">
-                    Log out
-                  </a>
+                  <div>
+                    <Link to="/newUser" className="button is-primary">
+                      New User
+                    </Link>
+                    <Link to="/" onClick={this.handleLogOut} className="button is-light">
+                      Log out
+                  </Link>
+                  </div>
                 )}
               </div>
             </div>

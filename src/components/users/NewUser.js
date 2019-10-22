@@ -1,13 +1,11 @@
 import React, { Component } from 'react';
 import FormErrors from "../FormErrors";
 import Validate from "../utility/FormValidation";
-import { Link } from 'react-router-dom';
 // import { Auth } from "aws-amplify";
 
-class LogIn extends Component {
+class NewUser extends Component {
   state = {
-    username: "",
-    password: "",
+    email: "",
     errors: {
       cognito: null,
       blankfield: false
@@ -65,7 +63,7 @@ class LogIn extends Component {
     return (
       <section className="section auth">
         <div className="container">
-          <h1>Log in</h1>
+          <h1>Create a new user</h1>
           <FormErrors formerrors={this.state.errors} />
 
           <form onSubmit={this.handleSubmit}>
@@ -74,38 +72,18 @@ class LogIn extends Component {
                 <input 
                   className="input" 
                   type="text"
-                  id="username"
-                  aria-describedby="usernameHelp"
-                  placeholder="Enter username or email"
-                  value={this.state.username}
+                  id="email"
+                  aria-describedby="emailHelp"
+                  placeholder="Enter email of a New user"
+                  value={this.state.email}
                   onChange={this.onInputChange}
                 />
-              </p>
-            </div>
-            <div className="field">
-              <p className="control has-icons-left">
-                <input 
-                  className="input" 
-                  type="password"
-                  id="password"
-                  placeholder="Password"
-                  value={this.state.password}
-                  onChange={this.onInputChange}
-                />
-                <span className="icon is-small is-left">
-                  <i className="fas fa-lock"></i>
-                </span>
-              </p>
-            </div>
-            <div className="field">
-              <p className="control">
-                <Link to="/forgotpassword">Forgot password?</Link>
               </p>
             </div>
             <div className="field">
               <p className="control">
                 <button className="button is-success">
-                  Login
+                  New User
                 </button>
               </p>
             </div>
@@ -116,4 +94,4 @@ class LogIn extends Component {
   }
 }
 
-export default LogIn;
+export default NewUser;

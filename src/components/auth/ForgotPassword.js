@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import FormErrors from "../FormErrors";
 import Validate from "../utility/FormValidation";
+import { Link } from 'react-router-dom';
 // import { Auth } from 'aws-amplify';
 
 class ForgotPassword extends Component {
@@ -79,7 +80,7 @@ class ForgotPassword extends Component {
             </div>
             <div className="field">
               <p className="control">
-                <a href="/forgotpassword">Forgot password?</a>
+                <Link to="/forgotpassword">Forgot password?</Link>
               </p>
             </div>
             <div className="field">
