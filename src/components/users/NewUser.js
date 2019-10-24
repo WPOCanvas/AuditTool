@@ -1,27 +1,25 @@
 import React, { Component } from 'react';
+import FormErrors from "../FormErrors";
 import Validate from "../utility/FormValidation";
-import { Auth } from 'aws-amplify';
+// import { Auth } from "aws-amplify";
 
-class welcome extends Component {
+class NewUser extends Component {
   state = {
-    code: "",
-    username: "",
+    email: "",
     errors: {
       cognito: null,
-      blankfield: false,
-      passwordmatch: false
+      blankfield: false
     }
-  }
+  };
 
   clearErrorState = () => {
     this.setState({
       errors: {
         cognito: null,
-        blankfield: false,
-        passwordmatch: false
+        blankfield: false
       }
     });
-  }
+  };
 
   handleSubmit = async event => {
     event.preventDefault();
@@ -36,58 +34,48 @@ class welcome extends Component {
     }
 
     // AWS Cognito integration here
-    const code = this.state.code;
-    const username = this.props.username ? this.props.username : this.state.username;
     try {
-      await Auth.confirmSignUp( username , code);
+      // const user = await Auth.signIn(this.state.username, this.state.password);
+      // console.log(user);
+      // this.props.auth.setAuthStatus(true);
+      // this.props.auth.setUser(user);
       this.props.history.push("/");
-    } catch (error) {
+    }catch(error) {
       let err = null;
       !error.message ? err = { "message": error } : err = error;
       this.setState({
-        errors: { ...this.state.errors, cognito: err }
+        errors: {
+          ...this.state.errors,
+          cognito: err
+        }
       });
-      console.log(err);
     }
-  }
+  };
 
   onInputChange = event => {
     this.setState({
       [event.target.id]: event.target.value
     });
     document.getElementById(event.target.id).classList.remove("is-danger");
-  }
+  };
+
   render() {
     return (
       <section className="section auth">
         <div className="container">
-          <h1>Welcome!</h1>
-          <p>You have successfully registered a new account.</p>
-          <p>We've sent you a email. Please click on the confirmation link to verify your account.</p>
+          <h1>Create a new user</h1>
+          <FormErrors formerrors={this.state.errors} />
 
           <form onSubmit={this.handleSubmit}>
-          {this.props.username ? null : <div className="field">
-              <p className="control">
-                <input 
-                  className="input" 
-                  type="text"
-                  id="username"
-                  aria-describedby="codeHelp"
-                  placeholder="Enter the username"
-                  value={this.state.username}
-                  onChange={this.onInputChange}
-                />
-              </p>
-            </div>}
             <div className="field">
               <p className="control">
                 <input 
                   className="input" 
                   type="text"
-                  id="code"
-                  aria-describedby="codeHelp"
-                  placeholder="Enter the code"
-                  value={this.state.code}
+                  id="email"
+                  aria-describedby="emailHelp"
+                  placeholder="Enter email of a New user"
+                  value={this.state.email}
                   onChange={this.onInputChange}
                 />
               </p>
@@ -95,16 +83,15 @@ class welcome extends Component {
             <div className="field">
               <p className="control">
                 <button className="button is-success">
-                  Submit
+                  New User
                 </button>
               </p>
             </div>
           </form>
         </div>
       </section>
-    )
+    );
   }
-
 }
 
-export default welcome;
+export default NewUser;

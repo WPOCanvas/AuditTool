@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import FormErrors from "../FormErrors";
 import Validate from "../utility/FormValidation";
-// import { Auth } from "aws-amplify";
+import { Link } from 'react-router-dom';
+import { Auth } from "aws-amplify";
+import Welcome from './Welcome';
 
 class Register extends Component {
   state = {
@@ -9,6 +11,7 @@ class Register extends Component {
     email: "",
     password: "",
     confirmpassword: "",
+    isSubmitted: false,
     errors: {
       cognito: null,
       blankfield: false,
@@ -39,17 +42,17 @@ class Register extends Component {
     }
 
     // AWS Cognito integration here
-    // const { username, email, password } = this.state;
+    const { username, email, password } = this.state;
     try {
-      // const signUpResponse = await Auth.signUp({
-      //   username,
-      //   password,
-      //   attributes: {
-      //     email: email
-      //   }
-      // });
-      this.props.history.push("/welcome");
-      // console.log(signUpResponse);
+      const signUpResponse = await Auth.signUp({
+        username,
+        password,
+        attributes: {
+          email: email
+        }
+      });
+      console.log(signUpResponse);
+      this.setState({isSubmitted: true})
     } catch (error) {
       let err = null;
       !error.message ? err = { "message": error } : err = error;
@@ -71,7 +74,9 @@ class Register extends Component {
 
   render() {
     return (
-      <section className="section auth">
+      
+      this.state.isSubmitted ? <Welcome username={this.state.username} {...this.props}  /> : 
+        <section className="section auth">
         <div className="container">
           <h1>Register</h1>
           <FormErrors formerrors={this.state.errors} />
@@ -138,7 +143,7 @@ class Register extends Component {
             </div>
             <div className="field">
               <p className="control">
-                <a href="/forgotpassword">Forgot password?</a>
+                <Link to="/forgotpassword">Forgot password?</Link>
               </p>
             </div>
             <div className="field">
@@ -149,8 +154,9 @@ class Register extends Component {
               </p>
             </div>
           </form>
-        </div>
+        </div> 
       </section>
+      
     );
   }
 }
