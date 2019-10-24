@@ -1,17 +1,17 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom'
-// import { Auth } from 'aws-amplify';
+import { Auth } from 'aws-amplify';
 
 export default class Navbar extends Component {
   handleLogOut = async event => {
     event.preventDefault();
-    // try {
-    //   Auth.signOut();
-    //   this.props.auth.setAuthStatus(false);
-    //   this.props.auth.setUser(null);
-    // }catch(error) {
-    //   console.log(error.message);
-    // }
+    try {
+      Auth.signOut();
+      this.props.auth.setAuthStatus(false);
+      this.props.auth.setUser(null);
+    }catch(error) {
+      console.log(error.message);
+    }
     return;
   }
   render() {

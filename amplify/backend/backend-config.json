@@ -1,0 +1,9 @@
+{
+	"auth": {
+		"audittool08840035": {
+			"service": "Cognito",
+			"providerPlugin": "awscloudformation",
+			"dependsOn": []
+		}
+	}
+}

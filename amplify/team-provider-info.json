@@ -1,0 +1,19 @@
+{
+    "prod": {
+        "awscloudformation": {
+            "AuthRoleName": "audittool-prod-20191024161806-authRole",
+            "UnauthRoleArn": "arn:aws:iam::474717861439:role/audittool-prod-20191024161806-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::474717861439:role/audittool-prod-20191024161806-authRole",
+            "Region": "us-east-1",
+            "DeploymentBucketName": "audittool-prod-20191024161806-deployment",
+            "UnauthRoleName": "audittool-prod-20191024161806-unauthRole",
+            "StackName": "audittool-prod-20191024161806",
+            "StackId": "arn:aws:cloudformation:us-east-1:474717861439:stack/audittool-prod-20191024161806/c3af5aa0-f64b-11e9-a7ce-0aaa9d7b8aca"
+        },
+        "categories": {
+            "auth": {
+                "audittool08840035": {}
+            }
+        }
+    }
+}

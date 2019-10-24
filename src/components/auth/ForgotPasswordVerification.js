@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import FormErrors from "../FormErrors";
 import Validate from "../utility/FormValidation";
-// import { Auth } from 'aws-amplify';
+import { Auth } from 'aws-amplify';
 
 class ForgotPasswordVerification extends Component {
   state = {
@@ -37,11 +37,11 @@ class ForgotPasswordVerification extends Component {
 
     // AWS Cognito integration here
     try {
-      // await Auth.forgotPasswordSubmit(
-      //   this.state.email,
-      //   this.state.verificationcode,
-      //   this.state.newpassword
-      // );
+      await Auth.forgotPasswordSubmit(
+        this.state.email,
+        this.state.verificationcode,
+        this.state.newpassword
+      );
       this.props.history.push("/changepasswordconfirmation");
     }catch(error) {
       console.log(error);
