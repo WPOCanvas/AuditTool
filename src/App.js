@@ -69,9 +69,9 @@ class App extends Component {
     }
     return (
       !this.state.isAuthenticating &&
-      <div className="App">
+      <div className="height-100">
         <Router>
-          <div>
+          <div className="height-100">
             <Navbar auth={authProps} />
             <Switch>
               <Route exact path="/" component={Home} auth={authProps} />
@@ -84,8 +84,8 @@ class App extends Component {
               <UnauthenticatedRoute exact path="/welcome" component={Welcome} {...this.props} auth={authProps} />
               <AuthenticatedRoute exact path="/newUser" component={NewUser} {...this.props} auth={authProps} />
               <AuthenticatedRoute exact path="/newProduct" component={NewProduct} {...this.props} auth={authProps} />
-              <AuthenticatedRoute exact path="/userAudit" component={UserAudit} {...this.props} />
-              <AuthenticatedRoute exact path="/auditQues" component= {AuditQues} {...this.props} />
+              <AuthenticatedRoute exact path="/userAudit" component={UserAudit} {...this.props} auth={authProps} />
+              <AuthenticatedRoute exact path="/auditQues" component= {AuditQues} {...this.props}  auth={authProps} />
             </Switch>
             <Footer />
           </div>

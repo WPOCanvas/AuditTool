@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { Auth } from 'aws-amplify';
 
 const style = {
-  style : {
+  style: {
     "boxShadow": "0 0.5em 1em -0.125em rgba(10,10,10,.1), 0 0 0 1px rgba(10,10,10,.02)"
   }
 }
@@ -14,7 +14,7 @@ export default class Navbar extends Component {
       Auth.signOut();
       this.props.auth.setAuthStatus(false);
       this.props.auth.setUser(null);
-    }catch(error) {
+    } catch (error) {
       console.log(error.message);
     }
     return;
@@ -27,12 +27,18 @@ export default class Navbar extends Component {
             <Link to="/" className="navbar-item ">
               Home
             </Link>
+            <div className="buttons">
+              {this.props.auth.isAuthenticated && (
+                <Link to="/userAudit" className="button is-info">
+                  Audits
+              </Link>
+              )}
+            </div>
           </div>
-
           <div className="navbar-end">
             <div className="navbar-item">
               {this.props.auth.isAuthenticated && this.props.auth.user && (
-                <span>
+                <span style={{ textTransform: 'capitalize'}}>
                   {this.props.auth.user.username}
                 </span>
               )}

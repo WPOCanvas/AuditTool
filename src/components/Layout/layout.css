@@ -1,0 +1,10 @@
+.boxFit {
+    display: flex;
+    flex-flow: column;
+    height: 100%;
+    padding: 60px;
+  }
+
+.boxFit .rowFit.content {
+    flex: 1 1 auto;
+  }
