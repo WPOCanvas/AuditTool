@@ -1,13 +1,13 @@
 import React from 'react';
 import { Route , Redirect } from 'react-router-dom';
 
-export default function AuthenticatedRoute({ component: C, appProps, ...rest }) {
+export default function AuthenticatedRoute({ component: C, auth, ...rest }) {
     return (
       <Route
         {...rest}
         render={props =>
-          appProps.isAuthenticated
-            ? <C {...props} {...appProps} />
+            auth.isAuthenticated
+            ? <C {...props} {...auth} />
             : <Redirect
                 to={'/login'}
               />}

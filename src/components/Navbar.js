@@ -32,9 +32,9 @@ export default class Navbar extends Component {
           <div className="navbar-end">
             <div className="navbar-item">
               {this.props.auth.isAuthenticated && this.props.auth.user && (
-                <p>
+                <span>
                   {this.props.auth.user.username}
-                </p>
+                </span>
               )}
               <div className="buttons">
                 {!this.props.auth.isAuthenticated && (
@@ -54,6 +54,9 @@ export default class Navbar extends Component {
                   <div>
                     <Link to="/newUser" className="button is-primary">
                       New User
+                    </Link>
+                    <Link to="/newProduct" className="button is-info">
+                      New Product
                     </Link>
                     <Link to="/" onClick={this.handleLogOut} className="button is-light">
                       Log out
