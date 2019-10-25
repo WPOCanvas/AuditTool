@@ -1,11 +1,23 @@
-import React, { Component } from 'react'
+import React, { Component } from "react";
+import { Card } from "react-bootstrap";
+import { Button } from "react-bootstrap";
 
 export default class QuestionArea extends Component {
-    render() {
-        return (
-            <div>
-                
-            </div>
-        )
-    }
+  render() {
+  
+   return this.props.questions.map((question) => {
+    //   {console.log(question)}
+     return <Card  border="info">
+          <Card.Body>
+              <Card.Text>
+              {question}
+              </Card.Text>
+              <Button variant="outline-success" size="sm">High</Button>
+              <Button variant="outline-warning" size="sm">Medium</Button>
+              <Button variant="outline-danger" size="sm">Low</Button>
+          </Card.Body>
+          <Card.Footer></Card.Footer>
+      </Card>
+    });
+  }
 }

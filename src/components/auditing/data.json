@@ -1,53 +1,98 @@
 {
   "areas": [
     {
-      "name": "Explore",
+      "name": "1.Explore Phase",
       "subAreas": [
         {
           "subName": "Context/CompetitorAnalysis",
-          "description": "yes anyone can use"
+          "description": "yes anyone can use",
+          "questions":[
+              "what is this Context/CompetitorAnalysis ?",
+              "how you do this ?",
+              "Is this good ?"
+          ]
         },
         {
           "subName": "Commercial Viability",
-          "description": "lorem ipsum is dummy data that anyone can use"
+          "description": "lorem ipsum is dummy data that anyone can use",
+          "questions":[
+            "what is this Commercial Viability ?",
+            "how you do this ?",
+            "Is this good ?"
+        ]
         },
         {
           "subName": "Persona/User Journey",
-          "description": "lorem ipsum is dummy data that anyone can use"
+          "description": "lorem ipsum is dummy data that anyone can use",
+          "questions":[
+            "what is this Persona/User Journey ?",
+            "how you do this ?",
+            "Is this good ?"
+        ]
         }
       ]
     },
     {
-        "name": "Focus",
+        "name": "2.Focus Phase",
         "subAreas": [
           {
             "subName": "Business Model Design",
-            "description": "lorem ipsum is dummy data that anyone can use"
+            "description": "lorem ipsum is dummy data that anyone can use",
+            "questions":[
+                "what is this Business Model Design ?",
+                "how you do this ?",
+                "Is this good ?"
+            ]
           },
           {
             "subName": "Problem solution fit",
-            "description": "lorem ipsum is dummy data that anyone can use"
+            "description": "lorem ipsum is dummy data that anyone can use",
+            "questions":[
+                "what is this Problem solution fit ?",
+                "how you do this ?",
+                "Is this good ?"
+            ]
           },
           {
             "subName": "Product Architecture",
-            "description": "lorem ipsum is dummy data that anyone can use"
+            "description": "lorem ipsum is dummy data that anyone can use",
+            "questions":[
+                "what is this Product Architecture ?",
+                "how you do this ?",
+                "Is this good ?"
+            ]
           }
         ]
       },
       {
-        "name": "Immerse",
+        "name": "3.Immerse phase",
         "subAreas": [
           {
             "subName": "Brand Guide",
-            "description": "lorem ipsum is dummy data that anyone can use"
+            "description": "lorem ipsum is dummy data that anyone can use",
+            "questions":[
+                "what is this Brand Guide ?",
+                "how you do this ?",
+                "Is this good ?"
+            ]
           },
           {
             "subName": "High Fidelty Prototype",
-            "description": "lorem ipsum is dummy data that anyone can use"
+            "description": "lorem ipsum is dummy data that anyone can use",
+            "questions":[
+                "what is this High Fidelty Prototype ?",
+                "how you do this ?",
+                "Is this good ?"
+            ]
           },
           {
             "subName": "Operational Estimate",
-            "description": "lorem ipsum is dummy data that anyone can use"
+            "description": "lorem ipsum is dummy data that anyone can use",
+            "questions":[
+                "what is this Operational Estimate ?",
+                "how you do this ?",
+                "Is this good ?"
+            ]
           }
         ]
       }
