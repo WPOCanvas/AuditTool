@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import Validate from "../utility/FormValidation";
 import { Auth } from 'aws-amplify';
 
 class welcome extends Component {
@@ -28,13 +27,6 @@ class welcome extends Component {
 
     // Form validation
     this.clearErrorState();
-    const error = Validate(event, this.state);
-    if (error) {
-      this.setState({
-        errors: { ...this.state.errors, ...error }
-      });
-    }
-
     // AWS Cognito integration here
     const code = this.state.code;
     const username = this.props.username ? this.props.username : this.state.username;
@@ -64,7 +56,6 @@ class welcome extends Component {
           <h1>Welcome!</h1>
           <p>You have successfully registered a new account.</p>
           <p>We've sent you a email. Please click on the confirmation link to verify your account.</p>
-
           <form onSubmit={this.handleSubmit}>
           {this.props.username ? null : <div className="field">
               <p className="control">

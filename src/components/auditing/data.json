@@ -1,0 +1,56 @@
+{
+  "areas": [
+    {
+      "name": "Explore",
+      "subAreas": [
+        {
+          "subName": "Context/CompetitorAnalysis",
+          "description": "yes anyone can use"
+        },
+        {
+          "subName": "Commercial Viability",
+          "description": "lorem ipsum is dummy data that anyone can use"
+        },
+        {
+          "subName": "Persona/User Journey",
+          "description": "lorem ipsum is dummy data that anyone can use"
+        }
+      ]
+    },
+    {
+        "name": "Focus",
+        "subAreas": [
+          {
+            "subName": "Business Model Design",
+            "description": "lorem ipsum is dummy data that anyone can use"
+          },
+          {
+            "subName": "Problem solution fit",
+            "description": "lorem ipsum is dummy data that anyone can use"
+          },
+          {
+            "subName": "Product Architecture",
+            "description": "lorem ipsum is dummy data that anyone can use"
+          }
+        ]
+      },
+      {
+        "name": "Immerse",
+        "subAreas": [
+          {
+            "subName": "Brand Guide",
+            "description": "lorem ipsum is dummy data that anyone can use"
+          },
+          {
+            "subName": "High Fidelty Prototype",
+            "description": "lorem ipsum is dummy data that anyone can use"
+          },
+          {
+            "subName": "Operational Estimate",
+            "description": "lorem ipsum is dummy data that anyone can use"
+          }
+        ]
+      }
+
+  ]
+}
