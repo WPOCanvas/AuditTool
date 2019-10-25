@@ -5,12 +5,16 @@ import Navbar from './components/Navbar';
 import Home from './components/Home';
 import LogIn from './components/auth/LogIn';
 import Register from './components/auth/Register';
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 import ForgotPassword from './components/auth/ForgotPassword';
 import ForgotPasswordVerification from './components/auth/ForgotPasswordVerification';
 import ChangePassword from './components/auth/ChangePassword';
 import ChangePasswordConfirm from './components/auth/ChangePasswordConfirm';
 import Welcome from './components/auth/Welcome';
 import Footer from './components/Footer';
+import UserAudit from './components/UserAudit';
+import AuditQues from './components/auditing/AuditQues';
 import { Auth } from 'aws-amplify';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faEdit } from '@fortawesome/free-solid-svg-icons';
@@ -75,6 +79,8 @@ class App extends Component {
               <Route exact path="/changepasswordconfirmation" render={(props) => <ChangePasswordConfirm {...props} auth={authProps} />} />
               <Route exact path="/welcome" render={(props) => <Welcome {...props} auth={authProps} />} />
               <Route exact path="/newUser" render={(props) => <NewUser {...props} auth={authProps} />} />
+              <Route exact path="/userAudit" render={(props) => <UserAudit/>} />
+              <Route exact path="/auditQues" render={(props) => <AuditQues/>} />
             </Switch>
             <Footer />
           </div>
