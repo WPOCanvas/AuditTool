@@ -1,0 +1,41 @@
+{
+    "paths": [
+        {
+            "name": "/audits",
+            "lambdaFunction": "auditApi",
+            "privacy": {
+                "private": true,
+                "auth": [
+                    "/POST",
+                    "/GET",
+                    "/PUT",
+                    "/PATCH",
+                    "/DELETE"
+                ]
+            }
+        }
+    ],
+    "resourceName": "AuditApi",
+    "apiName": "AuditApi",
+    "functionArns": [
+        {
+            "lambdaFunction": "auditApi"
+        }
+    ],
+    "privacy": {
+        "auth": 1,
+        "unauth": 0,
+        "authRoleName": "audittool-prod-20191024161806-authRole",
+        "unAuthRoleName": "audittool-prod-20191024161806-unauthRole"
+    },
+    "dependsOn": [
+        {
+            "category": "function",
+            "resourceName": "auditApi",
+            "attributes": [
+                "Name",
+                "Arn"
+            ]
+        }
+    ]
+}

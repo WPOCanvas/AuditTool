@@ -48,7 +48,7 @@ class App extends Component {
         console.log(error);
       }
     }
-  
+
     this.setState({ isAuthenticating: false });
   }
 
