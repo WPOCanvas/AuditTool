@@ -2,6 +2,11 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom'
 import { Auth } from 'aws-amplify';
 
+const style = {
+  style : {
+    "boxShadow": "0 0.5em 1em -0.125em rgba(10,10,10,.1), 0 0 0 1px rgba(10,10,10,.02)"
+  }
+}
 export default class Navbar extends Component {
   handleLogOut = async event => {
     event.preventDefault();
@@ -16,7 +21,7 @@ export default class Navbar extends Component {
   }
   render() {
     return (
-      <nav className="navbar" role="navigation" aria-label="main navigation">
+      <nav className="navbar" role="navigation" aria-label="main navigation" style={style.style}>
         <div id="navbarBasicExample" className="navbar-menu">
           <div className="navbar-start">
             <Link to="/" className="navbar-item ">
@@ -36,6 +41,9 @@ export default class Navbar extends Component {
                   <div>
                     <Link to="/register" className="button is-primary">
                       <strong>Register</strong>
+                    </Link>
+                    <Link to="/welcome" className="button is-info">
+                      verify
                     </Link>
                     <Link to="/login" className="button is-light">
                       Log in

@@ -14,7 +14,8 @@ import Footer from './components/Footer';
 import { Auth } from 'aws-amplify';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faEdit } from '@fortawesome/free-solid-svg-icons';
-import NewUser from './components/users/NewUser';
+import NewUser from './components/admin/users/NewUser';
+import NewProduct from './components/admin/products/newProduct';
 import Amplify from 'aws-amplify';
 import awsconfig from './aws-exports';
 Amplify.configure(awsconfig);
@@ -39,11 +40,11 @@ class App extends Component {
   async componentDidMount() {
     try {
       const session = await Auth.currentSession();
-      this.setAuthStatus(false);
+      this.setAuthStatus(true);
       console.log(session);
       const user = await Auth.currentAuthenticatedUser();
-      this.setUser({user});
-    } catch(error) {
+      this.setUser({ user });
+    } catch (error) {
       if (error !== 'No current user') {
         console.log(error);
       }
@@ -75,6 +76,7 @@ class App extends Component {
               <Route exact path="/changepasswordconfirmation" render={(props) => <ChangePasswordConfirm {...props} auth={authProps} />} />
               <Route exact path="/welcome" render={(props) => <Welcome {...props} auth={authProps} />} />
               <Route exact path="/newUser" render={(props) => <NewUser {...props} auth={authProps} />} />
+              <Route exact path="/newProduct" render={(props) => <NewProduct {...props} auth={authProps} />} />
             </Switch>
             <Footer />
           </div>

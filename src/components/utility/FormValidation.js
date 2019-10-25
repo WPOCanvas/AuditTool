@@ -7,6 +7,11 @@ function validateForm(event, state) {
     }
   }
 
+  if (state.hasOwnProperty("name") && state.username === "") {
+    document.getElementById("name").classList.add("is-danger");
+    return { blankfield: true };
+  }
+
   if (state.hasOwnProperty("username") && state.username === "") {
     document.getElementById("username").classList.add("is-danger");
     return { blankfield: true };
