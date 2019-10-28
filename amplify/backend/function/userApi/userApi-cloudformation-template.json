@@ -71,7 +71,7 @@
 				"Timeout": "25",
 				"Code": {
 					"S3Bucket": "audittool-prod-20191024161806-deployment",
-					"S3Key": "amplify-builds/userApi-565a62564f6d78445965-build.zip"
+					"S3Key": "amplify-builds/userApi-2f6556636e766a637269-build.zip"
 				}
 			}
 		},

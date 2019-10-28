@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import FormErrors from "../../FormErrors";
 import Validate from "../../utility/FormValidation";
-// import { Auth } from "aws-amplify";
+import { Auth, API } from "aws-amplify";
 
 class NewUser extends Component {
   state = {
@@ -34,13 +34,23 @@ class NewUser extends Component {
     }
 
     // AWS Cognito integration here
+    const username = this.state.email;
+    const email = this.state.email;
+    const password = `test${this.state.email}`;
     try {
-      // const user = await Auth.signIn(this.state.username, this.state.password);
-      // console.log(user);
-      // this.props.auth.setAuthStatus(true);
-      // this.props.auth.setUser(user);
-      this.props.history.push("/");
-    }catch(error) {
+      await Auth.signUp( {username, password , 
+        attributes: {
+          email: email
+      }});
+      await API.post("UserApi", "/users", {
+        body: {
+          pk: "User",
+          sk: "Org_" + this.props.user.attributes.sub + Date.now().toString(),
+          email: this.state.email,
+        }
+      });
+      this.setState({ email: "" });
+    } catch (error) {
       let err = null;
       !error.message ? err = { "message": error } : err = error;
       this.setState({
@@ -69,8 +79,8 @@ class NewUser extends Component {
           <form onSubmit={this.handleSubmit}>
             <div className="field">
               <p className="control">
-                <input 
-                  className="input" 
+                <input
+                  className="input"
                   type="text"
                   id="email"
                   aria-describedby="emailHelp"

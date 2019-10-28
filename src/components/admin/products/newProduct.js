@@ -1,31 +1,20 @@
 import React, { Component } from 'react';
 import FormErrors from "../../FormErrors";
 import Validate from "../../utility/FormValidation";
-// import { Auth } from "aws-amplify";
+import { API } from "aws-amplify";
 
 import Select from 'react-select';
 
-const options = [
-    { value: 'chocolate', label: 'Chocolate' , edit: false },
-    { value: 'strawberry', label: 'Strawberry' },
-    { value: 'vanilla', label: 'Vanilla' },
-];
-
 class NewProduct extends Component {
     state = {
-        pk: "",
-        sk: "",
         name: "",
         selectedUsers: null,
         users: [],
+        productList: [],
         errors: {
             cognito: null,
             blankfield: false
         }
-    };
-
-    handleChange = selectedOption => {
-        this.setState({ selectedOption });
     };
 
     clearErrorState = () => {
@@ -35,6 +24,17 @@ class NewProduct extends Component {
                 blankfield: false
             }
         });
+    };
+
+    handleChange = selectedUsers => {
+        this.setState({ selectedUsers });
+    };
+
+    onInputChange = event => {
+        this.setState({
+            [event.target.id]: event.target.value
+        });
+        document.getElementById(event.target.id).classList.remove("is-danger");
     };
 
     handleSubmit = async event => {
@@ -49,14 +49,18 @@ class NewProduct extends Component {
             });
         }
 
-        // AWS Cognito integration here
+        const userList = this.state.selectedUsers.map(({value}) => value);
         try {
-            // const user = await Auth.signIn(this.state.username, this.state.password);
-            // console.log(user);
-            // this.props.auth.setAuthStatus(true);
-            // this.props.auth.setUser(user);
-            // this.props.history.push("/");
-            console.log(event.data, this.state.users)
+            await API.post("ProductApi", "/products", {
+                body: {
+                    pk: "Product",
+                    sk: "Org_" + this.props.user.attributes.sub +  Date.now().toString(),
+                    name: this.state.name,
+                    users: userList
+                }
+            });
+            this.setState({ selectedUsers: null, name: "" });
+            this.fetchProductList();
         } catch (error) {
             let err = null;
             !error.message ? err = { "message": error } : err = error;
@@ -69,15 +73,52 @@ class NewProduct extends Component {
         }
     };
 
-    onInputChange = event => {
-        this.setState({
-            [event.target.id]: event.target.value
-        });
-        document.getElementById(event.target.id).classList.remove("is-danger");
-    };
+    async fetchProductList() {
+        const orgData = 'Org_'+this.props.user.attributes.sub;
+        try {
+            const response = await API.get("ProductApi", "/products/Product/" + orgData);
+            this.setState({ productList: [...response] });
+        } catch (error) {
+            let err = null;
+            !error.message ? err = { "message": error } : err = error;
+            this.setState({
+                errors: {
+                    ...this.state.errors,
+                    cognito: err
+                }
+            });
+        }
+
+    }
+
+    async fetchUserList() {
+        const orgData = 'Org_'+this.props.user.attributes.sub;
+        try {
+            const response = await API.get("UserApi", "/users/User/"+orgData);
+            const options = response.map( item => {
+               return { value: item.email ,
+                label: item.email.split('@')[0] }
+            });
+            this.setState({users: options})
+        } catch (error) {
+            let err = null;
+            !error.message ? err = { "message": error } : err = error;
+            this.setState({
+                errors: {
+                    ...this.state.errors,
+                    cognito: err
+                }
+            });
+        }
+    }
+
+    async componentDidMount() {
+        await this.fetchProductList();
+        await this.fetchUserList();
+    }
 
     render() {
-        const { selectedOption } = this.state;
+        const {selectedOption} = this.state;
         return (
             <section className="section auth">
                 <div className="container">
@@ -100,11 +141,11 @@ class NewProduct extends Component {
                         </div>
                         <div className="field">
                             <Select
-                                isMulti = {true}
-                                value={selectedOption}
-                                onChange={this.handleChange}
-                                options={options}
+                                isMulti={true}
+                                value = {selectedOption}
+                                options={this.state.users}
                                 placeholder={'add new users'}
+                                onChange={this.handleChange}
                             />
                         </div>
                         <div className="field">
@@ -115,7 +156,6 @@ class NewProduct extends Component {
                             </p>
                         </div>
                     </form>
-
                 </div>
             </section>
         );
