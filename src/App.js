@@ -69,9 +69,9 @@ class App extends Component {
     }
     return (
       !this.state.isAuthenticating &&
-      <div className="height-100">
+      <div>
         <Router>
-          <div className="height-100">
+          <div>
             <Navbar auth={authProps} />
             <Switch>
               <Route exact path="/" component={Home} auth={authProps} />
