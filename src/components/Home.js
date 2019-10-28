@@ -1,17 +1,19 @@
-import React, { Fragment } from 'react';
+import React, { Component , Fragment} from 'react';
 import Hero from './Hero';
-import HomeContent from './HomeContent';
 
-export default function Home() {
-  return (
-    <Fragment>
-      <Hero />
-      <div className="box cta">
-        <p className="has-text-centered">
-          WPO audit tool
-        </p>
-      </div>
-      <HomeContent />
-    </Fragment>
-  )
+class Home extends Component {
+  render() {
+    return (
+      <Fragment>
+        <Hero />
+        <div className="box cta">
+          <p className="has-text-centered">
+            WPO audit tool
+          </p>
+        </div>
+      </Fragment>
+    )
+  }
 }
+
+export default Home;

@@ -1,6 +1,6 @@
-  import React, { Component } from 'react';
-import FormErrors from "../FormErrors";
-import Validate from "../utility/FormValidation";
+import React, { Component } from 'react';
+import FormErrors from "../../FormErrors";
+import Validate from "../../utility/FormValidation";
 // import { Auth } from "aws-amplify";
 
 class NewUser extends Component {
