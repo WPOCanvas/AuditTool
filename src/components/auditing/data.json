@@ -4,6 +4,7 @@
       "name": "1.Explore Phase",
       "subAreas": [
         {
+          "id": "CCA",
           "subName": "Context/CompetitorAnalysis",
           "description": "yes anyone can use",
           "questions":[
@@ -13,6 +14,7 @@
           ]
         },
         {
+          "id": "CV",
           "subName": "Commercial Viability",
           "description": "lorem ipsum is dummy data that anyone can use",
           "questions":[
@@ -22,6 +24,7 @@
         ]
         },
         {
+          "id": "PUJ",
           "subName": "Persona/User Journey",
           "description": "lorem ipsum is dummy data that anyone can use",
           "questions":[
@@ -36,6 +39,7 @@
         "name": "2.Focus Phase",
         "subAreas": [
           {
+            "id": "BMD",
             "subName": "Business Model Design",
             "description": "lorem ipsum is dummy data that anyone can use",
             "questions":[
@@ -45,6 +49,7 @@
             ]
           },
           {
+            "id": "PSF",
             "subName": "Problem solution fit",
             "description": "lorem ipsum is dummy data that anyone can use",
             "questions":[
@@ -54,6 +59,7 @@
             ]
           },
           {
+            "id": "PA",
             "subName": "Product Architecture",
             "description": "lorem ipsum is dummy data that anyone can use",
             "questions":[
@@ -68,6 +74,7 @@
         "name": "3.Immerse phase",
         "subAreas": [
           {
+            "id": "BG",
             "subName": "Brand Guide",
             "description": "lorem ipsum is dummy data that anyone can use",
             "questions":[
@@ -77,6 +84,7 @@
             ]
           },
           {
+            "id": "HFP",
             "subName": "High Fidelty Prototype",
             "description": "lorem ipsum is dummy data that anyone can use",
             "questions":[
@@ -86,6 +94,7 @@
             ]
           },
           {
+            "id": "OE",
             "subName": "Operational Estimate",
             "description": "lorem ipsum is dummy data that anyone can use",
             "questions":[

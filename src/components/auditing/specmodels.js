@@ -6,7 +6,6 @@ import Itemmodel from './itemmodel';
 
 class specmodels extends Component {
   render() {
-      const { area } = this.props.area;
     return (
         <Accordion>
           <Card>
@@ -17,7 +16,7 @@ class specmodels extends Component {
             </Card.Header>
             <Accordion.Collapse eventKey="0">
               <Card.Body>
-                <Itemmodel subAreas={this.props.area.subAreas}/>
+                <Itemmodel subAreas={this.props.area.subAreas} stage={this.props.area.name} productName={this.props.productName} {...this.props} />
               </Card.Body>
             </Accordion.Collapse>
           </Card>
