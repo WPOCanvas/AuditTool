@@ -54,7 +54,7 @@ class NewProduct extends Component {
             await API.post("ProductApi", "/products", {
                 body: {
                     pk: "Product",
-                    sk: "Org_" + this.props.user.attributes.sub +  Date.now().toString(),
+                    sk: "Org_" + this.props.user.attributes['custom:organization'] +  Date.now().toString(),
                     name: this.state.name,
                     users: userList
                 }
@@ -74,7 +74,7 @@ class NewProduct extends Component {
     };
 
     async fetchProductList() {
-        const orgData = 'Org_'+this.props.user.attributes.sub;
+        const orgData = 'Org_'+this.props.user.attributes['custom:organization'];
         try {
             const response = await API.get("ProductApi", "/products/Product/" + orgData);
             this.setState({ productList: [...response] });
@@ -92,7 +92,7 @@ class NewProduct extends Component {
     }
 
     async fetchUserList() {
-        const orgData = 'Org_'+this.props.user.attributes.sub;
+        const orgData = 'Org_'+this.props.user.attributes['custom:organization'];
         try {
             const response = await API.get("UserApi", "/users/User/"+orgData);
             const options = response.map( item => {
@@ -118,7 +118,7 @@ class NewProduct extends Component {
     }
 
     render() {
-        const {selectedOption} = this.state;
+        const {selectedUsers} = this.state;
         return (
             <section className="section auth">
                 <div className="container">
@@ -142,7 +142,7 @@ class NewProduct extends Component {
                         <div className="field">
                             <Select
                                 isMulti={true}
-                                value = {selectedOption}
+                                value = {selectedUsers}
                                 options={this.state.users}
                                 placeholder={'add new users'}
                                 onChange={this.handleChange}

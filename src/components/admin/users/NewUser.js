@@ -45,12 +45,13 @@ class NewUser extends Component {
       await API.post("UserApi", "/users", {
         body: {
           pk: "User",
-          sk: "Org_" + this.props.user.attributes.sub + Date.now().toString(),
+          sk: "Org_" + this.props.user.attributes['custom:organization'] + Date.now().toString(),
           email: this.state.email,
         }
       });
       this.setState({ email: "" });
     } catch (error) {
+      console.log(error)
       let err = null;
       !error.message ? err = { "message": error } : err = error;
       this.setState({
