@@ -45,7 +45,7 @@ class NewUser extends Component {
       await API.post("UserApi", "/users", {
         body: {
           pk: "User",
-          sk: "Org_" + this.props.user.attributes['custom:organization'] + Date.now().toString(),
+          sk: "Org-" + this.props.user.attributes['custom:organization'] + '-' + Date.now().toString(),
           email: this.state.email,
         }
       });

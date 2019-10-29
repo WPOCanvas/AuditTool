@@ -54,7 +54,7 @@ class NewProduct extends Component {
             await API.post("ProductApi", "/products", {
                 body: {
                     pk: "Product",
-                    sk: "Org_" + this.props.user.attributes['custom:organization'] +  Date.now().toString(),
+                    sk: "Org-" + this.props.user.attributes['custom:organization'] +'-'+  Date.now().toString(),
                     name: this.state.name,
                     users: userList
                 }
@@ -74,7 +74,7 @@ class NewProduct extends Component {
     };
 
     async fetchProductList() {
-        const orgData = 'Org_'+this.props.user.attributes['custom:organization'];
+        const orgData = 'Org-'+this.props.user.attributes['custom:organization'];
         try {
             const response = await API.get("ProductApi", "/products/Product/" + orgData);
             this.setState({ productList: [...response] });
@@ -88,11 +88,10 @@ class NewProduct extends Component {
                 }
             });
         }
-
     }
 
     async fetchUserList() {
-        const orgData = 'Org_'+this.props.user.attributes['custom:organization'];
+        const orgData = 'Org-'+this.props.user.attributes['custom:organization'];
         try {
             const response = await API.get("UserApi", "/users/User/"+orgData);
             const options = response.map( item => {

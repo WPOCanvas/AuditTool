@@ -61,3 +61,7 @@ body {
 .buttons {
   margin-left: 1em;
 }
+
+.footer {
+  padding: 3rem 1.5rem 3rem;
+}

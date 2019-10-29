@@ -1,70 +1,106 @@
 import React, { Component } from 'react'
-import { Card } from 'react-bootstrap';
-import { Button} from 'react-bootstrap';
 import { Link } from 'react-router-dom'
-
+import { API } from "aws-amplify";
 
 class UserAudit extends Component {
+    state = {
+        audits: [],
+        errors: {
+            cognito: null,
+            blankfield: false
+        }
+    };
+
+    clearErrorState = () => {
+        this.setState({
+            errors: {
+                cognito: null,
+                blankfield: false
+            }
+        });
+    };
+
+    createAudit = async event => {
+        let date = new Date().toDateString().split(' ').join('-');
+        let sk = "Product-" + this.props.location.state.productName + '-' + Date.now().toString();
+        try {
+            await API.post("AuditApi", "/audits", {
+                body: {
+                    pk: "Audit-Org-" + this.props.user.attributes['custom:organization'],
+                    sk: sk,
+                    name: "Audit-At-" + date,
+                    createdAt: new Date().toDateString(),
+                    createdBy: this.props.user.attributes.email,
+                    score: null
+                }
+            });
+            this.props.history.push({
+                pathname: `/auditQues/${sk}`
+            });
+        } catch (error) {
+            let err = null;
+            !error.message ? err = { "message": error } : err = error;
+            this.setState({
+                errors: {
+                    ...this.state.errors,
+                    cognito: err
+                }
+            });
+        }
+    };
+
+    fetchAudits = async () => {
+        try {
+            let audits = await API.get("AuditApi", '/audits/Audit-Org-' + this.props.user.attributes['custom:organization'] + '/Product-' + this.props.location.state.productName);
+            this.setState({audits})
+        } catch ( error ) {
+            let err = null;
+            !error.message ? err = { "message": error } : err = error;
+            this.setState({
+                errors: {
+                    ...this.state.errors,
+                    cognito: err
+                }
+            });
+        }
+    }
+    componentDidMount() {
+        this.fetchAudits();
+    }
     render() {
         return (
-   <section className="container">
-       <h3 style={{textAlign:"center"}}>Recent Audits</h3>
-        <div className="columns features">
-            <div className="column is-3">
-                <div className="card is-shady">
-                    <div className="card-content">
-                        <div className="content">
-                            <h4>Audit Number 1</h4>
-                            <p>99x</p>
-                            <p>Super Office</p>
-                            <p>2019-10-12</p>
-                            <p>Average Score:6.73</p>
-                            <p><Link to="/">See more</Link></p>
+            <section className="container">
+                <h3 style={{ textAlign: "center" }}>Recent Audits</h3>
+                <div className="columns features">
+                {this.state.audits && this.state.audits.map((audit , i) => {
+                    return (
+                        <div key={i} className="column is-3">
+                        <div className="card is-shady">
+                            <div className="card-content">
+                                <div className="content">
+                                    <h5>{audit.name}</h5>
+                                    <p>{this.props.location.state.productName}</p>
+                                    <p>{audit.createdAt}</p>
+                                    <p>{audit.createdBy}</p>
+                                    <p><Link to="/">See more</Link></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    )
+                })}
+                    <div className="column is-3">
+                        <div className="card is-shady">
+                            <div className="card-content">
+                                <div className="content">
+                                    <h4 style={{ textAlign: "center" }}>Create New</h4>
+                                    <p><div onClick = {this.createAudit}><h1 style={{ textAlign: "center" }}>+</h1></div></p>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div className="column is-3">
-                <div className="card is-shady">
-                    <div className="card-content">
-                        <div className="content">
-                        <h4>Audit Number 2</h4>
-                            <p>99x</p>
-                            <p>ASPIIT</p>
-                            <p>2019-09-22</p>
-                            <p>Average Score:7.73</p>
-                            <p><Link to="/">See more</Link></p> 
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div className="column is-3">
-                <div className="card is-shady">
-                     <div className="card-content">
-                        <div className="content">
-                        <h4>Audit Number 3</h4>
-                            <p>99x</p>
-                            <p>DRIW</p>
-                            <p>2019-09-15</p>
-                            <p>Average Score:8.25</p>
-                            <p><Link to="/">See more</Link></p> 
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div className="column is-3">
-                <div className="card is-shady">
-                     <div className="card-content">
-                        <div className="content">
-                        <h4 style={{textAlign:"center"}}>Create New</h4>
-                        <p><Link to="/auditQues"><h1 style={{textAlign:"center"}}>+</h1></Link></p> 
-                        
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+            </section>
         )
     }
 }

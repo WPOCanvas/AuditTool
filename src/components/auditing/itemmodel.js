@@ -30,7 +30,6 @@ export default class itemmodel extends Component {
               </Card.Header>
               <Accordion.Collapse eventKey="0">
                 <QuestionArea questions={subArea.questions} />
-                
               </Accordion.Collapse>
             </Card>
           </Accordion>

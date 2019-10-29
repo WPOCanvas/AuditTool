@@ -28,7 +28,7 @@ exports.handler = (event, _context, callback) => {
 
     const user = {
       pk: 'User',
-      sk: 'Org_'+organization,
+      sk: 'Org-'+organization,
       username,
       email
     }

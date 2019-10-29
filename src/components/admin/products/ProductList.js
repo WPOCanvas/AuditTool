@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import { API } from "aws-amplify";
 import { Link } from 'react-router-dom'
-
-
 class NewProduct extends Component {
     state = {
         productList: [],
@@ -22,7 +20,7 @@ class NewProduct extends Component {
     };
 
     async fetchProductList() {
-        const orgData = 'Org_' + this.props.user.attributes['custom:organization'];
+        const orgData = 'Org-' + this.props.user.attributes['custom:organization'];
         try {
             const response = await API.get("ProductApi", "/products/Product/" + orgData);
             this.setState({ productList: [...response] });
@@ -49,11 +47,10 @@ class NewProduct extends Component {
             <section className="section auth">
                 <div className="container">
                     <h1>Product</h1>
-
-                    <div class="list is-hoverable">
+                    <div className="list is-hoverable">
                         {this.state.productList && this.state.productList.map((product, i) => {
                             return (
-                                <Link key={i} to={`/product/${product.sk}`} className="list-item">
+                                <Link key={i} to={{ pathname:`/product/${product.sk}` , state : { productName : product['name'] }}} className="list-item">
                                     {product.name}
                                 </Link>
                             )

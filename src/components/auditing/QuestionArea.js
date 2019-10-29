@@ -5,9 +5,9 @@ import { Button } from "react-bootstrap";
 export default class QuestionArea extends Component {
   render() {
   
-   return this.props.questions.map((question) => {
+   return this.props.questions.map((question , i) => {
     //   {console.log(question)}
-     return <Card  border="info">
+     return <Card key={i} border="info">
           <Card.Body>
               <Card.Text>
               {question}
