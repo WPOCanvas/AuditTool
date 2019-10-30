@@ -58,7 +58,7 @@ const convertUrlType = (param, type) => {
  * HTTP Get method for list objects *
  ********************************/
 
-app.get(path + hashKeyPath, function(req, res) {
+app.get(path + hashKeyPath + sortKeyPath, function(req, res) {
   var condition = {}
   condition[partitionKeyName] = {
     ComparisonOperator: 'EQ'
@@ -76,8 +76,12 @@ app.get(path + hashKeyPath, function(req, res) {
   }
 
   let queryParams = {
-    TableName: tableName,
-    KeyConditions: condition
+    TableName : tableName,
+    KeyConditionExpression: "pk = :pk_val and begins_with(sk , :value)",
+    ExpressionAttributeValues: {
+        ":pk_val": req.params[partitionKeyName] ,
+        ":value": req.params[sortKeyName],
+    }
   }
 
   dynamodb.query(queryParams, (err, data) => {

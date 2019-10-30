@@ -19,11 +19,14 @@ import { Auth } from 'aws-amplify';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faEdit } from '@fortawesome/free-solid-svg-icons';
 import NewUser from './components/admin/users/NewUser';
-import NewProduct from './components/admin/products/newProduct';
+import NewProduct from './components/admin/products/NewProduct';
+import ProductList from './components/admin/products/ProductList';
+import SingleProduct from './components/admin/products/SingleProduct';
 import Amplify from 'aws-amplify';
 import awsconfig from './aws-exports';
 import AuthenticatedRoute from './containers/auth/AuthenticatedRoute';
 import UnauthenticatedRoute from './containers/auth/UnauthenticatedRoute';
+import NotFound from './components/notFound';
 
 Amplify.configure(awsconfig);
 library.add(faEdit);
@@ -46,9 +49,8 @@ class App extends Component {
 
   async componentDidMount() {
     try {
-      const session = await Auth.currentSession();
+      await Auth.currentSession();
       this.setAuthStatus(true);
-      console.log(session);
       const user = await Auth.currentAuthenticatedUser();
       this.setUser({ user });
     } catch (error) {
@@ -84,8 +86,11 @@ class App extends Component {
               <UnauthenticatedRoute exact path="/welcome" component={Welcome} {...this.props} auth={authProps} />
               <AuthenticatedRoute exact path="/newUser" component={NewUser} {...this.props} auth={authProps} />
               <AuthenticatedRoute exact path="/newProduct" component={NewProduct} {...this.props} auth={authProps} />
+              <AuthenticatedRoute exact path="/product" component={ProductList} {...this.props} auth={authProps} />
+              <AuthenticatedRoute exact path="/product/:id" component={SingleProduct} {...this.props} auth={authProps} />
               <AuthenticatedRoute exact path="/userAudit" component={UserAudit} {...this.props} auth={authProps} />
-              <AuthenticatedRoute exact path="/auditQues" component= {AuditQues} {...this.props}  auth={authProps} />
+              <AuthenticatedRoute exact path="/auditQues/:id" component= {AuditQues} {...this.props}  auth={authProps} />
+              <Route component={NotFound} />
             </Switch>
             <Footer />
           </div>

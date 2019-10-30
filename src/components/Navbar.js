@@ -29,8 +29,8 @@ export default class Navbar extends Component {
             </Link>
             <div className="buttons">
               {this.props.auth.isAuthenticated && (
-                <Link to="/userAudit" className="button is-info">
-                  Audits
+                <Link to="/product" className="button is-info">
+                  Products
               </Link>
               )}
             </div>
