@@ -12,7 +12,7 @@ class AuditQues extends Component {
         <br />
         <h6>WPC canvas gives you 16 model phases for evaluate your product, what you have to do is go through all the 16 models and answer the given questions</h6>
         {this.modelData.areas.map((area, i) => {
-          return <Specmodels key={i} area={area} productName={this.props.location.state.productName} {...this.props} />
+          return <Specmodels key={i} area={area} auditDate={ this.props.location.state.auditDate} productName={this.props.location.state.productName} {...this.props} />
         })}
 
       </section>

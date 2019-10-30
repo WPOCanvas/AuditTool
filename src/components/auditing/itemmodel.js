@@ -32,7 +32,7 @@ export default class itemmodel extends Component {
           let sk = "Audit-" + subArea.id + '-' + i + '-' + Date.now().toString();
           await API.post("ItemApi", "/items", {
             body: {
-              pk: "Item-" + this.props.productName + '-' + this.state.stage + '-' + this.props.user.attributes['custom:organization'],
+              pk: "Item-" + this.props.productName + '-' + this.props.auditDate +'-' + this.state.stage + '-' + this.props.user.attributes['custom:organization'],
               sk: sk,
               score: 0,
               id: subArea.id,
@@ -55,7 +55,7 @@ export default class itemmodel extends Component {
 
   fetchItems = async () => {
     try {
-      let items = await API.get("ItemApi", '/items/Item-' + this.props.productName + '-' + this.state.stage + '-' + this.props.user.attributes['custom:organization'] + '/Audit-');
+      let items = await API.get("ItemApi", '/items/Item-' + this.props.productName + '-' + this.props.auditDate + '-' + this.state.stage + '-' + this.props.user.attributes['custom:organization'] + '/Audit-');
       return items;
     } catch (error) {
       let err = null;

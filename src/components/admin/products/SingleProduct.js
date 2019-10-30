@@ -3,10 +3,6 @@ import UserAudit from '../../UserAudit'
 
 
 class NewProduct extends Component {
-    state = {
-        productId: null
-    }
-
     render() {
         return (
             <section className="section auth">

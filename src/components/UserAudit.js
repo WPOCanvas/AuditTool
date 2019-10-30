@@ -36,7 +36,10 @@ class UserAudit extends Component {
             });
             this.props.history.push({
                 pathname: `/auditQues/${sk}`,
-                state: this.props.location.state.productName
+                state: {
+                    productName : this.props.location.state.productName,
+                    auditDate: date
+                }
             });
         } catch (error) {
             let err = null;
@@ -83,7 +86,7 @@ class UserAudit extends Component {
                                     <p>{this.props.location.state.productName}</p>
                                     <p>{audit.createdAt}</p>
                                     <p>{audit.createdBy}</p>
-                                    <p><Link to={{ pathname:`/auditQues/${audit.sk}` , state: { productName: this.props.location.state.productName}}}>See more</Link></p>
+                                    <p><Link to={{ pathname:`/auditQues/${audit.sk}` , state: { productName: this.props.location.state.productName , auditDate: audit.name.split('-').splice(2).join('-') }}}>See more</Link></p>
                                 </div>
                             </div>
                         </div>
