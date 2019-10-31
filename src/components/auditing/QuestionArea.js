@@ -47,7 +47,10 @@ export default class QuestionArea extends Component {
   }
 
   updateButtons = (i , name ) => {
-    let item = this.props.items.filter(item => item.id === this.props.id && item.qid == i);
+    let item = []
+    if ( this.props.items ) {
+      item = this.props.items.filter(item => item.id === this.props.id && item.qid == i);
+    }
     if (item.length !== 0 ) {
       if (item[0].score == 0) {
         return this.switchOutline[name]

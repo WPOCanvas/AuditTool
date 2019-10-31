@@ -19,7 +19,7 @@ import { Auth } from 'aws-amplify';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faEdit } from '@fortawesome/free-solid-svg-icons';
 import NewUser from './components/admin/users/NewUser';
-import NewProduct from './components/admin/products/NewProduct';
+import NewProduct from './components/admin/products/newProduct';
 import ProductList from './components/admin/products/ProductList';
 import SingleProduct from './components/admin/products/SingleProduct';
 import Amplify from 'aws-amplify';

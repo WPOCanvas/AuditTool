@@ -21,7 +21,7 @@ class UserAudit extends Component {
     };
 
     createAudit = async event => {
-        let date = new Date().toDateString().split(' ').join('-');
+        let date = new Date().toGMTString().split(' ').join('-');
         let sk = "Product-" + this.props.location.state.productName + '-' + Date.now().toString();
         try {
             await API.post("AuditApi", "/audits", {
