@@ -40,7 +40,8 @@ class NewUser extends Component {
     try {
       await Auth.signUp( {username, password , 
         attributes: {
-          email: email
+          email: email,
+          'custom:organization': this.props.user.attributes['custom:organization']
       }});
       await API.post("UserApi", "/users", {
         body: {

@@ -37,10 +37,9 @@ class LogIn extends Component {
 
     // AWS Cognito integration here
     try {
-      const user = await Auth.signIn(this.state.username, this.state.password);
-      console.log(user);
+      let user = await Auth.signIn(this.state.username, this.state.password);
       this.props.setAuthStatus(true);
-      this.props.setUser(user);
+      this.props.setUser({user});
       this.props.history.push("/");
     }catch(error) {
       let err = null;
