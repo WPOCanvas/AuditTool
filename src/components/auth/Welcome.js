@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import { Auth } from 'aws-amplify';
+import { Spinner } from 'react-bootstrap';
 
 class welcome extends Component {
   state = {
     code: "",
     username: "",
+    loading: false,
     errors: {
       cognito: null,
       blankfield: false,
@@ -24,10 +26,11 @@ class welcome extends Component {
 
   handleSubmit = async event => {
     event.preventDefault();
+    this.setState({loading: true});
 
     // Form validation
     this.clearErrorState();
-    // AWS Cognito integration here
+
     const code = this.state.code;
     const username = this.props.username ? this.props.username : this.state.username;
     try {
@@ -37,10 +40,12 @@ class welcome extends Component {
       let err = null;
       !error.message ? err = { "message": error } : err = error;
       this.setState({
+        loading: false,
         errors: { ...this.state.errors, cognito: err }
       });
       console.log(err);
     }
+
   }
 
   onInputChange = event => {
@@ -51,6 +56,7 @@ class welcome extends Component {
   }
   render() {
     return (
+      !this.state.loading ? 
       <section className="section auth">
         <div className="container">
           <h1>Welcome!</h1>
@@ -93,6 +99,8 @@ class welcome extends Component {
           </form>
         </div>
       </section>
+      :
+      <Spinner />
     )
   }
 

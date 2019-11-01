@@ -3,12 +3,14 @@ import FormErrors from "../FormErrors";
 import Validate from "../utility/FormValidation";
 import { Link } from 'react-router-dom';
 import { Auth } from 'aws-amplify';
+import { Spinner } from 'react-bootstrap';
 
 class ChangePassword extends Component {
   state = {
     oldpassword: "",
     newpassword: "",
     confirmpassword: "",
+    loading: false,
     errors: {
       cognito: null,
       blankfield: false,
@@ -28,6 +30,7 @@ class ChangePassword extends Component {
 
   handleSubmit = async event => {
     event.preventDefault();
+    this.setState({loading: true});
 
     // Form validation
     this.clearErrorState();
@@ -38,7 +41,6 @@ class ChangePassword extends Component {
       });
     }
 
-    // AWS Cognito integration here
     try {
       const user = await Auth.currentAuthenticatedUser();
       console.log(user);
@@ -52,6 +54,7 @@ class ChangePassword extends Component {
       let err = null;
       !error.message ? err = { "message": error } : err = error;
       this.setState({
+        loading: false,
         errors: { ...this.state.errors, cognito: err }
       });
       console.log(err);
@@ -67,6 +70,7 @@ class ChangePassword extends Component {
 
   render() {
     return (
+      !this.state.loading ?
       <section className="section auth">
         <div className="container">
           <h1>Change Password</h1>
@@ -133,6 +137,8 @@ class ChangePassword extends Component {
           </form>
         </div>
       </section>
+      : 
+      <Spinner />
     );
   }
 }

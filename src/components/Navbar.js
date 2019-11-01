@@ -56,7 +56,7 @@ export default class Navbar extends Component {
                     </Link>
                   </div>
                 )}
-                {this.props.auth.isAuthenticated && (
+                {this.props.auth.isAuthenticated && this.props.auth.admin && (
                   <div>
                     <Link to="/newUser" className="button is-primary">
                       New User
@@ -64,6 +64,10 @@ export default class Navbar extends Component {
                     <Link to="/newProduct" className="button is-info">
                       New Product
                     </Link>
+                  </div>
+                )}
+                {this.props.auth.isAuthenticated && (
+                  <div style={{paddingLeft: '10px'}}>
                     <Link to="/" onClick={this.handleLogOut} className="button is-light">
                       Log out
                   </Link>

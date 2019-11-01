@@ -4,10 +4,12 @@ import { Card } from "react-bootstrap";
 import { Button } from "react-bootstrap";
 import QuestionArea from "./QuestionArea";
 import { API } from "aws-amplify";
+import Spinner from "../utility/Spinner";
 
 export default class itemmodel extends Component {
   state = {
     items: [],
+    loading: false,
     stage: this.props.stage.replace('.', ' ').split(/ /g)[1],
     errors: {
       cognito: null,
@@ -25,14 +27,15 @@ export default class itemmodel extends Component {
   };
 
   createItems = async () => {
+    this.setState({ loading: true })
     const subAreas = this.props.subAreas;
     try {
       subAreas.map(async subArea => {
-        await Promise.all(subArea.questions.map(async( _question , i) => {
+        await Promise.all(subArea.questions.map(async (_question, i) => {
           let sk = "Audit-" + subArea.id + '-' + i + '-' + Date.now().toString();
           await API.post("ItemApi", "/items", {
             body: {
-              pk: "Item-" + this.props.productName + '-' + this.props.auditDate +'-' + this.state.stage + '-' + this.props.user.attributes['custom:organization'],
+              pk: "Item-" + this.props.productName + '-' + this.props.auditDate + '-' + this.state.stage + '-' + this.props.user.attributes['custom:organization'],
               sk: sk,
               score: 0,
               id: subArea.id,
@@ -54,6 +57,7 @@ export default class itemmodel extends Component {
   };
 
   fetchItems = async () => {
+    this.setState({ loading: true })
     try {
       let items = await API.get("ItemApi", '/items/Item-' + this.props.productName + '-' + this.props.auditDate + '-' + this.state.stage + '-' + this.props.user.attributes['custom:organization'] + '/Audit-');
       return items;
@@ -73,41 +77,46 @@ export default class itemmodel extends Component {
     let items = await this.fetchItems();
     if (items.length === 0) {
       await this.createItems()
-      const itemsNew = this.fetchItems();
-      this.setState({ items: itemsNew })
+      const itemsNew = await this.fetchItems();
+      this.setState({ items: itemsNew , loading: false })
     } else {
-      this.setState({ items })
+      this.setState({ items , loading: false })
     }
   }
   render() {
-    return this.props.subAreas.map((subArea, i) => {
-      return (
-        <Accordion key={i} defaultActiveKey="1">
-          <Card>
-            <Card.Header>
-              <Accordion.Toggle as={Button} variant="link" eventKey="0">
-                {subArea.subName} introduction
-              </Accordion.Toggle>
-            </Card.Header>
-            <Accordion.Collapse eventKey="0">
-              <Card.Body>{subArea.description}</Card.Body>
-            </Accordion.Collapse>
-          </Card>
-          <Accordion defaultActiveKey="1">
-            <Card>
-              <Card.Header>
-                <Accordion.Toggle as={Button} variant="link" eventKey="0">
-                  Evaluate
-                </Accordion.Toggle>
-              </Card.Header>
-              <Accordion.Collapse eventKey="0">
-                <QuestionArea questions={subArea.questions} id={subArea.id} qid={i} items={this.state.items} productName={this.props.productName} {...this.props} />
-              </Accordion.Collapse>
-            </Card>
-          </Accordion>
-          <br />
-        </Accordion>
-      );
-    });
+    return (
+      !this.state.loading ? (
+        this.props.subAreas.map((subArea, i) => {
+          return (
+            <Accordion key={i} defaultActiveKey="1">
+              <Card>
+                <Card.Header>
+                  <Accordion.Toggle as={Button} variant="link" eventKey="0">
+                    {subArea.subName} introduction
+                  </Accordion.Toggle>
+                </Card.Header>
+                <Accordion.Collapse eventKey="0">
+                  <Card.Body>{subArea.description}</Card.Body>
+                </Accordion.Collapse>
+              </Card>
+              <Accordion defaultActiveKey="1">
+                <Card>
+                  <Card.Header>
+                    <Accordion.Toggle as={Button} variant="link" eventKey="0">
+                      Evaluate
+                    </Accordion.Toggle>
+                  </Card.Header>
+                  <Accordion.Collapse eventKey="0">
+                    <QuestionArea questions={subArea.questions} id={subArea.id} qid={i} items={this.state.items} productName={this.props.productName} {...this.props} />
+                  </Accordion.Collapse>
+                </Card>
+              </Accordion>
+              <br />
+            </Accordion>
+          );
+        })
+      )
+        : <Spinner />
+    )
   }
 }
