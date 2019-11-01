@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import { Auth } from "aws-amplify";
 import Welcome from './Welcome';
 import uuid from 'react-uuid'
+import { Spinner } from 'react-bootstrap';
 
 class Register extends Component {
   state = {
@@ -13,6 +14,7 @@ class Register extends Component {
     password: "",
     confirmpassword: "",
     isSubmitted: false,
+    loading : false,
     errors: {
       cognito: null,
       blankfield: false,
@@ -32,6 +34,7 @@ class Register extends Component {
 
   handleSubmit = async event => {
     event.preventDefault();
+    this.setState({loading : true })
 
     // Form validation
     this.clearErrorState();
@@ -42,7 +45,6 @@ class Register extends Component {
       });
     }
 
-    // AWS Cognito integration here
     const { username, email, password } = this.state;
     const orgKey = uuid();
     try {
@@ -51,7 +53,8 @@ class Register extends Component {
         password,
         attributes: {
           email: email,
-          'custom:organization': orgKey
+          'custom:organization': orgKey,
+          'custom:admin': 'true'
         }
       });
       this.setState({ isSubmitted: true })
@@ -59,6 +62,7 @@ class Register extends Component {
       let err = null;
       !error.message ? err = { "message": error } : err = error;
       this.setState({
+        loading: false,
         errors: {
           ...this.state.errors,
           cognito: err
@@ -76,7 +80,7 @@ class Register extends Component {
 
   render() {
     return (
-
+      !this.state.loading ?
       this.state.isSubmitted ? <Welcome username={this.state.username} {...this.props} /> :
         <section className="section auth">
           <div className="container">
@@ -158,7 +162,7 @@ class Register extends Component {
             </form>
           </div>
         </section>
-
+      : <Spinner />
     );
   }
 }

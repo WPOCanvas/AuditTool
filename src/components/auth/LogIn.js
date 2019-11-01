@@ -3,11 +3,13 @@ import FormErrors from "../FormErrors";
 import Validate from "../utility/FormValidation";
 import { Link } from 'react-router-dom';
 import { Auth } from "aws-amplify";
+import Spinner from '../utility/Spinner';
 
 class LogIn extends Component {
   state = {
     username: "",
     password: "",
+    loading: false,
     errors: {
       cognito: null,
       blankfield: false
@@ -24,6 +26,7 @@ class LogIn extends Component {
   };
 
   handleSubmit = async event => {
+    this.setState({loading: true})
     event.preventDefault();
 
     // Form validation
@@ -35,7 +38,6 @@ class LogIn extends Component {
       });
     }
 
-    // AWS Cognito integration here
     try {
       let user = await Auth.signIn(this.state.username, this.state.password);
       this.props.setAuthStatus(true);
@@ -46,12 +48,14 @@ class LogIn extends Component {
       console.log(err)
       !error.message ? err = { "message": error } : err = error;
       this.setState({
+        loading: false,
         errors: {
           ...this.state.errors,
           cognito: err
         }
       });
     }
+
   };
 
   onInputChange = event => {
@@ -63,6 +67,7 @@ class LogIn extends Component {
 
   render() {
     return (
+      !this.state.loading ?
       <section className="section auth">
         <div className="container">
           <h1>Log in</h1>
@@ -112,6 +117,7 @@ class LogIn extends Component {
           </form>
         </div>
       </section>
+      : <Spinner />
     );
   }
 }

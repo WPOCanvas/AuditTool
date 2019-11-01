@@ -3,10 +3,12 @@ import FormErrors from "../FormErrors";
 import Validate from "../utility/FormValidation";
 import { Link } from 'react-router-dom';
 import { Auth } from 'aws-amplify';
+import { Spinner } from 'react-bootstrap';
 
 class ForgotPassword extends Component {
   state = {
     email: "",
+    loading: false,
     errors: {
       cognito: null,
       blankfield: false
@@ -24,17 +26,17 @@ class ForgotPassword extends Component {
 
   forgotPasswordHandler = async event => {
     event.preventDefault();
-
+    this.setState({loading: true});
     // Form validation
     this.clearErrorState();
     const error = Validate(event, this.state);
     if (error) {
       this.setState({
+        loading: false,
         errors: { ...this.state.errors, ...error }
       });
     }
 
-    // AWS Cognito integration here
     try {
       await Auth.forgotPassword(this.state.email);
       this.props.history.push('/forgotpasswordverification');
@@ -52,6 +54,7 @@ class ForgotPassword extends Component {
 
   render() {
     return (
+      !this.state.loading ? 
       <section className="section auth">
         <div className="container">
           <h1>Forgot your password?</h1>
@@ -93,6 +96,8 @@ class ForgotPassword extends Component {
           </form>
         </div>
       </section>
+      : 
+      <Spinner />
     );
   }
 }

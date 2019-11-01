@@ -5,7 +5,7 @@ export default function Hero() {
     <section className="hero is-primary">
       <div className="hero-body">
         <div className="container" style={{textAlign: 'center'}}>
-          <img src="architecture.jpg" style={{height: '75vh'}} alt="conserve energy" />
+          <img src="architecture.jpg" style={{height: '75vh'}} alt="none" />
         </div>
       </div>
     </section>

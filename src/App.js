@@ -6,6 +6,7 @@ import Home from './components/Home';
 import LogIn from './components/auth/LogIn';
 import Register from './components/auth/Register';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
 
 import ForgotPassword from './components/auth/ForgotPassword';
 import ForgotPasswordVerification from './components/auth/ForgotPasswordVerification';
@@ -26,6 +27,7 @@ import Amplify from 'aws-amplify';
 import awsconfig from './aws-exports';
 import AuthenticatedRoute from './containers/auth/AuthenticatedRoute';
 import UnauthenticatedRoute from './containers/auth/UnauthenticatedRoute';
+import AdminRoute from './containers/auth/AdminRoute';
 import NotFound from './components/notFound';
 
 Amplify.configure(awsconfig);
@@ -65,9 +67,10 @@ class App extends Component {
   render() {
     const authProps = {
       isAuthenticated: this.state.isAuthenticated,
-      user: this.state.user,
       setAuthStatus: this.setAuthStatus,
-      setUser: this.setUser
+      setUser: this.setUser,
+      user: this.state.user,
+      admin: this.state.user ? this.state.user.attributes['custom:admin'] : null,
     }
     return (
       !this.state.isAuthenticating &&
@@ -84,8 +87,8 @@ class App extends Component {
               <UnauthenticatedRoute exact path="/changepassword" component={ChangePassword} {...this.props} auth={authProps} />
               <UnauthenticatedRoute exact path="/changepasswordconfirmation" component={ChangePasswordConfirm} {...this.props} auth={authProps} />
               <UnauthenticatedRoute exact path="/welcome" component={Welcome} {...this.props} auth={authProps} />
-              <AuthenticatedRoute exact path="/newUser" component={NewUser} {...this.props} auth={authProps} />
-              <AuthenticatedRoute exact path="/newProduct" component={NewProduct} {...this.props} auth={authProps} />
+              <AdminRoute exact path="/newUser" component={NewUser} {...this.props} auth={authProps} />
+              <AdminRoute exact path="/newProduct" component={NewProduct} {...this.props} auth={authProps} />
               <AuthenticatedRoute exact path="/product" component={ProductList} {...this.props} auth={authProps} />
               <AuthenticatedRoute exact path="/product/:id" component={SingleProduct} {...this.props} auth={authProps} />
               <AuthenticatedRoute exact path="/userAudit" component={UserAudit} {...this.props} auth={authProps} />

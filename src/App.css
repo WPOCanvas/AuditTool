@@ -65,3 +65,19 @@ body {
 .footer {
   padding: 3rem 1.5rem 3rem;
 }
+
+.spinner {
+  min-height: 50vh;
+  display: flex;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+}
+
+.min-spinner {
+  display: flex;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  padding-right: 60px;
+}

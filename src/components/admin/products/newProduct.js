@@ -4,11 +4,13 @@ import Validate from "../../utility/FormValidation";
 import { API } from "aws-amplify";
 
 import Select from 'react-select';
+import Spinner from '../../utility/Spinner';
 
 class NewProduct extends Component {
     state = {
         name: "",
         selectedUsers: null,
+        loading: false,
         users: [],
         productList: [],
         errors: {
@@ -39,6 +41,7 @@ class NewProduct extends Component {
 
     handleSubmit = async event => {
         event.preventDefault();
+        this.setState({loading: true});
 
         // Form validation
         this.clearErrorState();
@@ -59,12 +62,13 @@ class NewProduct extends Component {
                     users: userList
                 }
             });
-            this.setState({ selectedUsers: null, name: "" });
+            this.setState({ selectedUsers: null, name: "" , loading: false });
             this.fetchProductList();
         } catch (error) {
             let err = null;
             !error.message ? err = { "message": error } : err = error;
             this.setState({
+                loading: false ,
                 errors: {
                     ...this.state.errors,
                     cognito: err
@@ -74,6 +78,7 @@ class NewProduct extends Component {
     };
 
     async fetchProductList() {
+        this.setState({loading: true});
         const orgData = 'Org-'+this.props.user.attributes['custom:organization'];
         try {
             const response = await API.get("ProductApi", "/products/Product/" + orgData);
@@ -88,9 +93,11 @@ class NewProduct extends Component {
                 }
             });
         }
+        this.setState({loading: false});
     }
 
     async fetchUserList() {
+        this.setState({loading: true});
         const orgData = 'Org-'+this.props.user.attributes['custom:organization'];
         try {
             const response = await API.get("UserApi", "/users/User/"+orgData);
@@ -109,6 +116,7 @@ class NewProduct extends Component {
                 }
             });
         }
+        this.setState({loading: true});
     }
 
     async componentDidMount() {
@@ -123,8 +131,9 @@ class NewProduct extends Component {
                 <div className="container">
                     <h1>Create a new product</h1>
                     <FormErrors formerrors={this.state.errors} />
-
-                    <form onSubmit={this.handleSubmit}>
+                    {
+                        !this.state.loading ? (
+                            <form onSubmit={this.handleSubmit}>
                         <div className="field">
                             <p className="control">
                                 <input
@@ -155,6 +164,11 @@ class NewProduct extends Component {
                             </p>
                         </div>
                     </form>
+                        )
+                        :
+                        <Spinner />
+                    }
+                    
                 </div>
             </section>
         );
