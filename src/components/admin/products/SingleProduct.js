@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import UserAudit from '../../UserAudit'
-
-
-class NewProduct extends Component {
+class SingleProduct extends Component {
     render() {
         return (
             <section className="section auth">
@@ -14,4 +12,4 @@ class NewProduct extends Component {
     }
 }
 
-export default NewProduct;
+export default SingleProduct;

@@ -30,20 +30,23 @@ export default class itemmodel extends Component {
     this.setState({ loading: true })
     const subAreas = this.props.subAreas;
     try {
-      subAreas.map(async subArea => {
-        await Promise.all(subArea.questions.map(async (_question, i) => {
-          let sk = "Audit-" + subArea.id + '-' + i + '-' + Date.now().toString();
-          await API.post("ItemApi", "/items", {
-            body: {
-              pk: "Item-" + this.props.productName + '-' + this.props.auditDate + '-' + this.state.stage + '-' + this.props.user.attributes['custom:organization'],
-              sk: sk,
-              score: 0,
-              id: subArea.id,
-              qid: i
-            }
-          });
-        }))
+      const promise = subAreas.map(async subArea => {
+          const promiseDeep = subArea.questions.map(async (_question, i) => {
+            let sk = "Audit-" + subArea.id + '-' + i + '-' + Date.now().toString();
+               let addedItem = await API.post("ItemApi", "/items", {
+                body: {
+                  pk: "Item-" + this.props.productName + '-' + this.props.auditDate + '-' + this.state.stage + '-' + this.props.user.attributes['custom:organization'],
+                  sk: sk,
+                  score: 0,
+                  id: subArea.id,
+                  qid: i
+                }
+              });
+              return addedItem;
+          })
+          return await Promise.all(promiseDeep);
       })
+      return await Promise.all(promise);;
     } catch (error) {
       let err = null;
       !error.message ? err = { "message": error } : err = error;
@@ -78,10 +81,9 @@ export default class itemmodel extends Component {
     if (items.length === 0) {
       await this.createItems();
       const itemsNew = await this.fetchItems();
-      console.log(itemsNew)
-      this.setState({ items: itemsNew , loading: false })
+      this.setState({ items: itemsNew, loading: false })
     } else {
-      this.setState({ items , loading: false })
+      this.setState({ items, loading: false })
     }
   }
   render() {

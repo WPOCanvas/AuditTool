@@ -52,7 +52,6 @@ export default class QuestionArea extends Component {
     let item = []
     if (this.props.items) {
       item = this.props.items.filter(item => item.id === this.props.id && Number(item.qid) === i);
-      console.log(item)
     }
     if (item.length !== 0) {
       if (Number(item[0].score) === 0) {

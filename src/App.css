@@ -46,6 +46,7 @@ h1 {
 
 .features {
   padding-bottom: 3em;
+  overflow: auto;
 }
 
 body {
