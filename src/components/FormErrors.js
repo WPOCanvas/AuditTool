@@ -31,6 +31,15 @@ function FormErrors(props) {
         </div>
       </div>
     );
+  }
+  else if (props.formerrors && props.formerrors.validate) {
+    return (
+      <div className="error container help is-danger">
+        <div className="row justify-content-center">
+          {props.formerrors.validate}
+        </div>
+      </div>
+    );
   } else {
     return <div />;
   }
