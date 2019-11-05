@@ -142,9 +142,9 @@ class UserAudit extends Component {
     this.setState({ loading: false });
   }
 
-  componentDidMount() {
-    this.fetchProductList();
-    this.fetchAudits();
+  async componentDidMount() {
+    await this.fetchProductList();
+    await this.fetchAudits();
   }
   render() {
     const { selectedProduct, productList } = this.state;
