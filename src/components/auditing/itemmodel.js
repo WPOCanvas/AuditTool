@@ -61,7 +61,7 @@ export default class itemmodel extends Component {
 
   fetchItems = async () => {
     this.setState({ loading: true });
-    console.log(this.props)
+  
     try {
       let items = await API.get("ItemApi", '/items/Item-' + this.props.productName + '-' + this.props.auditDate + '-' + this.state.stage + '-' + this.props.user.attributes['custom:organization'] + '/Audit-');
       return items;
