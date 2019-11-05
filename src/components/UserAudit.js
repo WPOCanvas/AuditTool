@@ -115,6 +115,7 @@ class UserAudit extends Component {
                         <p>{this.props.location.state.productName}</p>
                                             <p>{audit.createdAt}</p>
                                             <p>{audit.createdBy}</p>
+                                            <p><Link to={{ pathname: `/auditQues/${audit.sk}`, state: { productName: this.props.location.state.productName, auditDate: audit.name.split('-').splice(2).join('-') } }}>See more</Link></p>
                         </Card.Text>
                       </Card.Body>
                       
