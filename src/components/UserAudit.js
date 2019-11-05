@@ -106,13 +106,17 @@ class UserAudit extends Component {
               this.state.audits.map((audit, i) => {
                 return (
                   <div key={i} className="col-sm-3">
-                    <Card>
+                    <Card style={{padding:'5px', margin:'5px'}}>
                       <Card.Body>
                         <Card.Title>{audit.name}</Card.Title>
                         <Card.Text>
-                        {audit.product}
+                          <br/>
+                        {this.props.location.state.productName}
+                        <br/>
                         {audit.createdAt}
+                        <br/>
                         {audit.createdBy}
+                        <br/>
                         <Link to={{ pathname: `/auditQues/${audit.sk}`, state: { productName: this.props.location.state.productName, auditDate: audit.name.split('-').splice(2).join('-') } }}>See more</Link>
                         </Card.Text>
                       </Card.Body>
@@ -123,18 +127,22 @@ class UserAudit extends Component {
             ) : (
               <MinSpinner />
             )}
-            <div className="column is-3">
-              <div className="card is-shady">
-                <div className="card-content">
-                  <div className="content">
-                    <h4 style={{ textAlign: "center" }}>Create New</h4>
-                    <div onClick={this.createAudit}>
-                      <h1 style={{ textAlign: "center" }}>+</h1>
-                    </div>
+            <div>
+                    <Card style={{padding:'5px', margin:'5px',minHeight:'250px'}}>
+                      
+                      <Card.Body>
+                        <Card.Title>Create New Audit</Card.Title>
+                        <Card.Text onClick={this.createAudit} style={{ textAlign: "center" }}>
+                        
+                       +
+                       
+  
+                        </Card.Text>
+                      </Card.Body>
+                      
+                    </Card>
                   </div>
-                </div>
-              </div>
-            </div>
+           
           </div>
         </CardGroup>
       </section>

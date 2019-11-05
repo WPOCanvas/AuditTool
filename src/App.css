@@ -81,3 +81,22 @@ body {
   justify-content: center;
   padding-right: 60px;
 }
+
+.minmin-spinner {
+  display: flex;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+}
+
+.col-sm-3 .card .card-body {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  flex: 1 1 auto;
+  padding: 1.25rem;
+}
+
+.col-sm-3 .card .card-title {
+  text-align: center;
+}
