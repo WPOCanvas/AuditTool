@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { API } from "aws-amplify";
 import { MinSpinner } from "./utility/Spinner";
-import { wrap } from "module";
 import { Card } from "react-bootstrap";
 import { CardGroup } from "react-bootstrap";
 
@@ -108,17 +107,15 @@ class UserAudit extends Component {
                 return (
                   <div key={i} className="col-sm-3">
                     <Card>
-                      
                       <Card.Body>
                         <Card.Title>{audit.name}</Card.Title>
                         <Card.Text>
-                        {this.props.location.state.productName}
+                        {audit.product}
                         {audit.createdAt}
                         {audit.createdBy}
                         <Link to={{ pathname: `/auditQues/${audit.sk}`, state: { productName: this.props.location.state.productName, auditDate: audit.name.split('-').splice(2).join('-') } }}>See more</Link>
                         </Card.Text>
                       </Card.Body>
-                      
                     </Card>
                   </div>
                 );

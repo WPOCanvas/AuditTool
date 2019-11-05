@@ -29,16 +29,21 @@ export default class Navbar extends Component {
             </Link>
             <div className="buttons">
               {this.props.auth.isAuthenticated && (
-                <Link to="/product" className="button is-info">
-                  Products
+                <div>
+                  <Link to="/product" className="button is-info">
+                    Products
               </Link>
+                  <Link to="/allAudits" className="button is-info">
+                    Audits
+              </Link>
+                </div>
               )}
             </div>
           </div>
           <div className="navbar-end">
             <div className="navbar-item">
               {this.props.auth.isAuthenticated && this.props.auth.user && (
-                <span style={{ textTransform: 'capitalize'}}>
+                <span style={{ textTransform: 'capitalize' }}>
                   {this.props.auth.user.username}
                 </span>
               )}
@@ -67,7 +72,7 @@ export default class Navbar extends Component {
                   </div>
                 )}
                 {this.props.auth.isAuthenticated && (
-                  <div style={{paddingLeft: '10px'}}>
+                  <div style={{ paddingLeft: '10px' }}>
                     <Link to="/" onClick={this.handleLogOut} className="button is-light">
                       Log out
                   </Link>

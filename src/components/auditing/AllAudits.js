@@ -1,9 +1,11 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import { API } from "aws-amplify";
-import { MinMinSpinner , MinSpinner} from '../utility/Spinner';
+import { MinMinSpinner, MinSpinner } from '../utility/Spinner';
 import Select from 'react-select';
 import FormErrors from '../FormErrors';
+import { Card } from "react-bootstrap";
+import { CardGroup } from "react-bootstrap";
 
 class UserAudit extends Component {
     state = {
@@ -132,61 +134,68 @@ class UserAudit extends Component {
     render() {
         const { selectedProduct, productList } = this.state;
         return (
-            <section>
-                <h3 style={{ textAlign: "center" }}>Recent Audits</h3>
-                <div className="columns features">
-                    {!this.state.loading ? (this.state.audits && this.state.audits.map((audit, i) => {
-                        return (
-                            <div key={i} className="column is-3">
-                                <div className="card is-shady">
-                                    <div className="card-content">
-                                        <div className="content">
-                                            <h5>{audit.name}</h5>
-                                            <p>{audit.createdAt}</p>
-                                            <p>{audit.createdBy}</p>
-                                            <p><Link to={{ pathname: `/auditQues/${audit.sk}`, state: { productName: audit.product, auditDate: audit.name.split('-').splice(2).join('-') } }}>See more</Link></p>
+            <section className="section auth">
+                <div className="container">
+                    <section>
+                        <h3 style={{ textAlign: "center" }}>Recent Audits</h3>
+                        <CardGroup>
+                            <div className="row">
+                                {!this.state.loading ? (this.state.audits && this.state.audits.map((audit, i) => {
+                                    return (
+                                        <div key={i} className="col-sm-3">
+                                            <Card>
+                                                <Card.Body>
+                                                    <Card.Title>{audit.name}</Card.Title>
+                                                    <Card.Text>
+                                                        {audit.createdAt}
+                                                        {audit.createdBy}
+                                                        <Link to={{ pathname: `/auditQues/${audit.sk}`, state: { productName: audit.product, auditDate: audit.name.split('-').splice(2).join('-') } }}>See more</Link>
+                                                    </Card.Text>
+                                                </Card.Body>
+                                            </Card>
+                                        </div>
+                                    )
+                                })) : <MinSpinner />}
+                                <div className="column is-3">
+                                    <div className="card is-shady">
+                                        <div className="card-content">
+                                            <div className="content">
+                                                <h4 style={{ textAlign: "center" }}>Create New</h4>
+                                                <FormErrors formerrors={this.state.errors} />
+                                                {
+                                                    !this.state.loading ? (
+                                                        <form onSubmit={this.createAudit}>
+                                                            <div className="field">
+                                                                <Select
+                                                                    isMulti={false}
+                                                                    value={selectedProduct}
+                                                                    options={productList}
+                                                                    placeholder={'select a product'}
+                                                                    onChange={this.handleChange}
+                                                                />
+                                                            </div>
+                                                            <div className="field">
+                                                                <p className="control">
+                                                                    <button className="button is-success">
+                                                                        New Audit
+                                                </button>
+                                                                </p>
+                                                            </div>
+                                                        </form>
+                                                    )
+                                                        :
+                                                        <MinMinSpinner />
+                                                }
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        )
-                    })) : <MinSpinner />}
-                    <div className="column is-3">
-                        <div className="card is-shady">
-                            <div className="card-content">
-                                <div className="content">
-                                    <h4 style={{ textAlign: "center" }}>Create New</h4>
-                                    <FormErrors formerrors={this.state.errors} />
-                                    {
-                                        !this.state.loading ? (
-                                            <form onSubmit={this.createAudit}>
-                                                <div className="field">
-                                                    <Select
-                                                        isMulti={false}
-                                                        value={selectedProduct}
-                                                        options={productList}
-                                                        placeholder={'select a product'}
-                                                        onChange={this.handleChange}
-                                                    />
-                                                </div>
-                                                <div className="field">
-                                                    <p className="control">
-                                                        <button className="button is-success">
-                                                            New Audit
-                                                </button>
-                                                    </p>
-                                                </div>
-                                            </form>
-                                        )
-                                            :
-                                            <MinMinSpinner />
-                                    }
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                        </CardGroup>
+                    </section>
                 </div>
             </section>
+
         )
     }
 }
