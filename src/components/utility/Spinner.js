@@ -20,3 +20,13 @@ export class MinSpinner extends Component {
           )
     }
 }
+
+export class MinMinSpinner extends Component {
+    render () {
+        return (
+            <div className="min-spinner">
+                  <Loader color="#00d1b2" width={50} height={50} type="Triangle" />
+            </div>
+          )
+    }
+}
