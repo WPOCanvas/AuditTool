@@ -50,10 +50,12 @@ class NewProduct extends Component {
         return (
             <section className="section auth">
                 <div className="container">
-                    <h1>Product</h1>
+                    
                     {
-                        !this.state.loading ? (
+                        !this.state.loading ? ( 
+                            
                             <div className="list is-hoverable">
+                            <h2 style={{textAlign: "center", color:"#80DEEA"}}>Products of {this.props.user.username} company </h2>
                                 {this.state.productList && this.state.productList.map((product, i) => {
                                     return (
                                         <Link key={i} to={{ pathname: `/product/${product.sk}`, state: { productName: product['name'] } }} className="list-item">
