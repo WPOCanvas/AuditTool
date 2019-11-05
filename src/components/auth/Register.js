@@ -58,6 +58,8 @@ class Register extends Component {
         }
       });
       this.setState({ isSubmitted: true })
+      console.log(this.state.isSubmitted)
+
     } catch (error) {
       let err = null;
       !error.message ? err = { "message": error } : err = error;
@@ -81,7 +83,7 @@ class Register extends Component {
   render() {
     return (
       !this.state.loading ?
-      this.state.isSubmitted ? <Welcome username={this.state.username} {...this.props} /> :
+      this.state.isSubmitted ?console.log("welcome") :
         <section className="section auth">
           <div className="container">
             <h1>Register</h1>

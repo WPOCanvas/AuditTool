@@ -101,21 +101,21 @@ class UserAudit extends Component {
       <section>
         <h3 style={{ textAlign: "center" }}>Recent Audits</h3>
         <CardGroup>
-          <div class="row">
+          <div className="row">
             {!this.state.loading ? (
               this.state.audits &&
               this.state.audits.map((audit, i) => {
                 return (
-                  <div class="col-sm-3">
+                  <div key={i} className="col-sm-3">
                     <Card>
                       
                       <Card.Body>
                         <Card.Title>{audit.name}</Card.Title>
                         <Card.Text>
-                        <p>{this.props.location.state.productName}</p>
-                                            <p>{audit.createdAt}</p>
-                                            <p>{audit.createdBy}</p>
-                                            <p><Link to={{ pathname: `/auditQues/${audit.sk}`, state: { productName: this.props.location.state.productName, auditDate: audit.name.split('-').splice(2).join('-') } }}>See more</Link></p>
+                        {this.props.location.state.productName}
+                        {audit.createdAt}
+                        {audit.createdBy}
+                        <Link to={{ pathname: `/auditQues/${audit.sk}`, state: { productName: this.props.location.state.productName, auditDate: audit.name.split('-').splice(2).join('-') } }}>See more</Link>
                         </Card.Text>
                       </Card.Body>
                       
