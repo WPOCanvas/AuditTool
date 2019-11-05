@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { Card } from "react-bootstrap";
-import { MinMinSpinner } from "../utility/Spinner";
 import Question from "./Question";
 
 export default class QuestionArea extends Component {

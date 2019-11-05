@@ -29,6 +29,7 @@ import AuthenticatedRoute from './containers/auth/AuthenticatedRoute';
 import UnauthenticatedRoute from './containers/auth/UnauthenticatedRoute';
 import AdminRoute from './containers/auth/AdminRoute';
 import NotFound from './components/notFound';
+import AllAudits from './components/auditing/AllAudits';
 
 Amplify.configure(awsconfig);
 library.add(faEdit);
@@ -93,6 +94,7 @@ class App extends Component {
               <AuthenticatedRoute exact path="/product/:id" component={SingleProduct} {...this.props} auth={authProps} />
               <AuthenticatedRoute exact path="/userAudit" component={UserAudit} {...this.props} auth={authProps} />
               <AuthenticatedRoute exact path="/auditQues/:id" component= {AuditQues} {...this.props}  auth={authProps} />
+              <AuthenticatedRoute exact path="/allAudits" component= {AllAudits} {...this.props}  auth={authProps} />
               <Route component={NotFound} />
             </Switch>
             <Footer />

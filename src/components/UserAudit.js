@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { API } from "aws-amplify";
 import { MinSpinner } from "./utility/Spinner";
-import { wrap } from "module";
 import { Card } from "react-bootstrap";
 import { CardGroup } from "react-bootstrap";
 
@@ -108,7 +107,6 @@ class UserAudit extends Component {
                 return (
                   <div key={i} className="col-sm-3">
                     <Card style={{padding:'5px', margin:'5px'}}>
-                      
                       <Card.Body>
                         <Card.Title>{audit.name}</Card.Title>
                         <Card.Text>
@@ -122,7 +120,6 @@ class UserAudit extends Component {
                         <Link to={{ pathname: `/auditQues/${audit.sk}`, state: { productName: this.props.location.state.productName, auditDate: audit.name.split('-').splice(2).join('-') } }}>See more</Link>
                         </Card.Text>
                       </Card.Body>
-                      
                     </Card>
                   </div>
                 );
@@ -131,7 +128,7 @@ class UserAudit extends Component {
               <MinSpinner />
             )}
             <div>
-                    <Card style={{padding:'5px', margin:'5px',height:'280px'}}>
+                    <Card style={{padding:'5px', margin:'5px',minHeight:'250px'}}>
                       
                       <Card.Body>
                         <Card.Title>Create New Audit</Card.Title>
@@ -139,7 +136,7 @@ class UserAudit extends Component {
                         
                        +
                        
-                       
+  
                         </Card.Text>
                       </Card.Body>
                       

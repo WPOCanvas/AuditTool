@@ -31,20 +31,20 @@ export default class itemmodel extends Component {
     const subAreas = this.props.subAreas;
     try {
       const promise = subAreas.map(async subArea => {
-          const promiseDeep = subArea.questions.map(async (_question, i) => {
-            let sk = "Audit-" + subArea.id + '-' + i + '-' + Date.now().toString();
-               let addedItem = await API.post("ItemApi", "/items", {
-                body: {
-                  pk: "Item-" + this.props.productName + '-' + this.props.auditDate + '-' + this.state.stage + '-' + this.props.user.attributes['custom:organization'],
-                  sk: sk,
-                  score: 0,
-                  id: subArea.id,
-                  qid: i
-                }
-              });
-              return addedItem;
-          })
-          return await Promise.all(promiseDeep);
+        const promiseDeep = subArea.questions.map(async (_question, i) => {
+          let sk = "Audit-" + subArea.id + '-' + i + '-' + Date.now().toString();
+          let addedItem = await API.post("ItemApi", "/items", {
+            body: {
+              pk: "Item-" + this.props.productName + '-' + this.props.auditDate + '-' + this.state.stage + '-' + this.props.user.attributes['custom:organization'],
+              sk: sk,
+              score: 0,
+              id: subArea.id,
+              qid: i
+            }
+          });
+          return addedItem;
+        })
+        return await Promise.all(promiseDeep);
       })
       return await Promise.all(promise);;
     } catch (error) {
@@ -60,7 +60,8 @@ export default class itemmodel extends Component {
   };
 
   fetchItems = async () => {
-    this.setState({ loading: true })
+    this.setState({ loading: true });
+    console.log(this.props)
     try {
       let items = await API.get("ItemApi", '/items/Item-' + this.props.productName + '-' + this.props.auditDate + '-' + this.state.stage + '-' + this.props.user.attributes['custom:organization'] + '/Audit-');
       return items;
