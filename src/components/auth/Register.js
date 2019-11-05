@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import { Auth } from "aws-amplify";
 import Welcome from './Welcome';
 import uuid from 'react-uuid'
-import { Spinner } from 'react-bootstrap';
+import Spinner from '../utility/Spinner';
 
 class Register extends Component {
   state = {
@@ -36,7 +36,6 @@ class Register extends Component {
     event.preventDefault();
     this.setState({loading : true })
 
-    // Form validation
     this.clearErrorState();
     const error = Validate(event, this.state);
     if (error) {
@@ -57,7 +56,7 @@ class Register extends Component {
           'custom:admin': 'true'
         }
       });
-      this.setState({ isSubmitted: true })
+      this.setState({loading: false , isSubmitted: true })
     } catch (error) {
       let err = null;
       !error.message ? err = { "message": error } : err = error;
