@@ -130,7 +130,7 @@ class UserAudit extends Component {
             ) : (
               <MinSpinner />
             )}
-            <div className="col-sm-3">
+            <div>
                     <Card style={{padding:'5px', margin:'5px',height:'280px'}}>
                       
                       <Card.Body>
