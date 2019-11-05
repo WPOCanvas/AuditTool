@@ -127,8 +127,8 @@ class UserAudit extends Component {
             ) : (
               <MinSpinner />
             )}
-            <div>
-                    <Card style={{padding:'5px', margin:'5px',minHeight:'250px'}}>
+            <div className="col-sm-3">
+                    <Card style={{padding:'5px', margin:'5px',minHeight:'250px' , minWidth: '250px'}}>
                       
                       <Card.Body>
                         <Card.Title>Create New Audit</Card.Title>
