@@ -116,7 +116,7 @@ class NewProduct extends Component {
                 }
             });
         }
-        this.setState({loading: true});
+        this.setState({loading: false});
     }
 
     async componentDidMount() {

@@ -76,8 +76,9 @@ export default class itemmodel extends Component {
   async componentDidMount() {
     let items = await this.fetchItems();
     if (items.length === 0) {
-      await this.createItems()
+      await this.createItems();
       const itemsNew = await this.fetchItems();
+      console.log(itemsNew)
       this.setState({ items: itemsNew , loading: false })
     } else {
       this.setState({ items , loading: false })
