@@ -18,7 +18,8 @@ class Register extends Component {
     errors: {
       cognito: null,
       blankfield: false,
-      passwordmatch: false
+      passwordmatch: false,
+      minlength: false
     }
   }
 
@@ -27,7 +28,8 @@ class Register extends Component {
       errors: {
         cognito: null,
         blankfield: false,
-        passwordmatch: false
+        passwordmatch: false,
+        minlength: false
       }
     });
   }

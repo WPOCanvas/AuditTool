@@ -3,7 +3,7 @@ import React from "react";
 function FormErrors(props) {
   if (
     props.formerrors &&
-    (props.formerrors.blankfield || props.formerrors.passwordmatch)
+    (props.formerrors.blankfield || props.formerrors.passwordmatch || props.formerrors.minlength)
   ) {
     return (
       <div className="error container help is-danger">
@@ -14,6 +14,9 @@ function FormErrors(props) {
         </div>
         <div className="row justify-content-center help is-danger">
           {props.formerrors.blankfield ? "All fields are required" : ""}
+        </div>
+        <div className="row justify-content-center help is-danger">
+          {props.formerrors.minlength ? "Minimum length is 8 letters" : ""}
         </div>
       </div>
     );
