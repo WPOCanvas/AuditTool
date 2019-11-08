@@ -2,7 +2,7 @@ import React from 'react';
 import { Route , Redirect } from 'react-router-dom';
 import Layout from '../../components/Layout';
 
-export default function AuthenticatedRoute({ component: C, auth, ...rest }) {
+export default function AdminAuthenticatedRoute({ component: C, auth, ...rest }) {
     return (
       <Route
         {...rest}
@@ -10,7 +10,7 @@ export default function AuthenticatedRoute({ component: C, auth, ...rest }) {
             auth.isAuthenticated && auth.admin
             ? <Layout {...props} {...auth} > <C {...props} {...auth} /> </Layout> 
             : <Redirect
-                to={'/'}
+                to={'/login'}
               />}
       />
     );

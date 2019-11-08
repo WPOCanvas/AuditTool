@@ -24,17 +24,14 @@ export default class Navbar extends Component {
       <nav className="navbar" role="navigation" aria-label="main navigation" style={style.style}>
         <div id="navbarBasicExample" className="navbar-menu">
           <div className="navbar-start">
-            <Link to="/" className="navbar-item ">
-              Home
-            </Link>
             <div className="buttons">
               {this.props.auth.isAuthenticated && (
                 <div>
-                  <Link to="/product" className="button is-info">
-                    Products
+                <Link to="/" className="button is-light">
+                    Home
               </Link>
-                  <Link to="/allAudits" className="button is-info">
-                    Audits
+                  <Link to="/newUser" className="button is-info">
+                    Administration
               </Link>
                 </div>
               )}
@@ -47,35 +44,26 @@ export default class Navbar extends Component {
                   {this.props.auth.user.username}
                 </span>
               )}
-              <div className="buttons">
+            </div>
+            <div className="navbar-item has-dropdown is-hoverable ">
+              <Link to="" className="navbar-link">
+              </Link>
+              <div className="navbar-dropdown is-right">
                 {!this.props.auth.isAuthenticated && (
                   <div>
-                    <Link to="/register" className="button is-primary">
-                      <strong>Register</strong>
-                    </Link>
-                    <Link to="/welcome" className="button is-info">
+                    <Link to="/welcome" className="navbar-item">
                       verify
                     </Link>
-                    <Link to="/login" className="button is-light">
+                    <Link to="/login" className="navbar-item">
                       Log in
-                    </Link>
-                  </div>
-                )}
-                {this.props.auth.isAuthenticated && this.props.auth.admin && (
-                  <div>
-                    <Link to="/newUser" className="button is-primary">
-                      New User
-                    </Link>
-                    <Link to="/newProduct" className="button is-info">
-                      New Product
-                    </Link>
+                  </Link>
                   </div>
                 )}
                 {this.props.auth.isAuthenticated && (
                   <div style={{ paddingLeft: '10px' }}>
-                    <Link to="/" onClick={this.handleLogOut} className="button is-light">
+                    <Link to="/login" onClick={this.handleLogOut} className="navbar-item">
                       Log out
-                  </Link>
+                </Link>
                   </div>
                 )}
               </div>
