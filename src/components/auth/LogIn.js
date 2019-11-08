@@ -40,8 +40,9 @@ class LogIn extends Component {
 
     try {
       let user = await Auth.signIn(this.state.username, this.state.password);
-      this.props.setAuthStatus(true);
-      this.props.setUser({user});
+      console.log({user})
+      await this.props.setAuthStatus(true);
+      await this.props.setUser({user});
       this.props.history.push("/");
     }catch(error) {
       let err = null;
@@ -88,7 +89,7 @@ class LogIn extends Component {
               </p>
             </div>
             <div className="field">
-              <p className="control has-icons-left">
+              <p className="control">
                 <input 
                   className="input" 
                   type="password"
@@ -97,14 +98,16 @@ class LogIn extends Component {
                   value={this.state.password}
                   onChange={this.onInputChange}
                 />
-                <span className="icon is-small is-left">
-                  <i className="fas fa-lock"></i>
-                </span>
               </p>
             </div>
             <div className="field">
               <p className="control">
                 <Link to="/forgotpassword">Forgot password?</Link>
+              </p>
+            </div>
+            <div className="field">
+              <p className="control">
+                New User ? <Link to="/register"> Sign-Up</Link>
               </p>
             </div>
             <div className="field">
