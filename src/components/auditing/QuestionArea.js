@@ -3,7 +3,10 @@ import { Card } from "react-bootstrap";
 import Question from "./Question";
 
 export default class QuestionArea extends Component {
+
+ 
   state = {
+    
     items: [],
     loading: false,
     stage: this.props.stage.replace('.', ' ').split(/ /g)[1],
@@ -47,18 +50,29 @@ export default class QuestionArea extends Component {
     'High': 'outline-success'
   }
 
+
+  
+
   updateButtons = (i, name) => {
+
     let item = []
     if (this.props.items) {
+      
       item = this.props.items.filter(item => item.id === this.props.id && Number(item.qid) === i);
     }
     if (item.length !== 0) {
+      
       if (Number(item[0].score) === 0) {
+       
         return this.switchOutline[name]
       } else {
+        
         let nameToMatch = this.switchReverse[item[0].score]
         if (nameToMatch === name) {
+           
+          
           return this.switchFill[item[0].score]
+          
         }
         return this.switchOutline[name]
       }
@@ -66,7 +80,10 @@ export default class QuestionArea extends Component {
     return 'outline-success'
   }
 
+
+
   render() {
+    
     return this.props.questions.map((question, i) => {
       return <Card key={i} border="info">
           <Card.Body>

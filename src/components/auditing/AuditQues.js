@@ -6,7 +6,7 @@ class AuditQues extends Component {
   modelData = quesData;
 
   componentDidMount(){
-    console.log(this.props.user.username)
+   
   }
   render() {
     return (

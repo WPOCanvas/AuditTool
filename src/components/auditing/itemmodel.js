@@ -1,13 +1,18 @@
 import React, { Component } from "react";
 import { Accordion } from "react-bootstrap";
 import { Card } from "react-bootstrap";
+
 import { Button } from "react-bootstrap";
 import QuestionArea from "./QuestionArea";
 import { API } from "aws-amplify";
 import Spinner from "../utility/Spinner";
 
 export default class itemmodel extends Component {
-  state = {
+  constructor(props){
+    super(props)
+    this.progressBar = this.progressBar.bind(this);
+
+   this.state = {
     items: [],
     loading: false,
     stage: this.props.stage.replace('.', ' ').split(/ /g)[1],
@@ -15,7 +20,14 @@ export default class itemmodel extends Component {
       cognito: null,
       blankfield: false
     }
-  };
+  }
+
+  
+
+  }
+  
+
+
 
   clearErrorState = () => {
     this.setState({
@@ -25,6 +37,9 @@ export default class itemmodel extends Component {
       }
     });
   };
+
+
+  
 
   createItems = async () => {
     this.setState({ loading: true })
@@ -64,6 +79,8 @@ export default class itemmodel extends Component {
     try {
       let items = await API.get("ItemApi", '/items/Item-' + this.props.productName + '-' + this.props.auditDate + '-' + this.state.stage + '-' + this.props.user.attributes['custom:organization'] + '/Audit-');
       return items;
+   
+      
     } catch (error) {
       let err = null;
       !error.message ? err = { "message": error } : err = error;
@@ -74,24 +91,43 @@ export default class itemmodel extends Component {
         }
       });
     }
+
+    
+  }
+
+  progressBar(){
+    let zeroItems=this.state.items.filter(item=>item.score!=0);
+  
+    let valuepercentage= ((zeroItems.length)/9)*100
+   
   }
 
   async componentDidMount() {
+   
     let items = await this.fetchItems();
+    
     if (items.length === 0) {
       await this.createItems();
       const itemsNew = await this.fetchItems();
       this.setState({ items: itemsNew, loading: false })
     } else {
       this.setState({ items, loading: false })
+      
     }
   }
   render() {
+    
+   
+   
     return (
-      !this.state.loading ? (
+     
+      !this.state.loading ?  (  
+        
         this.props.subAreas.map((subArea, i) => {
           return (
+             
             <Accordion key={i} defaultActiveKey="1">
+           
               <Card>
                 <Card.Header>
                   <Accordion.Toggle as={Button} variant="link" eventKey="0">
@@ -99,16 +135,21 @@ export default class itemmodel extends Component {
                   </Accordion.Toggle>
                 </Card.Header>
                 <Accordion.Collapse eventKey="0">
-                  <Card.Body>{subArea.description}</Card.Body>
+                  <Card.Body>{subArea.description}
+                  
+
+                  </Card.Body>
                 </Accordion.Collapse>
               </Card>
               <Accordion defaultActiveKey="1">
                 <Card>
                   <Card.Header>
                     <Accordion.Toggle as={Button} variant="link" eventKey="0">
-                      Evaluate
+                      Evaluate {subArea.subName}
+                      
                     </Accordion.Toggle>
                   </Card.Header>
+                  
                   <Accordion.Collapse eventKey="0">
                     <QuestionArea questions={subArea.questions} id={subArea.id} qid={i} items={this.state.items} productName={this.props.productName} {...this.props} />
                   </Accordion.Collapse>
