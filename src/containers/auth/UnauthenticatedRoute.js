@@ -8,5 +8,5 @@ export default ({ component: C, auth, ...rest }) =>
     render={props =>
       !auth.isAuthenticated
         ? <Layout {...props} {...auth} > <C {...props} {...auth} /> </Layout>
-        : <Redirect to="/" />}
+        : <Redirect to="/login" />}
   />;

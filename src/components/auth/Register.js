@@ -18,7 +18,8 @@ class Register extends Component {
     errors: {
       cognito: null,
       blankfield: false,
-      passwordmatch: false
+      passwordmatch: false,
+      minlength: false
     }
   }
 
@@ -27,7 +28,8 @@ class Register extends Component {
       errors: {
         cognito: null,
         blankfield: false,
-        passwordmatch: false
+        passwordmatch: false,
+        minlength: false
       }
     });
   }
@@ -101,7 +103,7 @@ class Register extends Component {
                 </p>
               </div>
               <div className="field">
-                <p className="control has-icons-left has-icons-right">
+                <p className="control">
                   <input
                     className="input"
                     type="email"
@@ -111,13 +113,10 @@ class Register extends Component {
                     value={this.state.email}
                     onChange={this.onInputChange}
                   />
-                  <span className="icon is-small is-left">
-                    <i className="fas fa-envelope"></i>
-                  </span>
                 </p>
               </div>
               <div className="field">
-                <p className="control has-icons-left">
+                <p className="control">
                   <input
                     className="input"
                     type="password"
@@ -126,13 +125,10 @@ class Register extends Component {
                     value={this.state.password}
                     onChange={this.onInputChange}
                   />
-                  <span className="icon is-small is-left">
-                    <i className="fas fa-lock"></i>
-                  </span>
                 </p>
               </div>
               <div className="field">
-                <p className="control has-icons-left">
+                <p className="control">
                   <input
                     className="input"
                     type="password"
@@ -141,9 +137,6 @@ class Register extends Component {
                     value={this.state.confirmpassword}
                     onChange={this.onInputChange}
                   />
-                  <span className="icon is-small is-left">
-                    <i className="fas fa-lock"></i>
-                  </span>
                 </p>
               </div>
               <div className="field">
@@ -151,6 +144,11 @@ class Register extends Component {
                   <Link to="/forgotpassword">Forgot password?</Link>
                 </p>
               </div>
+              <div className="field">
+              <p className="control">
+                Already User ? <Link to="/login"> Sign-In</Link>
+              </p>
+            </div>
               <div className="field">
                 <p className="control">
                   <button className="button is-success">

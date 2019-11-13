@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { API } from "aws-amplify";
-import { MinMinSpinner, MinSpinner } from "../utility/Spinner";
+import Spinner from "../utility/Spinner";
 import Select from "react-select";
 import FormErrors from "../FormErrors";
 import { Card } from "react-bootstrap";
@@ -149,14 +149,42 @@ class UserAudit extends Component {
   render() {
     const { selectedProduct, productList } = this.state;
     return (
+      !this.state.loading ?
       <section className="section">
         <div className="container">
           <section>
-            <h3 style={{ textAlign: "center" }}>Recent Audits</h3>
+            <h3 style={{ textAlign: "center" }}>Audits</h3>
             <CardGroup>
               <div className="row">
-                {!this.state.loading ? (
-                  this.state.audits &&
+              <div className="col-sm-3">
+                  <Card
+                    style={{ padding: "5px", margin: "5px" , minWidth: '250px' , minHeight: '250px' }}
+                  >
+                    <Card.Body>
+                      <Card.Title>Perform An Audit</Card.Title>
+                      <FormErrors formerrors={this.state.errors} />
+                        <form onSubmit={this.createAudit}>
+                          <div className="field">
+                            <Select
+                              isMulti={false}
+                              value={selectedProduct}
+                              options={productList}
+                              placeholder={"select a product"}
+                              onChange={this.handleChange}
+                            />
+                          </div>
+                          <div className="field">
+                            <p className="control">
+                              <button className="button is-success">
+                                New Audit
+                              </button>
+                            </p>
+                          </div>
+                        </form>
+                    </Card.Body>
+                  </Card>
+                </div>
+                {this.state.audits &&
                   this.state.audits.map((audit, i) => {
                     return (
                       <div key={i} className="col-sm-3">
@@ -190,46 +218,14 @@ class UserAudit extends Component {
                       </div>
                     );
                   })
-                ) : (
-                  <MinSpinner />
-                )}
-                <div className="col-sm-3">
-                  <Card
-                    style={{ padding: "5px", margin: "5px" , minWidth: '250px' , minHeight: '250px' }}
-                  >
-                    <Card.Body>
-                      <Card.Title>Create New</Card.Title>
-                      <FormErrors formerrors={this.state.errors} />
-                      {!this.state.loading ? (
-                        <form onSubmit={this.createAudit}>
-                          <div className="field">
-                            <Select
-                              isMulti={false}
-                              value={selectedProduct}
-                              options={productList}
-                              placeholder={"select a product"}
-                              onChange={this.handleChange}
-                            />
-                          </div>
-                          <div className="field">
-                            <p className="control">
-                              <button className="button is-success">
-                                New Audit
-                              </button>
-                            </p>
-                          </div>
-                        </form>
-                      ) : (
-                        <MinMinSpinner />
-                      )}
-                    </Card.Body>
-                  </Card>
-                </div>
+                }
               </div>
             </CardGroup>
           </section>
         </div>
       </section>
+      :
+      <Spinner />
     );
   }
 }
