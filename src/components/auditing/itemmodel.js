@@ -10,7 +10,7 @@ import Spinner from "../utility/Spinner";
 export default class itemmodel extends Component {
   constructor(props){
     super(props)
-    this.progressBar = this.progressBar.bind(this);
+  
 
    this.state = {
     items: [],
@@ -95,14 +95,9 @@ export default class itemmodel extends Component {
     
   }
 
-  progressBar(){
-    let zeroItems=this.state.items.filter(item=>item.score!=0);
-  
-    let valuepercentage= ((zeroItems.length)/9)*100
-   
-  }
-
+ 
   async componentDidMount() {
+   
    
     let items = await this.fetchItems();
     
@@ -116,22 +111,25 @@ export default class itemmodel extends Component {
     }
   }
   render() {
+
     
    
    
+   
     return (
-     
+      
       !this.state.loading ?  (  
         
         this.props.subAreas.map((subArea, i) => {
-          return (
-             
-            <Accordion key={i} defaultActiveKey="1">
+          return ( 
            
+            <Accordion key={i} defaultActiveKey="1">
+          
               <Card>
                 <Card.Header>
-                  <Accordion.Toggle as={Button} variant="link" eventKey="0">
+                  <Accordion.Toggle as={Button}variant="link" eventKey="0">
                     {subArea.subName} introduction
+                
                   </Accordion.Toggle>
                 </Card.Header>
                 <Accordion.Collapse eventKey="0">

@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { Button } from "react-bootstrap";
-import { ProgressBar } from "react-bootstrap";
 import { API } from "aws-amplify";
 import { MinMinSpinner } from '../utility/Spinner';
 
