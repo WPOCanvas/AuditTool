@@ -19,8 +19,6 @@ export class Question extends Component {
         'High': 10
       }
 
-      
-
     updateItem = async event => {
        
         this.setState({ loading: true });

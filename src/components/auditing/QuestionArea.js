@@ -3,7 +3,6 @@ import { Card } from "react-bootstrap";
 import Question from "./Question";
 
 export default class QuestionArea extends Component {
-
  
   state = {
     
@@ -50,9 +49,6 @@ export default class QuestionArea extends Component {
     'High': 'outline-success'
   }
 
-
-  
-
   updateButtons = (i, name) => {
 
     let item = []
@@ -69,7 +65,6 @@ export default class QuestionArea extends Component {
         
         let nameToMatch = this.switchReverse[item[0].score]
         if (nameToMatch === name) {
-           
           
           return this.switchFill[item[0].score]
           
@@ -79,9 +74,6 @@ export default class QuestionArea extends Component {
     }
     return 'outline-success'
   }
-
-
-
   render() {
     
     return this.props.questions.map((question, i) => {

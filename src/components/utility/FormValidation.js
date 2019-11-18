@@ -1,3 +1,4 @@
+/* eslint-disable no-prototype-builtins */
 function validateForm(event, state) {
   // clear all error messages
   const inputs = document.getElementsByClassName("is-danger");

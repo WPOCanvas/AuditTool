@@ -54,12 +54,12 @@ class ForgotPassword extends Component {
 
   render() {
     return (
-      !this.state.loading ? 
+      !this.state.loading ?
       <section className="section auth">
         <div className="container">
           <h1>Forgot your password?</h1>
           <p>
-            Please enter the email address associated with your account and we'll
+            Please enter the email address associated with your account and we&apos;ll
             email you a password reset link.
           </p>
           <FormErrors formerrors={this.state.errors} />
@@ -96,7 +96,7 @@ class ForgotPassword extends Component {
           </form>
         </div>
       </section>
-      : 
+      :
       <Spinner />
     );
   }

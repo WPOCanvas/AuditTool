@@ -41,7 +41,6 @@ class NewProduct extends Component {
 
     }
 
-
     async componentDidMount() {
         await this.fetchProductList();
     }
@@ -52,7 +51,7 @@ class NewProduct extends Component {
                 <div className="container">
                     
                     {
-                        !this.state.loading ? ( 
+                        !this.state.loading ? (
                             
                             <div className="list is-hoverable">
                             <h2 style={{textAlign: "center", color:"#80DEEA"}}>Products of {this.props.user.username} company </h2>

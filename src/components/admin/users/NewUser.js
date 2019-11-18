@@ -40,7 +40,7 @@ class NewUser extends Component {
     const email = this.state.email;
     const password = `test${this.state.email}`;
     try {
-      await Auth.signUp( {username, password , 
+      await Auth.signUp( {username, password ,
         attributes: {
           email: email,
           'custom:organization': this.props.user.attributes['custom:organization'],

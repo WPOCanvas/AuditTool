@@ -56,17 +56,17 @@ class welcome extends Component {
   }
   render() {
     return (
-      !this.state.loading ? 
+      !this.state.loading ?
       <section className="section auth">
         <div className="container">
           <h1>Welcome!</h1>
           <p>You have successfully registered a new account.</p>
-          <p>We've sent you a email. Please click on the confirmation link to verify your account.</p>
+          <p>We&apos;ve sent you a email. Please click on the confirmation link to verify your account.</p>
           <form onSubmit={this.handleSubmit}>
           {this.props.username ? null : <div className="field">
               <p className="control">
-                <input 
-                  className="input" 
+                <input
+                  className="input"
                   type="text"
                   id="username"
                   aria-describedby="codeHelp"
@@ -78,8 +78,8 @@ class welcome extends Component {
             </div>}
             <div className="field">
               <p className="control">
-                <input 
-                  className="input" 
+                <input
+                  className="input"
                   type="text"
                   id="code"
                   aria-describedby="codeHelp"

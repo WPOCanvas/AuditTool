@@ -2,9 +2,6 @@ import React, { Component } from 'react';
 import { API } from "aws-amplify";
 import { ProgressBar } from "react-bootstrap";
 
-
-
-
 class sProgressBar extends Component {
     constructor(props){
       super(props)

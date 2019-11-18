@@ -79,8 +79,8 @@ class ChangePassword extends Component {
           <form onSubmit={this.handleSubmit}>
             <div className="field">
               <p className="control has-icons-left">
-                <input 
-                  className="input" 
+                <input
+                  className="input"
                   type="password"
                   id="oldpassword"
                   placeholder="Old password"
@@ -137,7 +137,7 @@ class ChangePassword extends Component {
           </form>
         </div>
       </section>
-      : 
+      :
       <Spinner />
     );
   }
