@@ -60,7 +60,7 @@ class ForgotPasswordVerification extends Component {
 
   render() {
     return (
-      !this.state.loading ? 
+      !this.state.loading ?
       <section className="section auth">
         <div className="container">
           <h1>Set new password</h1>
@@ -86,8 +86,8 @@ class ForgotPasswordVerification extends Component {
             </div>
             <div className="field">
               <p className="control has-icons-left">
-                <input 
-                  className="input" 
+                <input
+                  className="input"
                   type="email"
                   id="email"
                   aria-describedby="emailHelp"
@@ -125,7 +125,7 @@ class ForgotPasswordVerification extends Component {
           </form>
         </div>
       </section>
-      : 
+      :
       <Spinner />
     );
   }

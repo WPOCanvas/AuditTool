@@ -193,6 +193,7 @@ class UserAudit extends Component {
                             <Card.Title>{audit.name}</Card.Title>
                             <br />
                             <Card.Text>
+                              
                               {audit.createdAt}
                               <br />
                               {audit.createdBy}

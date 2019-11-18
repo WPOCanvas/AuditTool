@@ -8,7 +8,7 @@ export default function AdminAuthenticatedRoute({ component: C, auth, ...rest })
         {...rest}
         render={props =>
             auth.isAuthenticated && auth.admin
-            ? <Layout {...props} {...auth} > <C {...props} {...auth} /> </Layout> 
+            ? <Layout {...props} {...auth} > <C {...props} {...auth} /> </Layout>
             : <Redirect
                 to={'/login'}
               />}

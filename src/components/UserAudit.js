@@ -135,7 +135,6 @@ class UserAudit extends Component {
                         <Card.Text onClick={this.createAudit} style={{ textAlign: "center" }}>
                         
                        +
-                       
   
                         </Card.Text>
                       </Card.Body>

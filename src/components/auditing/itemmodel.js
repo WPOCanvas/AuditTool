@@ -5,17 +5,21 @@ import { Button } from "react-bootstrap";
 import QuestionArea from "./QuestionArea";
 import { API } from "aws-amplify";
 import Spinner from "../utility/Spinner";
+import { progressBarService } from '../../services/ProgressBar.service';
 
 export default class itemmodel extends Component {
-  state = {
-    items: [],
-    loading: false,
-    stage: this.props.stage.replace('.', ' ').split(/ /g)[1],
-    errors: {
-      cognito: null,
-      blankfield: false
+  constructor(props) {
+    super(props)
+    this.state = {
+      items: [],
+      loading: false,
+      stage: this.props.stage.replace('.', ' ').split(/ /g)[1],
+      errors: {
+        cognito: null,
+        blankfield: false
+      }
     }
-  };
+  }
 
   clearErrorState = () => {
     this.setState({
@@ -25,6 +29,21 @@ export default class itemmodel extends Component {
       }
     });
   };
+
+  sendItemCount(length) {
+    progressBarService.sendItemCount(length);
+  }
+
+  setScore() {
+    let score = this.state.items.reduce( (pVal , cVal) => {
+      return pVal + cVal.score;
+    },0);
+    let val = {
+      score: score,
+      questionCount: this.state.items.length*10
+    }
+    this.props.setQuestionValues(val);
+  }
 
   createItems = async () => {
     this.setState({ loading: true })
@@ -46,7 +65,7 @@ export default class itemmodel extends Component {
         })
         return await Promise.all(promiseDeep);
       })
-      return await Promise.all(promise);;
+      return await Promise.all(promise);
     } catch (error) {
       let err = null;
       !error.message ? err = { "message": error } : err = error;
@@ -75,7 +94,6 @@ export default class itemmodel extends Component {
       });
     }
   }
-
   async componentDidMount() {
     let items = await this.fetchItems();
     if (items.length === 0) {
@@ -83,9 +101,12 @@ export default class itemmodel extends Component {
       const itemsNew = await this.fetchItems();
       this.setState({ items: itemsNew, loading: false })
     } else {
-      this.setState({ items, loading: false })
+      this.setState({ items, loading: false , questionCount: items.length })
     }
+    this.sendItemCount(this.state.items.length);
+    this.setScore();
   }
+
   render() {
     return (
       !this.state.loading ? (
@@ -99,18 +120,19 @@ export default class itemmodel extends Component {
                   </Accordion.Toggle>
                 </Card.Header>
                 <Accordion.Collapse eventKey="0">
-                  <Card.Body>{subArea.description}</Card.Body>
+                  <Card.Body>{subArea.description}
+                  </Card.Body>
                 </Accordion.Collapse>
               </Card>
               <Accordion defaultActiveKey="1">
                 <Card>
                   <Card.Header>
                     <Accordion.Toggle as={Button} variant="link" eventKey="0">
-                      Evaluate
+                      Evaluate {subArea.subName}
                     </Accordion.Toggle>
                   </Card.Header>
                   <Accordion.Collapse eventKey="0">
-                    <QuestionArea questions={subArea.questions} id={subArea.id} qid={i} items={this.state.items} productName={this.props.productName} {...this.props} />
+                    <QuestionArea questions={subArea.questions} id={subArea.id} qid={i} items={[...this.state.items]} productName={this.props.productName} {...this.props} />
                   </Accordion.Collapse>
                 </Card>
               </Accordion>
