@@ -20,8 +20,6 @@ export default class itemmodel extends Component {
     }
   }
 
-
-  
   clearErrorState = () => {
     this.setState({
       errors: {
