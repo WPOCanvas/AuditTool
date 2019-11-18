@@ -25,6 +25,7 @@ import UnauthenticatedRoute from './containers/auth/UnauthenticatedRoute';
 import AdminRoute from './containers/auth/AdminRoute';
 import NotFound from './components/notFound';
 import AllAudits from './components/auditing/AllAudits';
+import OverRoll from './components/auditing/OverRoll';
 
 Amplify.configure(awsconfig);
 library.add(faEdit);
@@ -85,6 +86,7 @@ class App extends Component {
               <UnauthenticatedRoute exact path="/welcome" component={Welcome} {...this.props} auth={authProps} />
               <AdminRoute exact path="/newUser" component={NewUser} {...this.props} auth={authProps} />
               <AuthenticatedRoute exact path="/auditQues/:id" component= {AuditQues} {...this.props}  auth={authProps} />
+              <AuthenticatedRoute exact path="/OverRoll/:id" component= {OverRoll} {...this.props}  auth={authProps} />
               <Route component={NotFound} />
             </Switch>
             <Footer />

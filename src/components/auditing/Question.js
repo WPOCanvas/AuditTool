@@ -1,63 +1,100 @@
-import React, { Component } from 'react'
-import { Button } from "react-bootstrap";
-import { API } from "aws-amplify";
+import React, { Component } from 'react';
+import { Button } from 'react-bootstrap';
+import { API } from 'aws-amplify';
 import { MinMinSpinner } from '../utility/Spinner';
-
+import { progressBarService } from '../../services/ProgressBar.service';
 export class Question extends Component {
-    state = {
-        items: [],
+  state = {
+    loading: false,
+    errors: {
+      cognito: null,
+      blankfield: false
+    }
+  };
+
+  switch = {
+    Low: 2,
+    Medium: 5,
+    High: 10
+  };
+  componentDidMount() {
+    let item = this.props.items.find(
+      item => item.id === this.props.id && item.qid === this.props.i && item.score !== 0
+    );
+    item && this.sendStatus();
+  }
+
+  sendStatus() {
+    progressBarService.sendStatus(1);
+  }
+
+  updateItem = async event => {
+    this.setState({ loading: true });
+    let updateItem = this.props.items.find(
+      item =>
+        item.id === this.props.id && item.qid === Number(event.target.value)
+    );
+    if (Number(updateItem.score) === 0 ) {
+      this.sendStatus();
+    }
+    updateItem.score = this.switch[event.target.name];
+    try {
+      await API.put('ItemApi', '/items', {
+        body: updateItem
+      });
+    } catch (error) {
+      let err = null;
+      !error.message ? (err = { message: error }) : (err = error);
+      this.setState({
         loading: false,
         errors: {
-            cognito: null,
-            blankfield: false
+          ...this.state.errors,
+          cognito: err
         }
-    };
-
-    switch = {
-        'Low': 2,
-        'Medium': 5,
-        'High': 10
-      }
-
-    updateItem = async event => {
-       
-        this.setState({ loading: true });
-        let updateItem = this.props.items.find(item => item.id === this.props.id && item.qid === Number(event.target.value));
-        updateItem.score = this.switch[event.target.name];
-        
-        try {
-            await API.put("ItemApi", "/items", {
-                body: updateItem
-            });
-        } catch (error) {
-            let err = null;
-            !error.message ? err = { "message": error } : err = error;
-            this.setState({
-                loading: false,
-                errors: {
-                    ...this.state.errors,
-                    cognito: err
-                }
-            });
-        }
-        this.setState({ loading: false })
-    };
-
-    render() {
-        // console.log(this.props.items)
-        return (
-            <div>
-                {!this.state.loading ? (
-                    <div>
-                        
-                        <Button onClick={this.updateItem}  value={this.props.i} name="High" variant={this.props.updateButtons(this.props.i, 'High') } size="sm">High</Button>
-                        <Button onClick={this.updateItem} value={this.props.i} name="Medium" variant={this.props.updateButtons(this.props.i, 'Medium')} size="sm">Medium</Button>
-                        <Button onClick={this.updateItem} value={this.props.i} name="Low" variant={this.props.updateButtons(this.props.i, 'Low')} size="sm">Low</Button>
-                    </div>
-                ) : <MinMinSpinner />}
-            </div>
-        )
+      });
     }
+    this.setState({ loading: false });
+  };
+
+  render() {
+    return (
+      <div>
+        {!this.state.loading ? (
+          <div>
+            <Button
+              onClick={this.updateItem}
+              value={this.props.i}
+              name='High'
+              variant={this.props.updateButtons(this.props.i, 'High')}
+              size='sm'
+            >
+              High
+            </Button>
+            <Button
+              onClick={this.updateItem}
+              value={this.props.i}
+              name='Medium'
+              variant={this.props.updateButtons(this.props.i, 'Medium')}
+              size='sm'
+            >
+              Medium
+            </Button>
+            <Button
+              onClick={this.updateItem}
+              value={this.props.i}
+              name='Low'
+              variant={this.props.updateButtons(this.props.i, 'Low')}
+              size='sm'
+            >
+              Low
+            </Button>
+          </div>
+        ) : (
+          <MinMinSpinner />
+        )}
+      </div>
+    );
+  }
 }
 
-export default Question
+export default Question;

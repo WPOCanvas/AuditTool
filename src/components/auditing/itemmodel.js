@@ -5,6 +5,7 @@ import { Button } from "react-bootstrap";
 import QuestionArea from "./QuestionArea";
 import { API } from "aws-amplify";
 import Spinner from "../utility/Spinner";
+import { progressBarService } from '../../services/ProgressBar.service';
 
 export default class itemmodel extends Component {
   constructor(props) {
@@ -28,6 +29,21 @@ export default class itemmodel extends Component {
       }
     });
   };
+
+  sendItemCount(length) {
+    progressBarService.sendItemCount(length);
+  }
+
+  setScore() {
+    let score = this.state.items.reduce( (pVal , cVal) => {
+      return pVal + cVal.score;
+    },0);
+    let val = {
+      score: score,
+      questionCount: this.state.items.length*10
+    }
+    this.props.setQuestionValues(val);
+  }
 
   createItems = async () => {
     this.setState({ loading: true })
@@ -85,8 +101,10 @@ export default class itemmodel extends Component {
       const itemsNew = await this.fetchItems();
       this.setState({ items: itemsNew, loading: false })
     } else {
-      this.setState({ items, loading: false })
+      this.setState({ items, loading: false , questionCount: items.length })
     }
+    this.sendItemCount(this.state.items.length);
+    this.setScore();
   }
 
   render() {
@@ -114,7 +132,7 @@ export default class itemmodel extends Component {
                     </Accordion.Toggle>
                   </Card.Header>
                   <Accordion.Collapse eventKey="0">
-                    <QuestionArea questions={subArea.questions} id={subArea.id} qid={i} items={this.state.items} productName={this.props.productName} {...this.props} />
+                    <QuestionArea questions={subArea.questions} id={subArea.id} qid={i} items={[...this.state.items]} productName={this.props.productName} {...this.props} />
                   </Accordion.Collapse>
                 </Card>
               </Accordion>

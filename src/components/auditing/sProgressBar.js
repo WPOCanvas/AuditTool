@@ -1,38 +1,44 @@
 import React, { Component } from 'react';
-import { API } from "aws-amplify";
-import { ProgressBar } from "react-bootstrap";
-
+import { ProgressBar } from 'react-bootstrap';
+import { progressBarService } from '../../services/ProgressBar.service';
 class sProgressBar extends Component {
-    constructor(props){
-      super(props)
+  state = {
+    value: 0,
+    itemCount: 0,
+  };
 
-      this.state={
-        valuess:0,
-        stage: this.props.stage.replace('.', ' ').split(/ /g)[1],
-        errors: {
-            cognito: null,
-            blankfield: false
-          }
+  componentDidMount() {
+    this.subscriptionValue = progressBarService.getStatus().subscribe(value => {
+        if (value) {
+          this.setState(prevState => {
+            return {value: prevState.value + 1}
+         });
+        } else {
+            this.setState({ value: 0 });
+        }
+    });
+
+    this.subscriptionItem = progressBarService.getItemCount().subscribe(count => {
+      if (count) {
+        this.setState(prevState => {
+          return {itemCount: prevState.itemCount + count.number}
+       });
+      } else {
+          this.setState({ itemCount: 0 });
       }
-    }
+  });
+}
 
-    async componentDidMount(){
-        let items = await API.get("ItemApi", '/items/Item-' + this.props.productName + '-' + this.props.auditDate + '-' + this.state.stage + '-' + this.props.user.attributes['custom:organization'] + '/Audit-');
-        let zeroItems=items.filter(item=>item.score!==0);
-  
-        let valuepercentage= ((zeroItems.length)/9)*100
-       this.setState({
-        valuess:valuepercentage
-       })
-    }
-    
-    render() {
-        let progressValue=this.state.valuess;
-        console.log(this.state.valuess)
-        return (
-           <ProgressBar animated now={progressValue} />
-        );
-    }
+componentWillUnmount() {
+  // unsubscribe to ensure no memory leaks
+  this.subscriptionValue.unsubscribe();
+  this.subscriptionItem.unsubscribe();
+}
+
+  render() {
+    let progressValue = this.state.value / this.state.itemCount;
+    return <ProgressBar animated  variant="#3194ff" now={progressValue * 100} />;
+  }
 }
 
 export default sProgressBar;

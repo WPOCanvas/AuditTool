@@ -3,9 +3,17 @@ import { Accordion } from "react-bootstrap";
 import { Card } from "react-bootstrap";
 import { Button } from "react-bootstrap";
 import Itemmodel from './itemmodel';
-import SProgressBar from './sProgressBar'
 
 class specmodels extends Component {
+  state = {
+    score: 0,
+    questionCount: 0,
+  };
+  setQuestionValues = (val) => {
+    this.setState( () => {
+      return val
+    })
+  }
 
   render() {
     return (
@@ -14,13 +22,12 @@ class specmodels extends Component {
             <Card.Header>
               <Accordion.Toggle as={Button} variant="link" eventKey="0">
                 {this.props.area.name}
-                <SProgressBar subAreas={this.props.area.subAreas} stage={this.props.area.name} productName={this.props.productName} {...this.props}  />
-              
               </Accordion.Toggle>
+              <div className="score">{this.state.score+ "/" + this.state.questionCount}</div>
             </Card.Header>
             <Accordion.Collapse eventKey="0">
               <Card.Body>
-                <Itemmodel subAreas={this.props.area.subAreas} stage={this.props.area.name} productName={this.props.productName} {...this.props}  />
+                <Itemmodel setQuestionValues={this.setQuestionValues} subAreas={this.props.area.subAreas} stage={this.props.area.name} productName={this.props.productName} {...this.props}  />
               </Card.Body>
             </Accordion.Collapse>
           </Card>
