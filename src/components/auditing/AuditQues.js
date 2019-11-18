@@ -10,7 +10,13 @@ class AuditQues extends Component {
   }
 
   OverRoll = () => {
-    this.props.history.push('/OverRoll/' + this.state.id);
+    this.props.history.push({
+      pathname: `/OverRoll/${this.state.id}`,
+      state: {
+        productName: this.props.location.state.productName,
+        auditDate: this.props.location.state.auditDate,
+      }
+    });
   }
 
   modelData = quesData;
