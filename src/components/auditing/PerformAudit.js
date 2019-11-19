@@ -32,7 +32,7 @@ class PerformAudit extends Component {
   };
 
   handleChangeProduct = selectedProduct => {
-    if (selectedProduct.__isNew__) {
+    if ( selectedProduct && selectedProduct.__isNew__) {
       this.createNewProduct(selectedProduct);
     } else {
       this.setState({ selectedProduct });
@@ -63,7 +63,7 @@ class PerformAudit extends Component {
       });
     }
 
-    const userList = this.state.selectedUsers.map(({ value }) => value);
+    const userList = this.state.selectedUsers && this.state.selectedUsers.map(({ value }) => value);
     let sk =
       'Product-' +
       this.state.selectedProduct.value +
@@ -139,7 +139,6 @@ class PerformAudit extends Component {
     const orgData = 'Org-' + this.props.user.attributes['custom:organization'];
     try {
       const response = await API.get('UserApi', '/users/User/' + orgData);
-      console.log(response)
       const options = response.map(item => {
         return { value: item.email, label: item.email };
       });
@@ -158,7 +157,6 @@ class PerformAudit extends Component {
   }
 
   createNewProduct = async selectedProduct => {
-    this.setState({ loading: true });
     // Form validation
     this.clearErrorState();
     try {
@@ -173,8 +171,7 @@ class PerformAudit extends Component {
           name: selectedProduct.value
         }
       });
-      this.setState({ selectedProduct: selectedProduct, loading: false });
-      this.fetchProductList();
+      this.setState({ selectedProduct: selectedProduct });
     } catch (error) {
       let err = null;
       !error.message ? (err = { message: error }) : (err = error);
@@ -188,6 +185,11 @@ class PerformAudit extends Component {
     }
   };
 
+  canBeSubmitted() {
+    const { auditName, selectedProduct } = this.state;
+    return auditName.length > 0 && selectedProduct;
+  }
+
   async componentDidMount() {
     await this.fetchProductList();
     await this.fetchUserList();
@@ -195,64 +197,81 @@ class PerformAudit extends Component {
 
   render() {
     const { selectedUsers, selectedProduct, productList } = this.state;
+    const isEnabled = this.canBeSubmitted();
     return (
       <section className='section auth'>
         <div className='container'>
           <h1>Create a new Audit</h1>
           <FormErrors formerrors={this.state.errors} />
           {!this.state.loading ? (
-            <form onSubmit={this.handleSubmit}>
-              <div className='field'>
-                <p className='control'>
-                  <input
-                    className='input'
-                    type='text'
-                    id='auditName'
-                    aria-describedby='auditNameHelp'
-                    placeholder='Enter AuditName'
-                    value={this.state.auditName}
-                    onChange={this.onInputChange}
-                  />
+            <div className='row'>
+              <div className='col-md-6 col-lg-6 col-sm-12 col-xs-12'>
+                <form onSubmit={this.handleSubmit}>
+                  <div className='field'>
+                    <p className='control'>
+                      <input
+                        className='input'
+                        type='text'
+                        id='auditName'
+                        aria-describedby='auditNameHelp'
+                        placeholder='Enter AuditName'
+                        value={this.state.auditName}
+                        onChange={this.onInputChange}
+                      />
+                    </p>
+                  </div>
+                  <div className='field'>
+                    <p className='control'>
+                      <input
+                        className='input'
+                        type='text'
+                        id='description'
+                        aria-describedby='descriptionHelp'
+                        placeholder='Description'
+                        value={this.state.description}
+                        onChange={this.onInputChange}
+                      />
+                    </p>
+                  </div>
+                  <div className='field'>
+                    <CreatableSelect
+                      isClearable
+                      value={selectedProduct}
+                      noOptionsMessage={() => 'Type to create a new product'}
+                      onChange={this.handleChangeProduct}
+                      placeholder={'select a product'}
+                      options={productList}
+                    />
+                  </div>
+                  <div className='field'>
+                    <Select
+                      isMulti={true}
+                      value={selectedUsers}
+                      options={this.state.users}
+                      placeholder={'add new users'}
+                      onChange={this.handleChange}
+                    />
+                  </div>
+                  <div className='field'>
+                    <p className='control'>
+                      <button
+                        disabled={!isEnabled}
+                        className='button is-success'
+                      >
+                        Start
+                      </button>
+                    </p>
+                  </div>
+                </form>
+              </div>
+              <div className='col-md-6 col-lg-6 col-sm-12 col-xs-12 auditPerformanceDescription'>
+                <p>
+                  You are about to perform a WPO audit. This consists of 20
+                  senarios to validate the compliance of your product with WPO.
+                  It will take approx 30 minutes to complete the audi
                 </p>
-              </div>
-              <div className='field'>
-                <p className='control'>
-                  <input
-                    className='input'
-                    type='text'
-                    id='description'
-                    aria-describedby='descriptionHelp'
-                    placeholder='Description'
-                    value={this.state.description}
-                    onChange={this.onInputChange}
-                  />
-                </p>
-              </div>
-              <div className='field'>
-                <CreatableSelect
-                  isClearable
-                  value={selectedProduct}
-                  noOptionsMessage={() => 'Type to create a new product'}
-                  onChange={this.handleChangeProduct}
-                  placeholder={'select a product'}
-                  options={productList}
-                />
-              </div>
-              <div className='field'>
-                <Select
-                  isMulti={true}
-                  value={selectedUsers}
-                  options={this.state.users}
-                  placeholder={'add new users'}
-                  onChange={this.handleChange}
-                />
-              </div>
-              <div className='field'>
-                <p className='control'>
-                  <button className='button is-success'>New Audit</button>
-                </p>
-              </div>
-            </form>
+                </div>
+            </div>
           ) : (
             <Spinner />
           )}

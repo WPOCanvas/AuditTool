@@ -71,13 +71,17 @@ class UserAudit extends Component {
                     }}
                   >
                     <Card.Body>
-                      <Card.Title>Perform An Audit</Card.Title>
+                      <Card.Title>
+                        {this.state.audits.length
+                          ? null
+                          : "You haven't performed any audits yet"}
+                      </Card.Title>
                       <form className='align-center'>
                         <Link
                           to={'/PerformAudit'}
-                          className='button is-success'
+                          className='button'
                         >
-                          New Audit
+                          Perform Audit
                         </Link>
                       </form>
                     </Card.Body>
