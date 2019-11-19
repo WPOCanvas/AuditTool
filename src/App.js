@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Switch , Route} from 'react-router-dom';
-import './App.css';
 import Navbar from './components/Navbar';
 import LogIn from './components/auth/LogIn';
 import Register from './components/auth/Register';
-import 'bootstrap/dist/css/bootstrap.min.css';
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
 
 import ForgotPassword from './components/auth/ForgotPassword';
@@ -15,8 +13,6 @@ import Welcome from './components/auth/Welcome';
 import Footer from './components/Footer';
 import AuditQues from './components/auditing/AuditQues';
 import { Auth } from 'aws-amplify';
-import { library } from '@fortawesome/fontawesome-svg-core';
-import { faEdit } from '@fortawesome/free-solid-svg-icons';
 import NewUser from './components/admin/users/NewUser';
 import Amplify from 'aws-amplify';
 import awsconfig from './aws-exports';
@@ -26,9 +22,9 @@ import AdminRoute from './containers/auth/AdminRoute';
 import NotFound from './components/notFound';
 import AllAudits from './components/auditing/AllAudits';
 import OverRoll from './components/auditing/OverRoll';
+import PerformAudit from './components/auditing/PerformAudit';
 
 Amplify.configure(awsconfig);
-library.add(faEdit);
 
 class App extends Component {
 
@@ -87,6 +83,7 @@ class App extends Component {
               <AdminRoute exact path="/newUser" component={NewUser} {...this.props} auth={authProps} />
               <AuthenticatedRoute exact path="/auditQues/:id" component= {AuditQues} {...this.props}  auth={authProps} />
               <AuthenticatedRoute exact path="/OverRoll/:id" component= {OverRoll} {...this.props}  auth={authProps} />
+              <AuthenticatedRoute exact path="/PerformAudit" component= {PerformAudit} {...this.props}  auth={authProps} />
               <Route component={NotFound} />
             </Switch>
             <Footer />
