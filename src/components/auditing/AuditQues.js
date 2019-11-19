@@ -50,7 +50,7 @@ class AuditQues extends Component {
             );
           })}
           <div className='align-center p-20'>
-            <Button onClick={this.OverRoll} varient='success'>Submit</Button>
+            <Button onClick={this.OverRoll} varient='success'>Result</Button>
           </div>
         </div>
       </section>
