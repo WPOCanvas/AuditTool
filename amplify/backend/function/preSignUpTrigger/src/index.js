@@ -1,5 +1,3 @@
-
-
 const AWS = require('aws-sdk')
 
 AWS.config.update({ region: process.env.TABLE_REGION });
@@ -13,7 +11,8 @@ if (process.env.ENV && process.env.ENV !== "NONE") {
 
 exports.handler = (event, _context, callback) => {
 
-  if (event.request.userAttributes.hasOwnProperty('custom:organization')) {
+  // eslint-disable-next-line no-prototype-builtins
+  if (event.request.userAttributes.hasOwnProperty('custom:admin') && event.request.userAttributes['custom:admin'] === 'true') {
     const req = event.request;
     const email = req.userAttributes.email;
     const username = req.username;
@@ -42,7 +41,6 @@ exports.handler = (event, _context, callback) => {
       TableName: tableName,
       Item: user
     }
-
 
     dynamodb.put(putItemParams, (err) => {
       if (err) {

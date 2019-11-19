@@ -126,10 +126,16 @@ body {
   justify-content: center;
   align-items: flex-end;
 }
- .align-center {
-   text-align: center;
- }
+.align-center {
+  text-align: center;
+}
 
- .p-20 {
-   padding: 20px;
- }
+.p-20 {
+  padding: 20px;
+}
+
+@media (min-width: 576px) {
+  .col-sm-3 {
+    max-width: 100%;
+  }
+}
