@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import Chart from 'react-apexcharts';
 import { API } from 'aws-amplify';
-import { states } from './states.json';
 import { Card, CardGroup } from 'react-bootstrap';
 import Spinner from '../utility/Spinner.js';
 
@@ -19,60 +18,40 @@ class OveRoll extends Component {
     };
   }
 
-  fetchItems = async () => {
-    this.setState({ loading: true });
-    const promise = states.map(async state => {
-      try {
-        let items = await API.get(
-          'ItemApi',
-          '/items/Item-' +
-            this.props.location.state.productName +
-            '-' +
-            this.props.location.state.auditDate +
-            '-' +
-            state +
-            '-' +
-            this.props.user.attributes['custom:organization'] +
-            '/Audit-'
-        );
-        let val = {
-          name: state,
-          values: items
-        };
-        return val;
-      } catch (error) {
-        let err = null;
-        !error.message ? (err = { message: error }) : (err = error);
-        this.setState({
-          errors: {
-            ...this.state.errors,
-            cognito: err
-          }
-        });
-      }
-    });
-    return await Promise.all(promise);
+  fetchProgress = async () => {
+    this.setState(() => {
+      return {loading : true}
+   });
+    try {
+      let items = await API.get(
+        'ProgressApi',
+        '/progress/Progress-' +
+          this.props.location.state.productName +
+          '-' +
+          this.props.location.state.auditDate +
+          '-' +
+          this.props.user.attributes['custom:organization']
+      );
+      return items;
+    } catch (error) {
+      let err = null;
+      !error.message ? (err = { message: error }) : (err = error);
+      this.setState({
+        errors: {
+          ...this.state.errors,
+          cognito: err
+        }
+      });
+    }
   };
 
   drawCharts = () => {
     let charts = this.state.items.map(row => {
-      let scores = row['values'].map(col => {
-        return col.score;
-      });
-      const Low = (
-        (scores.filter(item => item === 2).length * 100) /
-        scores.length
-      ).toFixed(2);
-      const Medium = (
-        (scores.filter(item => item === 5).length * 100) /
-        scores.length
-      ).toFixed(2);
-      const High = (
-        (scores.filter(item => item === 10).length * 100) /
-        scores.length
-      ).toFixed(2);
+      const Low = (row.Low * 100 / row.fullQuestions).toFixed(2);
+      const Medium = (row.Medium * 100 / row.fullQuestions).toFixed(2);
+      const High = (row.High * 100 / row.fullQuestions).toFixed(2);
       return {
-        name: row.name,
+        name: row.section,
         series: [High, Medium, Low],
         options: {
           labels: ['High', 'Medium', 'Low'],
@@ -130,7 +109,7 @@ class OveRoll extends Component {
   };
 
   async componentDidMount() {
-    let items = await this.fetchItems();
+    let items = await this.fetchProgress();
     this.setState({ items });
     this.drawCharts();
   }

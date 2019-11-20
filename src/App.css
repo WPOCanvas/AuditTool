@@ -137,6 +137,10 @@ body {
   max-width: 80%;
 }
 
+.f-size {
+  font-size: 1rem;
+}
+
 .auditPerformanceDescription {
   display: flex;
   justify-content: center;

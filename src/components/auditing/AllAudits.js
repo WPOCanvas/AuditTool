@@ -74,7 +74,7 @@ class UserAudit extends Component {
                       <Card.Title>
                         {this.state.audits.length
                           ? null
-                          : "You haven't performed any audits yet"}
+                          : (<span className="f-size">You haven&apos;t performed any audits yet</span>)}
                       </Card.Title>
                       <form className='align-center'>
                         <Link

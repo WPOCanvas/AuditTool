@@ -26,7 +26,7 @@ const partitionKeyType = "S";
 const sortKeyName = "sk";
 const sortKeyType = "S";
 const hasSortKey = sortKeyName !== "";
-const path = "/items";
+const path = "/progress";
 const UNAUTH = 'UNAUTH';
 const hashKeyPath = '/:' + partitionKeyName;
 const sortKeyPath = hasSortKey ? '/:' + sortKeyName : '';
@@ -80,6 +80,38 @@ app.get(path + hashKeyPath + sortKeyPath, function(req, res) {
         ":pk_val": req.params[partitionKeyName] ,
         ":value": req.params[sortKeyName],
     }
+  }
+
+  dynamodb.query(queryParams, (err, data) => {
+    if (err) {
+      res.statusCode = 500;
+      res.json({error: 'Could not load items: ' + err});
+    } else {
+      res.json(data.Items);
+    }
+  });
+});
+
+app.get(path + hashKeyPath, function(req, res) {
+  var condition = {}
+  condition[partitionKeyName] = {
+    ComparisonOperator: 'EQ'
+  }
+
+  if (userIdPresent && req.apiGateway) {
+    condition[partitionKeyName]['AttributeValueList'] = [req.apiGateway.event.requestContext.identity.cognitoIdentityId || UNAUTH ];
+  } else {
+    try {
+      condition[partitionKeyName]['AttributeValueList'] = [ convertUrlType(req.params[partitionKeyName], partitionKeyType) ];
+    } catch(err) {
+      res.statusCode = 500;
+      res.json({error: 'Wrong column type ' + err});
+    }
+  }
+
+  let queryParams = {
+    TableName: tableName,
+    KeyConditions: condition
   }
 
   dynamodb.query(queryParams, (err, data) => {
@@ -149,8 +181,7 @@ app.put(path, function(req, res) {
 
   let putItemParams = {
     TableName: tableName,
-    Item: req.body,
-    ReturnValues: 'ALL_OLD'
+    Item: req.body
   }
   dynamodb.put(putItemParams, (err, data) => {
     if(err) {
