@@ -1,0 +1,41 @@
+{
+    "paths": [
+        {
+            "name": "/progress",
+            "lambdaFunction": "progressApi",
+            "privacy": {
+                "private": true,
+                "auth": [
+                    "/POST",
+                    "/GET",
+                    "/PUT",
+                    "/PATCH",
+                    "/DELETE"
+                ]
+            }
+        }
+    ],
+    "resourceName": "ProgressApi",
+    "apiName": "ProgressApi",
+    "functionArns": [
+        {
+            "lambdaFunction": "progressApi"
+        }
+    ],
+    "privacy": {
+        "auth": 1,
+        "unauth": 0,
+        "authRoleName": "audittool-prod-20191024161806-authRole",
+        "unAuthRoleName": "audittool-prod-20191024161806-unauthRole"
+    },
+    "dependsOn": [
+        {
+            "category": "function",
+            "resourceName": "progressApi",
+            "attributes": [
+                "Name",
+                "Arn"
+            ]
+        }
+    ]
+}

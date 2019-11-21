@@ -17,12 +17,12 @@ export class Question extends Component {
     Medium: 5,
     High: 10
   };
-  componentDidMount() {
-    let item = this.props.items.find(
-      item => item.id === this.props.id && item.qid === this.props.i && item.score !== 0
-    );
-    item && this.sendStatus();
-  }
+
+  switchReverse = {
+    2: 'Low',
+    5: 'Medium',
+    10: 'High'
+  };
 
   sendStatus() {
     progressBarService.sendStatus(1);
@@ -34,13 +34,26 @@ export class Question extends Component {
       item =>
         item.id === this.props.id && item.qid === Number(event.target.value)
     );
-    if (Number(updateItem.score) === 0 ) {
+    let updateProgress = this.props.progress[0];
+    if (Number(updateItem.score) === 0) {
       this.sendStatus();
+      ++updateProgress[event.target.name];
+      ++updateProgress.questionCount;
+    } else {
+      --updateProgress[this.switchReverse[updateItem.score]];
+      ++updateProgress[event.target.name];
     }
+    if( updateProgress.questionCount === this.props.items.length) {
+      updateProgress.done = 'true'
+    }
+    updateProgress.score = updateProgress.score + Number(this.switch[event.target.name]) - updateItem.score ;
     updateItem.score = this.switch[event.target.name];
     try {
       await API.put('ItemApi', '/items', {
         body: updateItem
+      });
+      await API.put('ProgressApi', '/progress', {
+        body: updateProgress
       });
     } catch (error) {
       let err = null;

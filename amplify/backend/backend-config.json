@@ -102,6 +102,21 @@
 					]
 				}
 			]
+		},
+		"progressApi": {
+			"service": "Lambda",
+			"providerPlugin": "awscloudformation",
+			"build": true,
+			"dependsOn": [
+				{
+					"category": "storage",
+					"resourceName": "AuditToolDB",
+					"attributes": [
+						"Name",
+						"Arn"
+					]
+				}
+			]
 		}
 	},
 	"api": {
@@ -168,6 +183,20 @@
 				{
 					"category": "function",
 					"resourceName": "userApi",
+					"attributes": [
+						"Name",
+						"Arn"
+					]
+				}
+			]
+		},
+		"ProgressApi": {
+			"service": "API Gateway",
+			"providerPlugin": "awscloudformation",
+			"dependsOn": [
+				{
+					"category": "function",
+					"resourceName": "progressApi",
 					"attributes": [
 						"Name",
 						"Arn"

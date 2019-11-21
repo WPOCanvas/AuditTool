@@ -11,7 +11,7 @@ class sProgressBar extends Component {
     this.subscriptionValue = progressBarService.getStatus().subscribe(value => {
         if (value) {
           this.setState(prevState => {
-            return {value: prevState.value + 1}
+            return {value: prevState.value + value.number}
          });
         } else {
             this.setState({ value: 0 });
@@ -19,9 +19,10 @@ class sProgressBar extends Component {
     });
 
     this.subscriptionItem = progressBarService.getItemCount().subscribe(count => {
+      console.log(count)
       if (count) {
-        this.setState(prevState => {
-          return {itemCount: prevState.itemCount + count.number}
+        this.setState( () => {
+          return {itemCount: count.number}
        });
       } else {
           this.setState({ itemCount: 0 });

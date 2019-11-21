@@ -5,7 +5,6 @@ import { Button } from 'react-bootstrap';
 import QuestionArea from './QuestionArea';
 import { API } from 'aws-amplify';
 import Spinner from '../utility/Spinner';
-import { progressBarService } from '../../services/ProgressBar.service';
 
 export default class itemmodel extends Component {
   constructor(props) {
@@ -13,6 +12,8 @@ export default class itemmodel extends Component {
     this.state = {
       items: [],
       loading: false,
+      progress: [],
+      questionCount: 0 ,
       stage: this.props.stage.replace('.', ' ').split(/ /g)[1],
       errors: {
         cognito: null,
@@ -30,20 +31,47 @@ export default class itemmodel extends Component {
     });
   };
 
-  sendItemCount(length) {
-    progressBarService.sendItemCount(length);
+  questionCount = () => {
+    return this.props.subAreas.reduce( (pVal , cVal) => {
+      return pVal + cVal.questions.length;
+    }, 0);
   }
 
-  setScore() {
-    let score = this.state.items.reduce((pVal, cVal) => {
-      return pVal + cVal.score;
-    }, 0);
-    let val = {
-      score: score,
-      questionCount: this.state.items.length * 10
-    };
-    this.props.setQuestionValues(val);
-  }
+  createProgress = async () => {
+    this.setState({ loading: true });
+    try {
+      let sk = this.state.stage + '-' + Date.now().toString();
+      await API.post('ProgressApi', '/progress', {
+        body: {
+          pk:
+            'Progress-' +
+            this.props.productName +
+            '-' +
+            this.props.auditDate +
+            '-' +
+            this.props.user.attributes['custom:organization'],
+          sk: sk,
+          score: 0,
+          section: this.state.stage,
+          questionCount: 0,
+          fullQuestions: this.questionCount(),
+          High: 0,
+          Low: 0,
+          Medium: 0,
+          done:'false'
+        }
+      });
+    } catch (error) {
+      let err = null;
+      !error.message ? (err = { message: error }) : (err = error);
+      this.setState({
+        errors: {
+          ...this.state.errors,
+          cognito: err
+        }
+      });
+    }
+  };
 
   createItems = async () => {
     this.setState({ loading: true });
@@ -114,17 +142,46 @@ export default class itemmodel extends Component {
       });
     }
   };
+
+  fetchProgress = async () => {
+    this.setState({ loading: true });
+    try {
+      let items = await API.get(
+        'ProgressApi',
+        '/progress/Progress-' +
+          this.props.productName +
+          '-' +
+          this.props.auditDate +
+          '-' +
+          this.props.user.attributes['custom:organization'] +
+          '/' + this.state.stage
+      );
+      return items;
+    } catch (error) {
+      let err = null;
+      !error.message ? (err = { message: error }) : (err = error);
+      this.setState({
+        errors: {
+          ...this.state.errors,
+          cognito: err
+        }
+      });
+    }
+  };
+
   async componentDidMount() {
+    
     let items = await this.fetchItems();
     if (items.length === 0) {
       await this.createItems();
+      await this.createProgress();
       const itemsNew = await this.fetchItems();
-      this.setState({ items: itemsNew, loading: false });
+      const progress = await this.fetchProgress();
+      this.setState({ items: itemsNew, loading: false , progress });
     } else {
-      this.setState({ items, loading: false, questionCount: items.length });
+      let stateProgress = this.props.progressAll.filter( prog => { return prog['section'] === this.state.stage})
+      this.setState({ items, loading: false, questionCount: items.length , progress : stateProgress });
     }
-    this.sendItemCount(this.state.items.length);
-    this.setScore();
   }
 
   render() {
@@ -149,6 +206,7 @@ export default class itemmodel extends Component {
                       id={subArea.id}
                       qid={i}
                       items={[...this.state.items]}
+                      progress={[...this.state.progress]}
                       productName={this.props.productName}
                       {...this.props}
                     />

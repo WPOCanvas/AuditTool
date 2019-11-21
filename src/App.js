@@ -24,6 +24,11 @@ import AllAudits from './components/auditing/AllAudits';
 import OverRoll from './components/auditing/OverRoll';
 import PerformAudit from './components/auditing/PerformAudit';
 
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { faCheck } from '@fortawesome/free-solid-svg-icons';
+ 
+library.add(faCheck)
+
 Amplify.configure(awsconfig);
 
 class App extends Component {

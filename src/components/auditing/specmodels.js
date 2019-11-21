@@ -3,22 +3,29 @@ import { Accordion } from 'react-bootstrap';
 import { Card } from 'react-bootstrap';
 import { Button } from 'react-bootstrap';
 import Itemmodel from './itemmodel';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 class specmodels extends Component {
   state = {
     drop: false,
-    score: 0,
-    questionCount: 0
-  };
-  setQuestionValues = val => {
-    this.setState(() => {
-      return val;
-    });
+    done: false,
   };
 
   dropAcordination = () => {
     this.setState({ drop: true });
   };
+
+  setProgress() {
+    let selectedProgress = this.props.progressAll.filter( prog => {
+      let x = this.props.area.name.split(' ')[0];
+      return prog.section === x.replace(/[0-9]./g , "");
+    });
+    selectedProgress.length && this.setState({done: selectedProgress[0].done === 'true'})
+  }
+
+  componentDidMount() {
+    this.setProgress();
+  }
 
   render() {
     return (
@@ -34,7 +41,10 @@ class specmodels extends Component {
               {this.props.area.name}
             </Accordion.Toggle>
             <div className='score'>
-              {this.state.score + '/' + this.state.questionCount}
+              {this.state.done? (
+                <FontAwesomeIcon icon="check" color="green" />
+              )
+            : null}
             </div>
           </Card.Header>
           <Accordion.Collapse eventKey='0'>
@@ -42,7 +52,6 @@ class specmodels extends Component {
               {this.state.drop ? (
                 <Card.Body>
                   <Itemmodel
-                    setQuestionValues={this.setQuestionValues}
                     subAreas={this.props.area.subAreas}
                     stage={this.props.area.name}
                     productName={this.props.productName}
