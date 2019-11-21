@@ -203,9 +203,11 @@ class PerformAudit extends Component {
     return (
       <section className="section auth">
         <div className="container">
-          <h1>Create a new Audit</h1>
+          
           <FormErrors formerrors={this.state.errors} />
           {!this.state.loading ? (
+            <div>
+            <h1>Create a new Audit</h1>
             <div className="row">
               <div className="col-md-6 col-lg-6 col-sm-12 col-xs-12">
                 <form onSubmit={this.handleSubmit}>
@@ -274,6 +276,7 @@ class PerformAudit extends Component {
                   It will take approx 30 minutes to complete the audit.
                 </p>
               </div>
+            </div>
             </div>
           ) : (
             <Spinner />
