@@ -4,7 +4,7 @@ import { API } from 'aws-amplify';
 import Spinner from '../utility/Spinner';
 import { Card } from 'react-bootstrap';
 import { CardGroup } from 'react-bootstrap';
-import { MdFingerprint, MdSubject,MdToday, MdContactMail, MdEmail,MdAddCircle} from "react-icons/md";
+import {  MdSubject,MdToday, MdEmail,MdAddCircle} from "react-icons/md";
 class UserAudit extends Component {
   state = {
     audits: [],
@@ -66,8 +66,9 @@ class UserAudit extends Component {
                     style={{
                       padding: '5px',
                       margin: '5px',
-                      minWidth: '250px',
-                      minHeight: '250px'
+                      minWidth: '270px',
+                      minHeight: '250px',
+                      backgroundColor:'#e0f7fa'
                     }}
                   >
                     <Card.Body>
@@ -96,8 +97,9 @@ class UserAudit extends Component {
                           style={{
                             padding: '5px',
                             margin: '5px',
-                            minWidth: '250px',
-                            minHeight: '250px'
+                            minWidth: '270px',
+                            minHeight: '250px',
+                            backgroundColor:'#e0f2f1'
                           }}
                         >
                           <Card.Body>

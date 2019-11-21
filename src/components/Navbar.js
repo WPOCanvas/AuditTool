@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom'
 import { Auth } from 'aws-amplify';
+import {  MdHome } from "react-icons/md";
+import { FaUsersCog } from "react-icons/fa";
 
 const style = {
   style: {
@@ -28,9 +30,11 @@ export default class Navbar extends Component {
               {this.props.auth.isAuthenticated && (
                 <div>
                 <Link to="/" className="button is-light">
+                  <MdHome/>
                     Home
               </Link>
-                  <Link to="/newUser" className="button is-info">
+                  <Link to="/newUser" className="button is-light">
+                  <FaUsersCog/>
                     Administration
               </Link>
                 </div>

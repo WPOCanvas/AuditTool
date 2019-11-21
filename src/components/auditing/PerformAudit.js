@@ -270,7 +270,7 @@ class PerformAudit extends Component {
                 </form>
               </div>
               <div className="col-md-6 col-lg-6 col-sm-12 col-xs-12 auditPerformanceDescription">
-                <p>
+                <p style={{color:'#14cba8'}}>
                   You are about to perform a WPO audit. This consists of 20
                   senarios to validate the compliance of your product with WPO.
                   It will take approx 30 minutes to complete the audit.
