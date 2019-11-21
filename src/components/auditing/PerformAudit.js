@@ -1,19 +1,19 @@
-import React, { Component } from 'react';
-import FormErrors from '../FormErrors';
-import Validate from '../utility/FormValidation';
-import { API } from 'aws-amplify';
+import React, { Component } from "react";
+import FormErrors from "../FormErrors";
+import Validate from "../utility/FormValidation";
+import { API } from "aws-amplify";
 
-import Select from 'react-select';
-import CreatableSelect from 'react-select/creatable';
-import Spinner from '../utility/Spinner';
+import Select from "react-select";
+import CreatableSelect from "react-select/creatable";
+import Spinner from "../utility/Spinner";
 
 class PerformAudit extends Component {
   state = {
-    auditName: '',
+    auditName: "",
     selectedUsers: null,
     selectedProduct: null,
     loading: false,
-    description: '',
+    description: "",
     users: [],
     productList: [],
     errors: {
@@ -32,7 +32,7 @@ class PerformAudit extends Component {
   };
 
   handleChangeProduct = selectedProduct => {
-    if ( selectedProduct && selectedProduct.__isNew__) {
+    if (selectedProduct && selectedProduct.__isNew__) {
       this.createNewProduct(selectedProduct);
     } else {
       this.setState({ selectedProduct });
@@ -47,7 +47,7 @@ class PerformAudit extends Component {
     this.setState({
       [event.target.id]: event.target.value
     });
-    document.getElementById(event.target.id).classList.remove('is-danger');
+    document.getElementById(event.target.id).classList.remove("is-danger");
   };
 
   handleSubmit = async event => {
@@ -63,20 +63,22 @@ class PerformAudit extends Component {
       });
     }
 
-    const userList = this.state.selectedUsers && this.state.selectedUsers.map(({ value }) => value);
+    const userList =
+      this.state.selectedUsers &&
+      this.state.selectedUsers.map(({ value }) => value);
     let sk =
-      'Product-' +
+      "Product-" +
       this.state.selectedProduct.value +
-      '-' +
+      "-" +
       Date.now().toString();
     let date = new Date()
       .toGMTString()
-      .split(' ')
-      .join('-');
+      .split(" ")
+      .join("-");
     try {
-      await API.post('AuditApi', '/audits', {
+      await API.post("AuditApi", "/audits", {
         body: {
-          pk: 'Audit-Org-' + this.props.user.attributes['custom:organization'],
+          pk: "Audit-Org-" + this.props.user.attributes["custom:organization"],
           sk: sk,
           name: this.state.auditName,
           product: this.state.selectedProduct.value,
@@ -111,11 +113,11 @@ class PerformAudit extends Component {
 
   async fetchProductList() {
     this.setState({ loading: true });
-    const orgData = 'Org-' + this.props.user.attributes['custom:organization'];
+    const orgData = "Org-" + this.props.user.attributes["custom:organization"];
     try {
       const response = await API.get(
-        'ProductApi',
-        '/products/Product/' + orgData
+        "ProductApi",
+        "/products/Product/" + orgData
       );
       const options = response.map(item => {
         return { value: item.name, label: item.name };
@@ -136,9 +138,9 @@ class PerformAudit extends Component {
 
   async fetchUserList() {
     this.setState({ loading: true });
-    const orgData = 'Org-' + this.props.user.attributes['custom:organization'];
+    const orgData = "Org-" + this.props.user.attributes["custom:organization"];
     try {
-      const response = await API.get('UserApi', '/users/User/' + orgData);
+      const response = await API.get("UserApi", "/users/User/" + orgData);
       const options = response.map(item => {
         return { value: item.email, label: item.email };
       });
@@ -160,13 +162,13 @@ class PerformAudit extends Component {
     // Form validation
     this.clearErrorState();
     try {
-      await API.post('ProductApi', '/products', {
+      await API.post("ProductApi", "/products", {
         body: {
-          pk: 'Product',
+          pk: "Product",
           sk:
-            'Org-' +
-            this.props.user.attributes['custom:organization'] +
-            '-' +
+            "Org-" +
+            this.props.user.attributes["custom:organization"] +
+            "-" +
             Date.now().toString(),
           name: selectedProduct.value
         }
@@ -199,64 +201,65 @@ class PerformAudit extends Component {
     const { selectedUsers, selectedProduct, productList } = this.state;
     const isEnabled = this.canBeSubmitted();
     return (
-      <section className='section auth'>
-        <div className='container'>
+      <section className="section auth">
+        <div className="container">
           <h1>Create a new Audit</h1>
           <FormErrors formerrors={this.state.errors} />
           {!this.state.loading ? (
-            <div className='row'>
-              <div className='col-md-6 col-lg-6 col-sm-12 col-xs-12'>
+            <div className="row">
+              <div className="col-md-6 col-lg-6 col-sm-12 col-xs-12">
                 <form onSubmit={this.handleSubmit}>
-                  <div className='field'>
-                    <p className='control'>
+                  <div className="field">
+                    <p className="control">
                       <input
-                        className='input'
-                        type='text'
-                        id='auditName'
-                        aria-describedby='auditNameHelp'
-                        placeholder='Enter AuditName'
+                        className="input"
+                        type="text"
+                        id="auditName"
+                        aria-describedby="auditNameHelp"
+                        placeholder="Enter AuditName"
                         value={this.state.auditName}
                         onChange={this.onInputChange}
                       />
                     </p>
                   </div>
-                  <div className='field'>
-                    <p className='control'>
-                      <input
-                        className='input'
-                        type='text'
-                        id='description'
-                        aria-describedby='descriptionHelp'
-                        placeholder='Description'
+                  <div className="field">
+                    <p className="control">
+                      <textarea
+                        rows="5"
+                        className="form-control"
+                        type="text"
+                        id="description"
+                        aria-describedby="descriptionHelp"
+                        placeholder="Description"
                         value={this.state.description}
                         onChange={this.onInputChange}
                       />
                     </p>
                   </div>
-                  <div className='field'>
+                  <div className="field">
                     <CreatableSelect
                       isClearable
                       value={selectedProduct}
-                      noOptionsMessage={() => 'Type to create a new product'}
+                      noOptionsMessage={() => "Type to create a new product"}
                       onChange={this.handleChangeProduct}
-                      placeholder={'select a product'}
+                      placeholder={"select a product"}
                       options={productList}
                     />
                   </div>
-                  <div className='field'>
+                  <div className="field">
                     <Select
                       isMulti={true}
                       value={selectedUsers}
                       options={this.state.users}
-                      placeholder={'add new users'}
+                      placeholder={"add new users"}
                       onChange={this.handleChange}
                     />
                   </div>
-                  <div className='field'>
-                    <p className='control'>
+                  <div className="field">
+                    <p className="control">
                       <button
                         disabled={!isEnabled}
-                        className='button is-success'
+                        className="button is-success"
                       >
                         Start
                       </button>
@@ -264,13 +267,13 @@ class PerformAudit extends Component {
                   </div>
                 </form>
               </div>
-              <div className='col-md-6 col-lg-6 col-sm-12 col-xs-12 auditPerformanceDescription'>
+              <div className="col-md-6 col-lg-6 col-sm-12 col-xs-12 auditPerformanceDescription">
                 <p>
                   You are about to perform a WPO audit. This consists of 20
                   senarios to validate the compliance of your product with WPO.
-                  It will take approx 30 minutes to complete the audi
+                  It will take approx 30 minutes to complete the audit.
                 </p>
-                </div>
+              </div>
             </div>
           ) : (
             <Spinner />
