@@ -6,6 +6,7 @@ import { Button } from 'react-bootstrap';
 import { API } from 'aws-amplify';
 import { progressBarService } from '../../services/ProgressBar.service';
 import Spinner from '../utility/Spinner';
+import { Card } from 'react-bootstrap';
 class AuditQues extends Component {
   modelData = quesData;
   state = {
@@ -81,9 +82,9 @@ class AuditQues extends Component {
         return { progress };
       });
     }
-      this.sendItemCount();
-      this.sendStatus();
-      this.setState({ loading: false });
+    this.sendItemCount();
+    this.sendStatus();
+    this.setState({ loading: false });
   }
   render() {
     return (
@@ -94,17 +95,18 @@ class AuditQues extends Component {
         <div>
           {!this.state.loading ? (
             <div>
-              <h1 style={{ textAlign: 'center' }}>
-                New Audit For {this.props.location.state.productName} Product{' '}
-                {this.props.user.username} Company
-              </h1>
-              <br />
-              <br />
-              <h6>
-                WPC canvas gives you 10 model phases for evaluate your product,
-                what you have to do is go through all the 10 models and answer
-                the given questions
-              </h6>
+              <Card style={{margin: "60px"}}>
+                <Card.Body style={{textAlign:"center"}}>
+                  <h3>New Audit For {this.props.location.state.productName} Product{' '}
+                  {this.props.user.username} Company</h3>
+                  <hr />
+                </Card.Body>
+                <Card.Body style={{padding: "0 60px 30px 60px" , textAlign: "justify"}}>
+                  WPC canvas gives you 10 model phases for evaluate your
+                  product, what you have to do is go through all the 10 models
+                  and answer the given questions
+                </Card.Body>
+              </Card>
               <div>
                 {!this.state.loading &&
                   this.modelData.areas.map((area, i) => {
