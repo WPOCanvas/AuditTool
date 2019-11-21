@@ -73,6 +73,7 @@ class AuditQues extends Component {
   };
 
   async componentDidMount() {
+   
     const progress = await this.fetchProgress();
     console.log(progress)
     if (progress.length === 0) {
@@ -102,7 +103,10 @@ class AuditQues extends Component {
                   <hr />
                 </Card.Body>
                 <Card.Body style={{padding: "0 60px 30px 60px" , textAlign: "justify"}}>
-                  WPC canvas gives you 10 model phases for evaluate your
+                {this.props.location.state.auditDesc}
+                </Card.Body>
+                <Card.Body style={{padding: "0 60px 30px 60px" , textAlign: "justify",fontSize:"12px"}}>
+                  ** WPC canvas gives you 10 model phases for evaluate your
                   product, what you have to do is go through all the 10 models
                   and answer the given questions
                 </Card.Body>

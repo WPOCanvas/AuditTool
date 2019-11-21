@@ -31,11 +31,13 @@ export default class Navbar extends Component {
                 <div>
                 <Link to="/" className="button is-light">
                   <MdHome/>
-                    Home
+                  <div style={{padding:'5px'}}>Home</div>
+                    
               </Link>
                   <Link to="/newUser" className="button is-light">
                   <FaUsersCog/>
-                    Administration
+
+                   <div style={{padding:'5px'}}>Administration</div>
               </Link>
                 </div>
               )}

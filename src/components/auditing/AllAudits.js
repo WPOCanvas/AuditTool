@@ -91,6 +91,8 @@ class UserAudit extends Component {
                 </div>
                 {this.state.audits &&
                   this.state.audits.map((audit, i) => {
+                    let wholedesc =audit.description;
+                    let shortendesc= wholedesc.substr(0,50)+ ' ...';
                     return (
                       <div key={i} className='col-sm-3'>
                         <Card
@@ -107,7 +109,7 @@ class UserAudit extends Component {
                             <br />
                             <Card.Text>
                             <MdSubject/>
-                              {audit.description}
+                              {shortendesc}
                               <br />
                               <MdToday/>
                               {audit.createdAt}
@@ -120,7 +122,8 @@ class UserAudit extends Component {
                                   pathname: `/auditQues/${audit.sk}`,
                                   state: {
                                     productName: audit.product,
-                                    auditDate: audit.auditDate
+                                    auditDate: audit.auditDate,
+                                    auditDesc: audit.description
                                   }
                                 }}
                               >
