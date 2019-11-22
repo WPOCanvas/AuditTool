@@ -45,7 +45,6 @@ class AuditQues extends Component {
   }
 
   fetchProgress = async () => {
-    console.log('here');
     this.setState(() => {
       return { loading: true };
     });
@@ -73,12 +72,8 @@ class AuditQues extends Component {
   };
 
   async componentDidMount() {
-   
     const progress = await this.fetchProgress();
-    console.log(progress)
-    if (progress.length === 0) {
-      this.setState({ loading: false });
-    } else {
+    if (progress.length !== 0) {
       this.setState(() => {
         return { progress };
       });

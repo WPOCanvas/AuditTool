@@ -37,83 +37,83 @@ export default class itemmodel extends Component {
     }, 0);
   }
 
-  createProgress = async () => {
-    this.setState({ loading: true });
-    try {
-      let sk = this.state.stage + '-' + Date.now().toString();
-      await API.post('ProgressApi', '/progress', {
-        body: {
-          pk:
-            'Progress-' +
-            this.props.productName +
-            '-' +
-            this.props.auditDate +
-            '-' +
-            this.props.user.attributes['custom:organization'],
-          sk: sk,
-          score: 0,
-          section: this.state.stage,
-          questionCount: 0,
-          fullQuestions: this.questionCount(),
-          High: 0,
-          Low: 0,
-          Medium: 0,
-          done:'false'
-        }
-      });
-    } catch (error) {
-      let err = null;
-      !error.message ? (err = { message: error }) : (err = error);
-      this.setState({
-        errors: {
-          ...this.state.errors,
-          cognito: err
-        }
-      });
-    }
-  };
+  // createProgress = async () => {
+  //   this.setState({ loading: true });
+  //   try {
+  //     let sk = this.state.stage + '-' + Date.now().toString();
+  //     await API.post('ProgressApi', '/progress', {
+  //       body: {
+  //         pk:
+  //           'Progress-' +
+  //           this.props.productName +
+  //           '-' +
+  //           this.props.auditDate +
+  //           '-' +
+  //           this.props.user.attributes['custom:organization'],
+  //         sk: sk,
+  //         score: 0,
+  //         section: this.state.stage,
+  //         questionCount: 0,
+  //         fullQuestions: this.questionCount(),
+  //         High: 0,
+  //         Low: 0,
+  //         Medium: 0,
+  //         done:'false'
+  //       }
+  //     });
+  //   } catch (error) {
+  //     let err = null;
+  //     !error.message ? (err = { message: error }) : (err = error);
+  //     this.setState({
+  //       errors: {
+  //         ...this.state.errors,
+  //         cognito: err
+  //       }
+  //     });
+  //   }
+  // };
 
-  createItems = async () => {
-    this.setState({ loading: true });
-    const subAreas = this.props.subAreas;
-    try {
-      const promise = subAreas.map(async subArea => {
-        const promiseDeep = subArea.questions.map(async (_question, i) => {
-          let sk =
-            'Audit-' + subArea.id + '-' + i + '-' + Date.now().toString();
-          let addedItem = await API.post('ItemApi', '/items', {
-            body: {
-              pk:
-                'Item-' +
-                this.props.productName +
-                '-' +
-                this.props.auditDate +
-                '-' +
-                this.state.stage +
-                '-' +
-                this.props.user.attributes['custom:organization'],
-              sk: sk,
-              score: 0,
-              id: subArea.id,
-              qid: i
-            }
-          });
-          return addedItem;
-        });
-        return await Promise.all(promiseDeep);
-      });
-      return await Promise.all(promise);
-    } catch (error) {
-      let err = null;
-      !error.message ? (err = { message: error }) : (err = error);
-      this.setState({
-        errors: {
-          ...this.state.errors,
-          cognito: err
-        }
-      });
-    }
-  };
+  // createItems = async () => {
+  //   this.setState({ loading: true });
+  //   const subAreas = this.props.subAreas;
+  //   try {
+  //     const promise = subAreas.map(async subArea => {
+  //       const promiseDeep = subArea.questions.map(async (_question, i) => {
+  //         let sk =
+  //           'Audit-' + subArea.id + '-' + i + '-' + Date.now().toString();
+  //         let addedItem = await API.post('ItemApi', '/items', {
+  //           body: {
+  //             pk:
+  //               'Item-' +
+  //               this.props.productName +
+  //               '-' +
+  //               this.props.auditDate +
+  //               '-' +
+  //               this.state.stage +
+  //               '-' +
+  //               this.props.user.attributes['custom:organization'],
+  //             sk: sk,
+  //             score: 0,
+  //             id: subArea.id,
+  //             qid: i
+  //           }
+  //         });
+  //         return addedItem;
+  //       });
+  //       return await Promise.all(promiseDeep);
+  //     });
+  //     return await Promise.all(promise);
+  //   } catch (error) {
+  //     let err = null;
+  //     !error.message ? (err = { message: error }) : (err = error);
+  //     this.setState({
+  //       errors: {
+  //         ...this.state.errors,
+  //         cognito: err
+  //       }
+  //     });
+  //   }
+  // };
 
   fetchItems = async () => {
     this.setState({ loading: true });
@@ -170,18 +170,9 @@ export default class itemmodel extends Component {
   };
 
   async componentDidMount() {
-    
     let items = await this.fetchItems();
-    if (items.length === 0) {
-      await this.createItems();
-      await this.createProgress();
-      const itemsNew = await this.fetchItems();
-      const progress = await this.fetchProgress();
-      this.setState({ items: itemsNew, loading: false , progress });
-    } else {
-      let stateProgress = this.props.progressAll.filter( prog => { return prog['section'] === this.state.stage})
-      this.setState({ items, loading: false, questionCount: items.length , progress : stateProgress });
-    }
+    let stateProgress = this.props.progressAll.filter( prog => { return prog['section'] === this.state.stage})
+    this.setState({ items, loading: false, questionCount: items.length , progress : stateProgress });
   }
 
   render() {
