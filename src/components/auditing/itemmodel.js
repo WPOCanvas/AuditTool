@@ -190,7 +190,7 @@ export default class itemmodel extends Component {
                 <Accordion.Collapse eventKey='0'>
                   <div>
                     <Card key={i} border='info'>
-                      <Card.Body>{subArea.description}</Card.Body>
+                      <Card.Body> <p style={{color:'#14cba8'}}> Brief Description : </p> {subArea.description}</Card.Body>
                     </Card>
                     <QuestionArea
                       questions={subArea.questions}

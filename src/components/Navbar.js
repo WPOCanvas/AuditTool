@@ -29,12 +29,12 @@ export default class Navbar extends Component {
             <div className="buttons">
               {this.props.auth.isAuthenticated && (
                 <div>
-                <Link to="/" className="button is-light">
+                <Link to="/" className="button">
                   <MdHome/>
                   <div style={{padding:'5px'}}>Home</div>
                     
               </Link>
-                  <Link to="/newUser" className="button is-light">
+                  <Link to="/newUser" className="button">
                   <FaUsersCog/>
 
                    <div style={{padding:'5px'}}>Administration</div>

@@ -109,7 +109,7 @@ class UserAudit extends Component {
                             <br />
                             <Card.Text>
                             <MdSubject/>
-                              {shortendesc}
+                            {shortendesc}
                               <br />
                               <MdToday/>
                               {audit.createdAt}

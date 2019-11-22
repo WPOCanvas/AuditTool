@@ -6,21 +6,23 @@
         {
           "id": "CCA",
           "subName": "Context/CompetitorAnalysis",
-          "description": "yes anyone can use",
+          "description": "For any software product, it is essential to know how well it is doing against the competition. Competitor analysis is used to measure how competitive your product or service against the competition.By measuring your products or service against competition allows you to position the product in the market effectively. Furthermore, the continuous monitoring of market dynamics helps to respond to the market changes timely.",
+          
           "questions":[
-              "what is this Context/CompetitorAnalysis ?",
-              "how you do this ?",
-              "Is this good ?"
+              "How far Have You done Context Competitor Anlaysis in Your project ?",
+              "How far did you determine relevant competitors for your project?",
+              "How far did you rank Quantitatively the key success factors by giving each one a weightage ?"
           ]
         },
         {
           "id": "CV",
           "subName": "Commercial Viability",
-          "description": "lorem ipsum is dummy data that anyone can use",
+          "description": "Commercial Viability refers to the ability of a business, product or service to compete effectively with its competitors and to be profitable. The primary goal of a business, product or service in a market is to make profits and the Commercial Viability measures how well a business, product or service compete with its competitors and its ability to make a profit. For a product to be successful in the long run, the two crucial factors are its ability to make profits and to survive in the market along with its competitors for a foreseeable amount of time. The combination of these two factors gives meaning to the term Commercial Viability.",
+         
           "questions":[
-            "what is this Commercial Viability ?",
-            "how you do this ?",
-            "Is this good ?"
+            "how far did you Identify your direct and indirect competitors ?",
+            "how far did you Identify your strengths and weaknesses?",
+            "how far Do you have the skills, time, and money to bring the idea to market ?"
         ]
         },
         {

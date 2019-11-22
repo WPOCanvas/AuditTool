@@ -38,7 +38,7 @@ componentWillUnmount() {
 
   render() {
     let progressValue = this.state.value / this.state.itemCount;
-    return <ProgressBar animated  variant="#3194ff" now={progressValue * 100} />
+    return <ProgressBar animated  variant="info" now={progressValue * 100} />
   }
 }
 

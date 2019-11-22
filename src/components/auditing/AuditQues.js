@@ -98,12 +98,15 @@ class AuditQues extends Component {
                   <hr />
                 </Card.Body>
                 <Card.Body style={{padding: "0 60px 30px 60px" , textAlign: "justify"}}>
-                {this.props.location.state.auditDesc}
+                <p style={{color:'#14cba8'}}>Audit Description : </p>{this.props.location.state.auditDesc}
                 </Card.Body>
                 <Card.Body style={{padding: "0 60px 30px 60px" , textAlign: "justify",fontSize:"12px"}}>
+                  <p style={{color:'#9e9e9e'}}>
                   ** WPC canvas gives you 10 model phases for evaluate your
                   product, what you have to do is go through all the 10 models
                   and answer the given questions
+                  </p>
+                  
                 </Card.Body>
               </Card>
               <div>
@@ -122,8 +125,8 @@ class AuditQues extends Component {
                   })}
               </div>
               <div className='align-center p-20'>
-                <Button onClick={this.OverRoll} varient='success'>
-                  Result
+                <Button onClick={this.OverRoll} variant='light'>
+                  Check Result
                 </Button>
               </div>
             </div>

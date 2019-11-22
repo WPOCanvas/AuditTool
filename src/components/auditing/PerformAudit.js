@@ -94,7 +94,8 @@ class PerformAudit extends Component {
         pathname: `/auditQues/${sk}`,
         state: {
           productName: this.state.selectedProduct.value,
-          auditDate: date
+          auditDate: date,
+          auditDesc:this.state.description
         }
       });
     } catch (error) {

@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
-import { Button } from 'react-bootstrap';
-import { API } from 'aws-amplify';
-import { MinMinSpinner } from '../utility/Spinner';
-import { progressBarService } from '../../services/ProgressBar.service';
+import React, { Component } from "react";
+import { Button } from "react-bootstrap";
+import { API } from "aws-amplify";
+import { MinMinSpinner } from "../utility/Spinner";
+import { progressBarService } from "../../services/ProgressBar.service";
 export class Question extends Component {
   state = {
     loading: false,
@@ -19,9 +19,9 @@ export class Question extends Component {
   };
 
   switchReverse = {
-    2: 'Low',
-    5: 'Medium',
-    10: 'High'
+    2: "Low",
+    5: "Medium",
+    10: "High"
   };
 
   sendStatus() {
@@ -43,16 +43,19 @@ export class Question extends Component {
       --updateProgress[this.switchReverse[updateItem.score]];
       ++updateProgress[event.target.name];
     }
-    if( updateProgress.questionCount === this.props.items.length) {
-      updateProgress.done = 'true'
+    if (updateProgress.questionCount === this.props.items.length) {
+      updateProgress.done = "true";
     }
-    updateProgress.score = updateProgress.score + Number(this.switch[event.target.name]) - updateItem.score ;
+    updateProgress.score =
+      updateProgress.score +
+      Number(this.switch[event.target.name]) -
+      updateItem.score;
     updateItem.score = this.switch[event.target.name];
     try {
-      await API.put('ItemApi', '/items', {
+      await API.put("ItemApi", "/items", {
         body: updateItem
       });
-      await API.put('ProgressApi', '/progress', {
+      await API.put("ProgressApi", "/progress", {
         body: updateProgress
       });
     } catch (error) {
@@ -73,34 +76,44 @@ export class Question extends Component {
     return (
       <div>
         {!this.state.loading ? (
-          <div>
-            <Button
-              onClick={this.updateItem}
-              value={this.props.i}
-              name='High'
-              variant={this.props.updateButtons(this.props.i, 'High')}
-              size='sm'
-            >
-              High
-            </Button>
-            <Button
-              onClick={this.updateItem}
-              value={this.props.i}
-              name='Medium'
-              variant={this.props.updateButtons(this.props.i, 'Medium')}
-              size='sm'
-            >
-              Medium
-            </Button>
-            <Button
-              onClick={this.updateItem}
-              value={this.props.i}
-              name='Low'
-              variant={this.props.updateButtons(this.props.i, 'Low')}
-              size='sm'
-            >
-              Low
-            </Button>
+          <div className="row">
+            <div style={{ padding: "3px" }}>
+              <Button
+                onClick={this.updateItem}
+                value={this.props.i}
+                name="High"
+                variant={this.props.updateButtons(this.props.i, "High")}
+                size="sm"
+                style={{ width: "120px" }}
+              >
+                Comply
+              </Button>
+            </div>
+            <div style={{ padding: "3px" }}>
+              <Button
+                onClick={this.updateItem}
+                value={this.props.i}
+                name="Medium"
+                variant={this.props.updateButtons(this.props.i, "Medium")}
+                size="sm"
+                style={{ width: "120px" }}
+              >
+                Partially Comply
+              </Button>
+            </div>
+
+            <div style={{ padding: "3px" }}>
+              <Button
+                onClick={this.updateItem}
+                value={this.props.i}
+                name="Low"
+                variant={this.props.updateButtons(this.props.i, "Low")}
+                size="sm"
+                style={{ width: "120px" }}
+              >
+                Not Comply
+              </Button>
+            </div>
           </div>
         ) : (
           <MinMinSpinner />
