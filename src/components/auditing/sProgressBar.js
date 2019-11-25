@@ -19,7 +19,6 @@ class sProgressBar extends Component {
     });
 
     this.subscriptionItem = progressBarService.getItemCount().subscribe(count => {
-      console.log(count)
       if (count) {
         this.setState( () => {
           return {itemCount: count.number}

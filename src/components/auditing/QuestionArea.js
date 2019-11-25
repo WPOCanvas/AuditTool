@@ -24,21 +24,21 @@ export default class QuestionArea extends Component {
   };
 
   switch = {
-    Low: 2,
-    Medium: 5,
-    High: 10
+    Low: 1,
+    Medium: 2,
+    High: 3
   };
 
   switchReverse = {
-    2: 'Low',
-    5: 'Medium',
-    10: 'High'
+    1: 'Low',
+    2: 'Medium',
+    3: 'High'
   };
 
   switchFill = {
-    10: 'success',
-    5: 'warning',
-    2: 'danger'
+    3: 'success',
+    2: 'warning',
+    1: 'danger'
   };
 
   switchOutline = {

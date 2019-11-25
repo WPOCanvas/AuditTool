@@ -31,90 +31,6 @@ export default class itemmodel extends Component {
     });
   };
 
-  questionCount = () => {
-    return this.props.subAreas.reduce( (pVal , cVal) => {
-      return pVal + cVal.questions.length;
-    }, 0);
-  }
-
-  // createProgress = async () => {
-  //   this.setState({ loading: true });
-  //   try {
-  //     let sk = this.state.stage + '-' + Date.now().toString();
-  //     await API.post('ProgressApi', '/progress', {
-  //       body: {
-  //         pk:
-  //           'Progress-' +
-  //           this.props.productName +
-  //           '-' +
-  //           this.props.auditDate +
-  //           '-' +
-  //           this.props.user.attributes['custom:organization'],
-  //         sk: sk,
-  //         score: 0,
-  //         section: this.state.stage,
-  //         questionCount: 0,
-  //         fullQuestions: this.questionCount(),
-  //         High: 0,
-  //         Low: 0,
-  //         Medium: 0,
-  //         done:'false'
-  //       }
-  //     });
-  //   } catch (error) {
-  //     let err = null;
-  //     !error.message ? (err = { message: error }) : (err = error);
-  //     this.setState({
-  //       errors: {
-  //         ...this.state.errors,
-  //         cognito: err
-  //       }
-  //     });
-  //   }
-  // };
-
-  // createItems = async () => {
-  //   this.setState({ loading: true });
-  //   const subAreas = this.props.subAreas;
-  //   try {
-  //     const promise = subAreas.map(async subArea => {
-  //       const promiseDeep = subArea.questions.map(async (_question, i) => {
-  //         let sk =
-  //           'Audit-' + subArea.id + '-' + i + '-' + Date.now().toString();
-  //         let addedItem = await API.post('ItemApi', '/items', {
-  //           body: {
-  //             pk:
-  //               'Item-' +
-  //               this.props.productName +
-  //               '-' +
-  //               this.props.auditDate +
-  //               '-' +
-  //               this.state.stage +
-  //               '-' +
-  //               this.props.user.attributes['custom:organization'],
-  //             sk: sk,
-  //             score: 0,
-  //             id: subArea.id,
-  //             qid: i
-  //           }
-  //         });
-  //         return addedItem;
-  //       });
-  //       return await Promise.all(promiseDeep);
-  //     });
-  //     return await Promise.all(promise);
-  //   } catch (error) {
-  //     let err = null;
-  //     !error.message ? (err = { message: error }) : (err = error);
-  //     this.setState({
-  //       errors: {
-  //         ...this.state.errors,
-  //         cognito: err
-  //       }
-  //     });
-  //   }
-  // };
-
   fetchItems = async () => {
     this.setState({ loading: true });
     try {
@@ -144,7 +60,9 @@ export default class itemmodel extends Component {
   };
 
   fetchProgress = async () => {
-    this.setState({ loading: true });
+    this.setState(() => {
+      return { loading: true };
+    });
     try {
       let items = await API.get(
         'ProgressApi',
@@ -153,8 +71,8 @@ export default class itemmodel extends Component {
           '-' +
           this.props.auditDate +
           '-' +
-          this.props.user.attributes['custom:organization'] +
-          '/' + this.state.stage
+          this.props.user.attributes['custom:organization']
+          + '/' + this.state.stage
       );
       return items;
     } catch (error) {
@@ -171,7 +89,12 @@ export default class itemmodel extends Component {
 
   async componentDidMount() {
     let items = await this.fetchItems();
-    let stateProgress = this.props.progressAll.filter( prog => { return prog['section'] === this.state.stage})
+    let stateProgress = [];
+    if ( this.props.progressAll.length !== 0 ) {
+      stateProgress = this.props.progressAll.filter( prog => { return prog['section'] === this.state.stage});
+    } else {
+      stateProgress = await this.fetchProgress();
+    }
     this.setState({ items, loading: false, questionCount: items.length , progress : stateProgress });
   }
 
@@ -183,7 +106,7 @@ export default class itemmodel extends Component {
             <Accordion defaultActiveKey='1'>
               <Card>
                 <Card.Header>
-                  <Accordion.Toggle as={Button} variant='link' eventKey='0'>
+                  <Accordion.Toggle as={Button} variant='link' eventKey="0">
                     {this.props.stage.split('.')[0]}.{i} - {subArea.subName}
                   </Accordion.Toggle>
                 </Card.Header>

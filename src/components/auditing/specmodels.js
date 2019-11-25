@@ -5,11 +5,14 @@ import { Button } from 'react-bootstrap';
 import Itemmodel from './itemmodel';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { API } from 'aws-amplify';
+import Spinner from '../utility/Spinner';
 class specmodels extends Component {
   state = {
     drop: false,
     done: false,
-    stage: this.props.area.name.replace('.', ' ').split(/ /g)[1]
+    stage: this.props.area.name.replace('.', ' ').split(/ /g)[1],
+    createdProgress: false,
+    loading: false
   };
 
   dropAcordination = () => {
@@ -17,19 +20,25 @@ class specmodels extends Component {
   };
 
   setProgress() {
-    let selectedProgress = this.props.progressAll.filter( prog => {
+    let selectedProgress = this.props.progressAll.filter(prog => {
       let x = this.props.area.name.split(' ')[0];
-      return prog.section === x.replace(/[0-9]./g , "");
+      return prog.section === x.replace(/[0-9]./g, '');
     });
-    selectedProgress.length && this.setState({done: selectedProgress[0].done === 'true'})
+    selectedProgress.length &&
+      this.setState({ done: selectedProgress[0].done === 'true' });
   }
+
+  questionCount = () => {
+    return this.props.area.subAreas.reduce((pVal, cVal) => {
+      return pVal + cVal.questions.length;
+    }, 0);
+  };
 
   createProgress = async () => {
     this.setState({ loading: true });
-    console.log('here')
     try {
       let sk = this.state.stage + '-' + Date.now().toString();
-      let c = await API.post('ProgressApi', '/progress', {
+      await API.post('ProgressApi', '/progress', {
         body: {
           pk:
             'Progress-' +
@@ -46,10 +55,9 @@ class specmodels extends Component {
           High: 0,
           Low: 0,
           Medium: 0,
-          done:'false'
+          done: 'false'
         }
       });
-      console.log(c)
     } catch (error) {
       let err = null;
       !error.message ? (err = { message: error }) : (err = error);
@@ -105,49 +113,56 @@ class specmodels extends Component {
   };
 
   async componentDidMount() {
-    console.log( this.props.progressAll.length)
-    if ( this.props.progressAll.length === 0) {
+    if (this.props.progressAll.length === 0) {
       await this.createItems();
       await this.createProgress();
+      this.setState({createdProgress: true})
     }
     this.setProgress();
+    this.setState({ loading: false });
   }
 
   render() {
     return (
       <Accordion>
-        <Card>
-          <Card.Header>
-            <Accordion.Toggle
-              as={Button}
-              onClick={this.dropAcordination}
-              variant='link'
-              eventKey='0'
-            >
-              {this.props.area.name}
-            </Accordion.Toggle>
-            <div className='score'>
-              {this.state.done? (
-                <FontAwesomeIcon icon="check" color="green" />
-              )
-            : null}
-            </div>
-          </Card.Header>
-          <Accordion.Collapse eventKey='0'>
-            <div>
-              {this.state.drop ? (
-                <Card.Body>
-                  <Itemmodel
-                    subAreas={this.props.area.subAreas}
-                    stage={this.props.area.name}
-                    productName={this.props.productName}
-                    {...this.props}
-                  />
-                </Card.Body>
-              ) : null}
-            </div>
-          </Accordion.Collapse>
-        </Card>
+        {!this.state.loading ? (
+          <Card>
+            <Card.Header>
+              <Accordion.Toggle
+                as={Button}
+                onClick={this.dropAcordination}
+                variant='link'
+                eventKey='0'
+              >
+                <FontAwesomeIcon icon='caret-down' color='#007bff' />
+                {'   '}
+                {this.props.area.name}
+              </Accordion.Toggle>
+              <div className='score'>
+                {this.state.done ? (
+                  <FontAwesomeIcon icon='check' color='green' />
+                ) : null}
+              </div>
+            </Card.Header>
+            <Accordion.Collapse eventKey='0'>
+              <div>
+                {this.state.drop ? (
+                  <Card.Body>
+                    <Itemmodel
+                      subAreas={this.props.area.subAreas}
+                      stage={this.props.area.name}
+                      productName={this.props.productName}
+                      createdProgress={this.state.createdProgress}
+                      {...this.props}
+                    />
+                  </Card.Body>
+                ) : null}
+              </div>
+            </Accordion.Collapse>
+          </Card>
+        ) : (
+          <Spinner />
+        )}
       </Accordion>
     );
   }
