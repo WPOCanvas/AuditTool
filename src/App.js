@@ -25,9 +25,9 @@ import OverRoll from './components/auditing/OverRoll';
 import PerformAudit from './components/auditing/PerformAudit';
 
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { faCheck } from '@fortawesome/free-solid-svg-icons';
+import { faCheck , faCaretDown } from '@fortawesome/free-solid-svg-icons';
  
-library.add(faCheck)
+library.add(faCheck,faCaretDown)
 
 Amplify.configure(awsconfig);
 
