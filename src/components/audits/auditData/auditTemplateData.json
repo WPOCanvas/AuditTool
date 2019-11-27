@@ -1,0 +1,113 @@
+{
+    "areas": [
+      {
+        "name": "1.Explore Phase",
+        "subAreas": [
+          {
+            "id": "CCA",
+            "subName": "Context/CompetitorAnalysis",
+            "description": "For any software product, it is essential to know how well it is doing against the competition. Competitor analysis is used to measure how competitive your product or service against the competition.By measuring your products or service against competition allows you to position the product in the market effectively. Furthermore, the continuous monitoring of market dynamics helps to respond to the market changes timely.",
+            
+            "questions":[
+                "How far Have You done Context Competitor Anlaysis in Your project ?",
+                "How far did you determine relevant competitors for your project?",
+                "How far did you rank Quantitatively the key success factors by giving each one a weightage ?"
+            ]
+          },
+          {
+            "id": "CV",
+            "subName": "Commercial Viability",
+            "description": "Commercial Viability refers to the ability of a business, product or service to compete effectively with its competitors and to be profitable. The primary goal of a business, product or service in a market is to make profits and the Commercial Viability measures how well a business, product or service compete with its competitors and its ability to make a profit. For a product to be successful in the long run, the two crucial factors are its ability to make profits and to survive in the market along with its competitors for a foreseeable amount of time. The combination of these two factors gives meaning to the term Commercial Viability.",
+           
+            "questions":[
+              "how far did you Identify your direct and indirect competitors ?",
+              "how far did you Identify your strengths and weaknesses?",
+              "how far Do you have the skills, time, and money to bring the idea to market ?"
+          ]
+          },
+          {
+            "id": "PUJ",
+            "subName": "Persona/User Journey",
+            "description": "lorem ipsum is dummy data that anyone can use",
+            "questions":[
+              "what is this Persona/User Journey ?",
+              "how you do this ?",
+              "Is this good ?"
+          ]
+          }
+        ]
+      },
+      {
+          "name": "2.Focus Phase",
+          "subAreas": [
+            {
+              "id": "BMD",
+              "subName": "Business Model Design",
+              "description": "lorem ipsum is dummy data that anyone can use",
+              "questions":[
+                  "what is this Business Model Design ?",
+                  "how you do this ?",
+                  "Is this good ?"
+              ]
+            },
+            {
+              "id": "PSF",
+              "subName": "Problem solution fit",
+              "description": "lorem ipsum is dummy data that anyone can use",
+              "questions":[
+                  "what is this Problem solution fit ?",
+                  "how you do this ?",
+                  "Is this good ?"
+              ]
+            },
+            {
+              "id": "PA",
+              "subName": "Product Architecture",
+              "description": "lorem ipsum is dummy data that anyone can use",
+              "questions":[
+                  "what is this Product Architecture ?",
+                  "how you do this ?",
+                  "Is this good ?"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "3.Immerse phase",
+          "subAreas": [
+            {
+              "id": "BG",
+              "subName": "Brand Guide",
+              "description": "lorem ipsum is dummy data that anyone can use",
+              "questions":[
+                  "what is this Brand Guide ?",
+                  "how you do this ?",
+                  "Is this good ?"
+              ]
+            },
+            {
+              "id": "HFP",
+              "subName": "High Fidelty Prototype",
+              "description": "lorem ipsum is dummy data that anyone can use",
+              "questions":[
+                  "what is this High Fidelty Prototype ?",
+                  "how you do this ?",
+                  "Is this good ?"
+              ]
+            },
+            {
+              "id": "OE",
+              "subName": "Operational Estimate",
+              "description": "lorem ipsum is dummy data that anyone can use",
+              "questions":[
+                  "what is this Operational Estimate ?",
+                  "how you do this ?",
+                  "Is this good ?"
+              ]
+            }
+          ]
+        }
+  
+    ]
+  }
+  

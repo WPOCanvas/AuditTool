@@ -11,7 +11,6 @@ import ChangePassword from './components/auth/ChangePassword';
 import ChangePasswordConfirm from './components/auth/ChangePasswordConfirm';
 import Welcome from './components/auth/Welcome';
 import Footer from './components/Footer';
-import AuditQues from './components/auditing/AuditQues';
 import { Auth } from 'aws-amplify';
 import NewUser from './components/admin/users/NewUser';
 import Amplify from 'aws-amplify';
@@ -20,9 +19,10 @@ import AuthenticatedRoute from './containers/auth/AuthenticatedRoute';
 import UnauthenticatedRoute from './containers/auth/UnauthenticatedRoute';
 import AdminRoute from './containers/auth/AdminRoute';
 import NotFound from './components/notFound';
-import AllAudits from './components/auditing/AllAudits';
-import OverRoll from './components/auditing/OverRoll';
-import PerformAudit from './components/auditing/PerformAudit';
+import Home from './components/home';
+import Result from './components/audits/auditResult';
+import CreateAudit from './components/audits/auditCreate';
+import PerformAudit from './components/audits/auditPerform';
 
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faCheck , faCaretDown } from '@fortawesome/free-solid-svg-icons';
@@ -77,7 +77,7 @@ class App extends Component {
           <div>
             <Navbar auth={authProps} />
             <Switch>
-              <AuthenticatedRoute exact path="/" component= {AllAudits} {...this.props}  auth={authProps} />
+              <AuthenticatedRoute exact path="/" component= {Home} {...this.props}  auth={authProps} />
               <UnauthenticatedRoute exact path="/login" component={LogIn} {...this.props} auth={authProps}  />
               <UnauthenticatedRoute exact path="/register" component={Register} {...this.props} auth={authProps} />
               <UnauthenticatedRoute exact path="/forgotpassword" component={ForgotPassword} {...this.props} auth={authProps} />
@@ -86,9 +86,9 @@ class App extends Component {
               <UnauthenticatedRoute exact path="/changepasswordconfirmation" component={ChangePasswordConfirm} {...this.props} auth={authProps} />
               <UnauthenticatedRoute exact path="/welcome" component={Welcome} {...this.props} auth={authProps} />
               <AdminRoute exact path="/newUser" component={NewUser} {...this.props} auth={authProps} />
-              <AuthenticatedRoute exact path="/auditQues/:id" component= {AuditQues} {...this.props}  auth={authProps} />
-              <AuthenticatedRoute exact path="/OverRoll/:id" component= {OverRoll} {...this.props}  auth={authProps} />
-              <AuthenticatedRoute exact path="/PerformAudit" component= {PerformAudit} {...this.props}  auth={authProps} />
+              <AuthenticatedRoute exact path="/performAudit/:id" component= {PerformAudit} {...this.props}  auth={authProps} />
+              <AuthenticatedRoute exact path="/result/:id" component= {Result} {...this.props}  auth={authProps} />
+              <AuthenticatedRoute exact path="/createAudit" component= {CreateAudit} {...this.props}  auth={authProps} />
               <Route component={NotFound} />
             </Switch>
             <Footer />

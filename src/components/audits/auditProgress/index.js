@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { ProgressBar } from 'react-bootstrap';
-import { progressBarService } from '../../services/ProgressBar.service';
-class sProgressBar extends Component {
+import { progressBarService } from '../../../services/ProgressBar.service';
+class AuditProgress extends Component {
   state = {
     value: 0,
     itemCount: 0,
@@ -41,4 +41,4 @@ componentWillUnmount() {
   }
 }
 
-export default sProgressBar;
+export default AuditProgress;

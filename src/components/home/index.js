@@ -4,8 +4,8 @@ import { API } from 'aws-amplify';
 import Spinner from '../utility/Spinner';
 import { Card } from 'react-bootstrap';
 import { CardGroup } from 'react-bootstrap';
-import {  MdSubject,MdToday, MdEmail,MdAddCircle} from "react-icons/md";
-class UserAudit extends Component {
+import { MdSubject, MdToday, MdEmail, MdAddCircle } from 'react-icons/md';
+class Home extends Component {
   state = {
     audits: [],
     loading: false,
@@ -68,21 +68,20 @@ class UserAudit extends Component {
                       margin: '5px',
                       minWidth: '270px',
                       minHeight: '250px',
-                      backgroundColor:'#e0f7fa'
+                      border: '1px solid #27da46'
                     }}
                   >
                     <Card.Body>
                       <Card.Title>
-                        {this.state.audits.length
-                          ? null
-                          : (<span className="f-size">You haven&apos;t performed any audits yet</span>)}
+                        {this.state.audits.length ? null : (
+                          <span className='f-size'>
+                            You haven&apos;t performed any audits yet
+                          </span>
+                        )}
                       </Card.Title>
                       <form className='align-center'>
-                        <Link
-                          to={'/PerformAudit'}
-                          className='button'
-                        >
-                          <MdAddCircle/>
+                        <Link to={'/createAudit'} className='btn btn-outline-success'>
+                          <MdAddCircle />
                           Perform Audit
                         </Link>
                       </form>
@@ -91,8 +90,8 @@ class UserAudit extends Component {
                 </div>
                 {this.state.audits &&
                   this.state.audits.map((audit, i) => {
-                    let wholedesc =audit.description;
-                    let shortendesc= wholedesc.substr(0,50)+ ' ...';
+                    let wholedesc = audit.description;
+                    let shortendesc = wholedesc.substr(0, 50) + ' ...';
                     return (
                       <div key={i} className='col-sm-3'>
                         <Card
@@ -101,35 +100,43 @@ class UserAudit extends Component {
                             margin: '5px',
                             minWidth: '270px',
                             minHeight: '250px',
-                            backgroundColor:'#e0f2f1'
+                            border: '1px solid #37a3f1'
                           }}
                         >
                           <Card.Body>
-                            <Card.Title style={{color:'#14cba8'}}>{audit.name}</Card.Title>
-                            <br />
+                            <Card.Title
+                              style={{
+                                color: '#14cba8',
+                                textTransform: 'capitalize'
+                              }}
+                            >
+                              {audit.name}
+                            </Card.Title>
                             <Card.Text>
-                            <MdSubject/>
-                            {shortendesc}
-                              <br />
-                              <MdToday/>
-                              {audit.createdAt}
-                              <br />
-                              <MdEmail/>
-                              {audit.createdBy}
-                              <br />
-                              <Link
-                                to={{
-                                  pathname: `/auditQues/${audit.sk}`,
-                                  state: {
-                                    productName: audit.product,
-                                    auditDate: audit.auditDate,
-                                    auditDesc: audit.description
-                                  }
-                                }}
-                              >
-                                See more
-                              </Link>
+                              <MdSubject />{' '}
+                              {shortendesc}
                             </Card.Text>
+                            <Card.Text>
+                              <MdToday />{' '}
+                              {audit.createdAt}
+                            </Card.Text>
+                            <Card.Text>
+                              <MdEmail />{' '}
+                              {audit.createdBy}
+                            </Card.Text>
+                            <Link
+                              to={{
+                                pathname: `/performAudit/${audit.sk}`,
+                                state: {
+                                  productName: audit.product,
+                                  auditDate: audit.auditDate,
+                                  auditDesc: audit.description
+                                }
+                              }}
+                              style={{textAlign: 'center'}}
+                            >
+                              See more
+                            </Link>
                           </Card.Body>
                         </Card>
                       </div>
@@ -146,4 +153,4 @@ class UserAudit extends Component {
   }
 }
 
-export default UserAudit;
+export default Home;

@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import ReactApexChart from 'react-apexcharts';
 import { API } from 'aws-amplify';
 import { Card, CardGroup } from 'react-bootstrap';
-import Spinner from '../utility/Spinner.js';
-import { states } from './states.json';
-class OveRoll extends Component {
+import Spinner from '../../utility/Spinner';
+import { states } from '../auditData/states.json';
+class AuditResult extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -243,4 +243,4 @@ class OveRoll extends Component {
   }
 }
 
-export default OveRoll;
+export default AuditResult;

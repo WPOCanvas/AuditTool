@@ -1,13 +1,12 @@
 import React, { Component } from "react";
-import FormErrors from "../FormErrors";
-import Validate from "../utility/FormValidation";
+import FormErrors from "../../FormErrors";
+import Validate from "../../utility/FormValidation";
 import { API } from "aws-amplify";
-
 import Select from "react-select";
 import CreatableSelect from "react-select/creatable";
-import Spinner from "../utility/Spinner";
+import Spinner from "../../utility/Spinner";
 
-class PerformAudit extends Component {
+class AuditCreate extends Component {
   state = {
     auditName: "",
     selectedUsers: null,
@@ -91,7 +90,7 @@ class PerformAudit extends Component {
         }
       });
       this.props.history.push({
-        pathname: `/auditQues/${sk}`,
+        pathname: `/performAudit/${sk}`,
         state: {
           productName: this.state.selectedProduct.value,
           auditDate: date,
@@ -288,4 +287,4 @@ class PerformAudit extends Component {
   }
 }
 
-export default PerformAudit;
+export default AuditCreate;

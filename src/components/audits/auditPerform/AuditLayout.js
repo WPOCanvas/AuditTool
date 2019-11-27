@@ -2,21 +2,28 @@ import React, { Component } from 'react';
 import { Accordion } from 'react-bootstrap';
 import { Card } from 'react-bootstrap';
 import { Button } from 'react-bootstrap';
-import Itemmodel from './itemmodel';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { API } from 'aws-amplify';
-import Spinner from '../utility/Spinner';
-class specmodels extends Component {
+import Spinner from '../../utility/Spinner';
+import Questions from './questions';
+
+class AuditLayout extends Component {
   state = {
     drop: false,
     done: false,
+    items: [],
+    progress: [],
+    questionCount: 0,
     stage: this.props.area.name.replace('.', ' ').split(/ /g)[1],
-    createdProgress: false,
-    loading: false
+    loading: false,
+    loadingItems: false
   };
 
-  dropAcordination = () => {
-    this.setState({ drop: true });
+  dropAcordination = async() => {
+    let items = await this.fetchItems();
+    let progress = await this.fetchProgress();
+    this.setState({ items, progress});
+    this.setState({ drop: true , loadingItems: false });
   };
 
   setProgress() {
@@ -112,11 +119,67 @@ class specmodels extends Component {
     }
   };
 
+  fetchProgress = async () => {
+    this.setState(() => {
+      return { loadingItems: true };
+    });
+    try {
+      let items = await API.get(
+        'ProgressApi',
+        '/progress/Progress-' +
+          this.props.productName +
+          '-' +
+          this.props.auditDate +
+          '-' +
+          this.props.user.attributes['custom:organization'] +
+          '/' +
+          this.state.stage
+      );
+      return items;
+    } catch (error) {
+      let err = null;
+      !error.message ? (err = { message: error }) : (err = error);
+      this.setState({
+        errors: {
+          ...this.state.errors,
+          cognito: err
+        }
+      });
+    }
+  };
+
+  fetchItems = async () => {
+    this.setState({ loadingItems: true });
+    try {
+      let items = await API.get(
+        'ItemApi',
+        '/items/Item-' +
+          this.props.productName +
+          '-' +
+          this.props.auditDate +
+          '-' +
+          this.state.stage +
+          '-' +
+          this.props.user.attributes['custom:organization'] +
+          '/Audit-'
+      );
+      return items;
+    } catch (error) {
+      let err = null;
+      !error.message ? (err = { message: error }) : (err = error);
+      this.setState({
+        errors: {
+          ...this.state.errors,
+          cognito: err
+        }
+      });
+    }
+  };
+
   async componentDidMount() {
     if (this.props.progressAll.length === 0) {
       await this.createItems();
       await this.createProgress();
-      this.setState({createdProgress: true})
     }
     this.setProgress();
     this.setState({ loading: false });
@@ -146,17 +209,56 @@ class specmodels extends Component {
             </Card.Header>
             <Accordion.Collapse eventKey='0'>
               <div>
-                {this.state.drop ? (
-                  <Card.Body>
-                    <Itemmodel
-                      subAreas={this.props.area.subAreas}
-                      stage={this.props.area.name}
-                      productName={this.props.productName}
-                      createdProgress={this.state.createdProgress}
-                      {...this.props}
-                    />
-                  </Card.Body>
-                ) : null}
+              <Card.Body>
+                {this.state.drop && !this.state.loadingItems ? (
+                  this.props.area.subAreas.map((subArea, i) => {
+                    return (
+                      <Accordion key={i} defaultActiveKey='1'>
+                        <Accordion defaultActiveKey='1'>
+                          <Card>
+                            <Card.Header>
+                              <Accordion.Toggle
+                                as={Button}
+                                variant='link'
+                                eventKey='0'
+                              >
+                                {this.props.area.name.split('.')[0]}.{i} -{' '}
+                                {subArea.subName}
+                              </Accordion.Toggle>
+                            </Card.Header>
+                            <Accordion.Collapse eventKey='0'>
+                              <div>
+                                <Card key={i} border='info'>
+                                  <Card.Body>
+                                    {' '}
+                                    <p style={{ color: '#14cba8' }}>
+                                      {' '}
+                                      Brief Description :{' '}
+                                    </p>{' '}
+                                    {subArea.description}
+                                  </Card.Body>
+                                </Card>
+                                <Questions
+                                  questions={subArea.questions}
+                                  id={subArea.id}
+                                  qid={i}
+                                  items={[...this.state.items]}
+                                  progress={[...this.state.progress]}
+                                  stage={this.state.stage}
+                                  {...this.props}
+                                />
+                              </div>
+                            </Accordion.Collapse>
+                          </Card>
+                        </Accordion>
+                        <br />
+                      </Accordion>
+                    );
+                  })
+                ) : (
+                  <Spinner />
+                )}
+                </Card.Body>
               </div>
             </Accordion.Collapse>
           </Card>
@@ -168,4 +270,4 @@ class specmodels extends Component {
   }
 }
 
-export default specmodels;
+export default AuditLayout;
