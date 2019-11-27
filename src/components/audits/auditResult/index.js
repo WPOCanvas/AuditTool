@@ -194,21 +194,21 @@ class AuditResult extends Component {
                         <p>
                           High :{' '}
                           {this.state.overRollChart.length
-                            ? this.state.overRollChart[0].series[0].data[0]
+                            ? this.state.overRollChart[0].series[0].data[0]+'%'
                             : null}
                         </p>
                         <br />
                         <p>
                           Medium :{' '}
                           {this.state.overRollChart.length
-                            ? this.state.overRollChart[0].series[0].data[1]
+                            ? this.state.overRollChart[0].series[0].data[1]+'%'
                             : null}
                         </p>
                         <br />
                         <p>
                           Low :{' '}
                           {this.state.overRollChart.length
-                            ? this.state.overRollChart[0].series[0].data[2]
+                            ? this.state.overRollChart[0].series[0].data[2]+'%'
                             : null}
                         </p>
                       </Card.Body>
